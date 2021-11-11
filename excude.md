@@ -105,6 +105,13 @@
   overflow:hidden;
   text-overflow:ellipsis;
   ```
+- 文本左右两端对齐
+  ```less
+  p{
+      text-align:justify;
+      text-justify:distribute
+  }
+  ```
 
 #### rgba和opacity
 opacity 属性后代元素都会继承 opacity 属性，而rgba后代元素不会继承不透明属性，故使用rgba代替opacity，取值皆是从 0.0 （完全透明）到 1.0（完全不透明）
@@ -166,18 +173,155 @@ background-image:url('')
     ```
 
 #### display:flex
-弹性布局，设置子元素布局方式，当弹性盒子设置不换行时，子元素本身设置的宽度可能会变，若元素都能正常缩放，子元素自动缩放到能全部放下盒子，且按照宽度**等比**缩放，即宽度1：2：3，最后宽度也是1：2：3，但是元素最小宽度为**子元素最大宽度**，弹性布局也不能缩小到其以下，故比例也会变，先按照比例缩小，到有元素不能缩小后，缩小能缩小的元素，最后所有盒子缩小完毕，若仍不能放下，则超出（若纯文本盒子，最后缩小到一个字一行）
- - flex-direction：决定子元素排列方向与顺序，取值：row/column-reverse
+弹性布局，设置子元素布局方式，当弹性盒子设置不换行时，子元素本身设置的宽度可能会变，若元素都能正常缩放，子元素自动缩放到能全部放下盒子，且按照宽度**等比**缩放，即宽度1：2：3，最后宽度也是1：2：3，但是元素最小宽度为**子元素最大宽度**，弹性布局也不能缩小到其以下，故比例也会变，先按照比例缩小，到有元素不能缩小后，缩小能缩小的元素，最后所有盒子缩小完毕，若仍不能放下，则超出（若纯文本盒子，最后缩小到一个字一行），弹性盒子拥有六大属性，子元素也有六大属性
+**弹性盒子**
+ - flex-direction：决定子元素排列主轴与顺序，取值：row/column-reverse
  - flex-wrap:决定子元素是否换行显示与换行方向（从顶端排到下or底部排到上），取值：nowrap/wrap-reverse
- - 
+ - flex-flow：不常用，简写上面两个属性，默认为：flex-flow:row nowrap
+ - justify-content：主轴上的对齐方式，flex-satrt/end，center，space-between，space-around（每个项目两侧的间隔相等，项目之间的间隔比项目与边框的间隔大一倍）
+ - align-items：项目在交叉轴上的对齐方式，除了左右中对齐外，还有基线对齐（baseline），stretch（项目未设置高度或设为auto，占满整个容器的高）
+ - align-content：多轴线的对齐方式，和justify-content差不多
+**子元素**
+- order：排列顺序
+- flex-grow：放大比例，默认为0
+- flex-shrink：缩小比例，默认为1
+- flex-basis：在主轴占的空间，默认为原本项目大小
+- flex：综合前面三个属性，默认为 0 1 auto，该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)
+- align-self：不遵从父元素的对齐（align-item），自定义对齐方式
+**弹性盒子缺点**
+ - flex盒子的内容可以溢出，即内容宽度可能超过父元素宽度（有些内容溢出不涉及宽度变化：比如 { width: 10px; white-space: nowrap;} ） 
+ - 若子元素写了 { overflow: hidden; }，则宽度不会溢出，文字内容也可以点点点。但会影响一些绝对定位等位置需要超出该元素的内容。
+**检查弹性盒子是否溢出**
+justify-content: center，若盒子移位了，表示溢出
 
 
+#### position
+设置元素位置，默认为static，即静止不移动，当position设置为relative/absolute/fixed时，通过top/left/right/bottom可改变元素位置，其中absolute/fixed是脱离文档流的，但relative是不会脱离文档流，即relative会占据着移动之前的位置，但是absolute和fixed就不会）
 
 #### min-width、width和max-width
 优先级：min-width = max-width > width
 当 max-width > width > min-width 时，宽度的标准是 width，否则取最大/小宽度，min-width、max-width设置百分比时，都会继承父元素的当前显示宽度
 
+#### position和margin冲突
+绝对定位是根据相对于父元素的top/left/right/bottom来定位的，而margin是根据自身当前位置来定位的，故设置margin失效
+1，元素在绝对定位以后，left/rigth/top/bottom是没有优先等级的，不像margin-left作用的时候margin-right没用，如果现在left:0,right:0,两方实力相当，浏览器没办法，都得满足
+```less
+    position:absolute
+    left:0
+    right:0
+    margin:0 auto
+```
+2，当它距离父元素left:50%,top:50%，那就是父元素一半的距离，因为要实现居中即自身的中点在父元素的中间才算，所以margin-left/margin-top 负的自身宽/高的一半，那么正好水平垂直居中，但是由于margin相对于父元素，故不得使用百分比。
+```less
+    position:absolute
+    left:50%
+    right:50%
+    margin-left:-50px;// 具体数值
+    margin-top:-50px;
+```
 
+#### 垂直水平居中
+- 水平居中，直接设置margin
+  ```less
+  margin:0 auto
+  ```
+- 垂直居中
+  - position结合margin
+    ```less
+    {
+        position:relative;
+        top:50%;
+        margin-top:-50px;
+    }
+    ```
+  - transform 结合 position
+    ```less
+    {
+        position:relative;
+        transform:translateX(-50%)
+    }
+    ```
+   - 弹性盒子
+     ```less
+     {
+         display:flex;
+         align-items:center;
+         justify-content:center;
+     }
+     ```
+   - 表格元素：显示设置父元素为：table，子元素为：cell-table，这样就可以使用vertical-align: center，实现垂直居中
+     ```less
+     .parent{
+         display:table
+     }
+     .son{
+         display:table-cell;
+         vertical-align:middle;
+         text-align:center
+     }
+     ```
+
+#### css样式初始化
+初始化可以解决浏览器的兼容问题，因为不同浏览器对有些标签的默认值是不同的
+- 通配符初始化，简单粗暴，但初始化所有标签，浪费性能
+  ```less
+  *{
+      paddind:0;
+      margin:0
+  }
+  ```
+
+#### 伪元素和伪类
+伪类通过添加类来实现；伪元素通过添加实际的元素来实现，伪元素创建了一个不在文档树上但实际存在的新的元素，所以不能通过js来操作，仅仅是在 CSS 渲染层加入，要配合content属性一起使用
+- 伪元素失效
+  在input、radio、select等表单标签中，伪元素失效，::before的定义：在指定元素的内容之前插入内容。注意：是元素内容之前，而不是元素之前。而input并不是容器，所以没有内容之前一说，所以就无效了。
+- 伪元素使用，必须设置content ，其余和正常项目一致，常使用position改变伪元素位置
+  ```less
+  &::before{
+      content:'';
+      position: absolute;
+      top: 37px;
+      left: -15px;
+  }
+  ```
+
+#### 盒子两端对齐
+即每一行两端对齐，但是最后一行靠左，类似于文字的justify两端对齐，最佳实现效果是根据容器的宽度排列，决定元素之间的间隙与单行个数
+- 使用margin-right搭配float，改变宽度时无法兼容
+  ```less
+  {
+      margin-right:20px;
+      float:left;
+      &:nth-child(3+3n){
+          margin-right:0;
+      }
+  }
+  ```
+- 弹性盒子添加空元素，宽度与项目保持一致，高度设为0
+  ```less
+  {
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+  }
+  .item-empty {
+        height: 0px;
+        width: 400px;
+	}
+  ```
+- 当一列只有2/3个时，使用伪元素
+  ```less
+    &::after {
+                height: 0;
+                width: 20%;
+                min-width: 223px;
+                content: "";
+            }
+  ```
+
+# 零碎
+- CLS
+  全称CommonLanguageSpecification，即公共语言规范
 
 ```plantuml
 @startuml
