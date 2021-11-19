@@ -30,5 +30,14 @@ function testJSONStringifyParams(){
     });
 }
 
-testJSONStringify()
-testJSONStringifyParams()
+// 私有属性的类
+// class Foo {
+//     #a;
+//     #b;
+//     #sum() { return this.#a + this.#b; }
+//     printSum() { console.log(this.#sum()); }
+//     constructor(a, b) { this.#a = +a; this.#b = +b; }
+//   }
+
+// testJSONStringify()
+// testJSONStringifyParams()

@@ -343,7 +343,7 @@ justify-content: center，若盒子移位了，表示溢出
 
 #### 盒子两端对齐
 
-即每一行两端对齐，但是最后一行靠左，类似于文字的justify两端对齐，最佳实现效果是根据容器的宽度排列，决定元素之间的间隙与单行个数
+即元素每一行两端对齐，但是最后一行靠左，类似于文字的justify两端对齐，最佳实现效果是根据容器的宽度排列，决定元素之间的间隙与单行个数
 
 - 使用margin-right搭配float，改变宽度时无法兼容
 
@@ -422,27 +422,23 @@ justify-content: center，若盒子移位了，表示溢出
 
 #### Object.assign(mainObject,...)
 
-  参数一是目标对象，接收后面参数对象**可枚举**的属性（一般对象的属性都是可枚举的，除非对象的enumerable属性为false），目标对象有该属性则覆盖，无则添加，有一些拷贝的性质，但若参数的属性值为对象，则单凭赋值还是指向同一个地址，实现的是只有一层的拷贝
+  参数一是目标对象，接收后面参数对象**可枚举**的属性（一般对象的属性都是可枚举的，除非对象的enumerable属性为false），目标对象有该属性则覆盖，无则添加，有一些拷贝的性质，但若参数的属性值为对象，则单凭赋值还是指向同一个地址，实现的是只有一层的拷贝，见[图 1](#img1)<span id="jumpImg1">*</span>
 
-```plantuml
-@startuml
-object1 -> mainObject: for(keys in object1){ mainObject[keys] = object1[keys]}
-object2 -> mainObject: for(keys in object2){mainObject[keys] = object2[keys]}
-@enduml
- ```
+#### 检测数据类型与toString()
 
- ```plantuml
-@startuml
-object1.fun -> 0*1000
-mainObject.fun-> object1.fun
-mainObject.fun-> 0*1000
-@enduml
- ```
-
+- typeof
+  判断数据类型，对于非引用类型可显示（string、boolean、number），对于数组、对象、实例、null都识别为object，对于undefined识别为undefined，对于函数识别为function
+- instanceof
+  返回一个boolean值，查看对象B prototype指向的原型对象是否在对象A的prototype原型链上，若对象B的prototype为null将会报错，类似于空指针异常，不可以检测非引用类型，因为没有原型对象，对象A必须是对象
+- constructor
+  对象的constructor指向创建该对象的构造函数，但是不常用这个判断对象类型，因为contructor的指向是可以通过赋值操作被改变的，其中null、undefined没有construtor，其余可以被检测出来
+- Object.prototype.toString.call(obj)
+  返回一个形如'[Object type]'的字符串，例如'[Object String]'，Array、String中的toString方法是被修改过的，故不能直接使用toStirng检测，而要使用Object对象原型的toString检测
+  
 #### Object的内部方法
 
 - Object.defineProperty(obj，property，descriptor)
-  操作对象的属性，有则修改，无则添加，参数三为一个对象，控制**属性描述符**对象，属性描述符对象有六个属性，不止控制属性的value（属性值），还有writable（是否可改），enumerable（是否可枚举）等，对于通过defineProperty定义的属性，与普通定义的属性不同，因为它是默认不可枚举、不可修改的、不可删除的。
+  操作对象的属性，有则修改，无则添加，参数三为一个对象，控制**属性描述符**对象，属性描述符对象有六个属性，不止控制属性的value（属性值），还有writable（是否可改），enumerable（是否可枚举）等，通过defineProperty定义的属性，与普通定义的属性不同，因为它是默认不可枚举、不可修改的、不可删除的。
 
   ```js
   Object.defineProperty(obj,'name',{
@@ -502,45 +498,145 @@ mainObject.fun-> 0*1000
   ```
 
 - Object.getPrototypeOf(obj)
-  返回对象的原型对象，若没有继承的原型对象，则返回null
+  返回对象的原型对象，若没有继承的原型对象，则返回null，见[图 2](#img2)<span id="jumpImg2">*</span>
 
 - Object.setPrototypeOf(obj1,obj2)
   设置一个对象的原型对象，等价于obj1.__proto__ = obj2
 - Object.create(obj)
   其中参数1表示被创建出来新对象的原型对象,等价于obj1.__proto__ = obj2
 
-```plantuml
-@startuml
-(Object.setPrototypeOf(obj1,obj2) -> (obj1.__proto__ = obj2)
-(let obj1 = Object.create(obj)->(obj1.__proto__ = obj2)
-@enduml
-```
-
 - Object.preventExtensios(obj)
   让一个对象变成不可扩展的，即不能再添加新属性，es5若仍要添加新属性，会抛出错误，es6后不改变属性不报错，但若是使用definePrototype定义属性的话，还是会报错。此外，Object.isExtensible()用于检查对象是否可扩展，传入一个对象返回boolean值，若传入一个非对象的变量，es5抛出错误，es6则将变量强制转为对象并返回false
 - Object.keys(obj)
   返回可枚举属性组成的数组
 
-#### 检测数据类型与toString()
-
-- typeof
-  判断数据类型，对于非引用类型可显示（string、boolean、number），对于数组、对象、实例、null都识别为object，对于undefined识别为undefined，对于函数识别为function
-- instanceof
-  返回一个boolean值，查看对象B的prototype指向的原型对象是否在对象A的prototype原型链上，若对象B的prototype为null将会报错，类似于空指针异常，不可以检测非引用类型，对象A必须是对象
-
-  ```js
-  obj instanceof _obj
-  ```
-
 #### reflect对象
 
-   ES6提供的一个将常见js对象内部方法（Object.xxx(obj) or Object.prototype.xxx(obj)）封装并反射出来的对象（reflect.xxx(obj)）
+   ES6提供的一个将常见js对象内部方法（Object.xxx(obj) or Object.prototype.xxx(obj)）封装并反射出来的对象（reflect.xxx(obj)），原因是：1，内部的方法不希望被暴露；2，reflect返回值更合理，使用defineProperty方法Object报错而reflect只是返回false；3，Object存在命令式，例如：delete obj.name，不符合面向对象的思想，reflect是对象，纯函数式调用方法，变成 reflect.deleteProperty(obj,name)。reflect对象拥有13个方法，且对第一个参数严格控制，若不传对象/函数，报错。
+
+- get(obj,attribute,receiver)
+  get和set的最后一个参数都是用来绑定this的，当属性部署了读取函数(get name(){})/赋值函数(set name(){})时起作用
+- set(obj,attribute,value,receiver)
+- has(obj,attribute)
+  返回一个boolean值，和 attribute in obj效果相同
+- deleteProperty(obj,attribute)
+- construct(obj,args)
+  等同于new，reflect.construct(Fun,'lyf') 等价于 new Fun('lyf')，但是参数一必须是函数，不常用
+- apply(fun,receiver,args)
+  参数一是函数，参数二表示绑定的this，参数三表示传入函数的实参，与fun.apply一致，实参传入一个数组
+- getPrototypeOf(obj)
+  获取对象的原型对象，返回boolean值
+- setPrototypeof(obj,newProto)
+  设置对象的原型对象，返回一个boolean值
+- defineProperty(obj,attribute,descriptor)
+  设置对象的标识属性
+- getOwnPropertyDescriptor(obj,)
+- isExtensible(obj)
+- preventExtensions(obj)
+- ownKeys(obj)
+  返回一个包含所有属性名的数组
+
+#### reflect和Object的对比
+
+|  reflect   | Object  | 功能 |
+|  ----  | ----  | ---- |
+| reflect.has(attribute)  | attribute in obj | 检车属性是否在对象中 |
+| reflect.set(obj,attribute,value,receiver)  | obj[attribute] = value | 设置对象属性，常用后者 |
+| reflect.get(obj,attribute,reciver) | obj[attribute] | 获取对象属性，常用后者 |
+| reflect.deleteProperty(obj,attribute) | delete obj[attribute]  | 删除对象的属性,使用前者* |
+| reflect.ownKeys(obj) | Object.keys(obj) | 皆返回一个属性组成的数组，前者返回所有属性，后者只返回可枚举属性 |
+| reflect.defineProperty(obj,attribute,descriptor) | Object.defineProperty(obj,attribute,descriptor) | 全面地**描述**属性，前者返回Boolean值，后者返回设置好的对象 |
+| reflect.getOwnPropertyDescriptor(obj,attribute) | Object.getOwnPropertyDescriptor(obj,attribute) | 返回对象某属性的属性属性描述符对象，二者几乎一致，无该属性则返回undefined |
+| reflect.getPrototyOf(obj) | Object.getPrototyOf(obj) | 返回原型对象，如无返回null，二者几乎一致 |
+| reflect.setPrototyOf(obj,prototype) | Object.setPrototyOf(obj,prototype) | 设置对象的原型对象，前者返回Boolean值，后者返回新对象 |
+| reflect.isExtensible(obj) | Object.isExtensible(obj) | 检查对象是否可扩展，二者几乎一致 |
+| reflect.preventExtensions(obj) | Object.preventExtensions(obj) | 将对象设置为不可扩展的，前者返回Boolean值，后者返回设置好的对象 |
+| reflect.apply(fun,receiver,args) | Function.prototype.apply(receivers,args) | 二者功能几乎一致，常使用后者 |
+| reflect.construct(Fun,args) | new Fun(args) | 构造函数实例，常使用后者 |
+
+## ES6
+
+#### class类
+
+定义一个类，直接 class className{constructor(attributes){}}，实例化一个类，直接 new className(attributes)
+
+- 静态static
+  没有被修饰符修饰的属性直接在实例上，static修饰的属性不会被实例继承，只能被类调用
+
+  ```js
+  class FullName{
+      static name = "lyf";
+      anthorName = "anthor";
+      constructor(firstName,lastName){
+          this.firstName = firstName
+          this.lastName = lastName
+      }
+      static sortFullName(){
+          return this.firstName + this.lastName
+      }
+      reserveFullName(){
+          return this.lastName + this.firstName
+      }
+  }
+  let fullName = new FullName('l','yf')
+  // fullName 的结构
+  {
+      // 不包括静态属性和方法
+      anthorName:'anthor',// 类的公有属性
+      firstName: 'l', // 传入的实例属性
+      lastName: 'yf', // 传入的实例属性
+      Prototype:{ // 原型上挂载类的公有方法和 constructor
+          constructor: class FullName,
+          reserveFullName: ƒ reserveFullName(),
+          Prototype:Object// 原型的原型才是Object的原型对象
+      }
+    }
+
+  ```
+
+- 私有属性
+  ES6没有私有属性的概念，使用形如'#attribute'，即在属性前加#符号，表达私有属性。虽然只有在类内部才能读取该属性，但其在实例中仍可以打印显示，只是#开头的属性违法，无法通过 class.#attribute 访问。这只是一种巧妙，使用其他符号定义属性也是一样的，只是约定是#，其他符号都犯法。此外，js命名规则是只能使用字母、$符号、下划线开头
+
+  ```js
+  class Foo {
+    #a;// 私有属性
+    #b;// 私有属性
+    #sum() { return this.#a + this.#b; }// 私有属性表示私有方法，故在第一层
+    printSum() { console.log(this.#sum()); }
+    constructor(a, b) { this.#a = +a; this.#b = +b; }
+  }
+  let foo = new Foo(12,2)
+  foo  === {
+      #a : 12,// 无法访问
+      #b : 2,// 无法访问
+      #sum : f;// 无法访问，虽是方法，但在第一层
+      prototype:{
+          constructor : f;// 只能通过自身属性（包括原型上的）去修改、展示内部私有属性
+          printSum : f// 只能通过自身属性（包括原型上的）去修改、展示内部私有属性
+      }
+  }
+  
+  ```
 
 # 零碎
+
+#### Promise调用的区别
+
+Promise是层级调用的，即then在同一层，调用就在一层，vue刷新也只有一次
 
 #### CLS
 
   全称CommonLanguageSpecification，即公共语言规范
+
+#### markdown语法
+
+- 页面内跳转
+  一个带id的html标签，代表要跳转的地方： <span id="jump">跳转到的地方</span>
+  当需要跳转时，使用[](#标签id)，例如：[点击跳转](#jump)
+
+#### 热重载
+
+也叫热更新，不需要刷新页面就更新
 
 #### JSON的方法
 
@@ -559,3 +655,29 @@ mainObject.fun-> 0*1000
    })
    JSON.stringify(data, ["name", "info", "sex"]);
    ```
+
+```plantuml
+@startuml
+object1 -> mainObject: for(keys in object1){ mainObject[keys] = object1[keys]}
+object2 -> mainObject: for(keys in object2){mainObject[keys] = object2[keys]}
+@enduml
+ ```
+
+ ```plantuml
+@startuml
+object1.fun -> 0*1000
+mainObject.fun-> object1.fun
+mainObject.fun-> 0*1000
+@enduml
+ ```
+
+<span id="img1">图 1</span> [点击回去](#jumpImg1)
+
+ ```plantuml
+@startuml
+(Object.setPrototypeOf(obj1,obj2) -> (obj1.__proto__ = obj2)
+(let obj1 = Object.create(obj)->(obj1.__proto__ = obj2)
+@enduml
+```
+
+<span id="img2">图 2</span> [点击回去](#jumpImg2)

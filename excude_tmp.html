@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>excude.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="css">css</h1>
+<h4 id="%E7%99%BE%E5%88%86%E6%AF%94%E7%9A%84%E4%BD%BF%E7%94%A8">%百分比的使用</h4>
+<ul>
+<li>
+<p><code>width/height</code>
+基于父元素。对于一些需要占满的元素，例如nav、footer，直接设置<code>width:100%</code>，当父元素也没有设置具体高度时，此时子元素就算设置了百分比高度仍会变成auto。故在使用百分比时，同一个选择器控制的元素样式可能会不同，因为他们的父元素宽高不同。对于父元素也设置百分比的元素，依然是按照父元素的百分比计算，即和爷爷也有百分比关系</p>
+<pre class="hljs"><code><div><span class="hljs-selector-class">.grandpa</span> {
+    <span class="hljs-attribute">width</span>:<span class="hljs-number">100px</span>;
+}
+<span class="hljs-selector-class">.father</span> {
+    <span class="hljs-attribute">with</span>:<span class="hljs-number">50%</span>;//100 * 0.5 = 50px
+}
+<span class="hljs-selector-class">.son</span>{
+    <span class="hljs-attribute">width</span>:<span class="hljs-number">50%</span>;//50px * 0.5 = 25px 
+}
+</div></code></pre>
+</li>
+<li>
+<p><code>left/right/top/bottom</code>
+基于父元素。对于一些左右布局，可以使用 <code>position：left:50%</code> 加 <code>margin-left</code> 偏移</p>
+</li>
+<li>
+<p><code>transform: translateX(-50%)</code>
+transform表示移动，translate(x,y) 表示X，Y轴移动距离，translateX，translateY分别表示X，Y轴移动距离，百分比基于自身宽高</p>
+<pre class="hljs"><code><div>  <span class="hljs-comment">// 实现水平垂直居中</span>
+  <span class="hljs-attribute">position</span>: absolute;
+  <span class="hljs-attribute">top</span>: <span class="hljs-number">50%</span>;
+  <span class="hljs-attribute">left</span>: <span class="hljs-number">50%</span>;
+  <span class="hljs-attribute">transform</span>: translate(-<span class="hljs-number">50%</span>, -<span class="hljs-number">50%</span>);
+</div></code></pre>
+</li>
+<li>
+<p><code>margin/padding</code>
+<code>left/right/top/right</code> 都是基于父元素宽度，和<strong>父元素高度</strong>没有关系</p>
+<pre class="hljs"><code><div><span class="hljs-selector-class">.father</span> {
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">200px</span>;
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">100px</span>;
+  <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#000</span>;
+}
+<span class="hljs-selector-class">.son</span> {
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">80%</span>;
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">80%</span>;
+  <span class="hljs-attribute">margin</span>: <span class="hljs-number">10%</span> <span class="hljs-number">10%</span>;<span class="hljs-comment">//20px 20px 20px 20px</span>
+  <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#ff0000</span>;
+}
+</div></code></pre>
+</li>
+<li>
+<p><code>border-radius</code>
+基于自身宽高，设置 <code>border-radius:50%</code> 可以画出圆</p>
+</li>
+<li>
+<p><code>background-position:@prams @prams</code>
+表示背景图片基于容器的水平垂直位置，不设置时，图片位于元素左上角，参数可使用center/left等，也可以使用百分比，百分比表示：（容器的宽高—背景图片的宽高）*百分比，故50%时，元素居中</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 参数二默认为center，二者等价，都表示水平垂直居中</span>
+<span class="hljs-attribute">background-position</span>:<span class="hljs-number">50%</span>;
+<span class="hljs-attribute">background-position</span>:center;
+</div></code></pre>
+</li>
+<li>
+<p><code>line-height</code>
+基于自身<code>font-size</code>大小</p>
+</li>
+<li>
+<p><code>vertical-align</code>
+对行内元素 inline 和 table-cell 起效（img、span、input、td、button、strong、em），行内元素于一行中的对齐方式：基线对齐，各行内元素的基线皆不同，其中x字母、图片、设置overflow:hidden的行内元素基线在最底部。
+vertical-align决定当前元素在基线的基础上，相对父元素字体垂直移动距离，正值上移，负值下移。还有一些可选值，top表示与元素最高点对齐，text-top表示与父元素字体的顶端对齐</p>
+<pre class="hljs"><code><div><span class="hljs-attribute">vertical-align</span>: <span class="hljs-number">50%</span>;<span class="hljs-comment">// 相对于基线上移15px</span>
+<span class="hljs-attribute">line-height</span>: <span class="hljs-number">30px</span>; 
+</div></code></pre>
+</li>
+</ul>
+<h4 id="%E5%9B%BE%E7%89%87%E5%85%83%E7%B4%A0%E7%9A%84%E9%97%B4%E9%9A%99">图片元素的间隙</h4>
+<p>往div中放入图片，图片底部距离div下方会有一个间隙，两个图片水平之间也会有间隙</p>
+<ul>
+<li>
+<p>垂直方向
+行内元素基线对齐后还要和父元素的字体基线保持一致，故图片基线由基于元素底部变成基于x字母，去掉空隙需操作父元素的字体，或者把图片设置成块级元素，或者设<code>vertical-align</code>属性</p>
+<pre class="hljs"><code><div><span class="hljs-attribute">float</span>: left; <span class="hljs-comment">/* 设置图片浮动属性，默认变成块级元素 *
+vertical-align: top;/* 设置图片垂直对齐方式 */</span>
+<span class="hljs-attribute">font-size</span>: <span class="hljs-number">0</span>; <span class="hljs-comment">/* 设置父元素文本大小为0 */</span>
+<span class="hljs-attribute">display</span>: block; <span class="hljs-comment">/* 设置图片为块级元素 */</span>
+<span class="hljs-attribute">line-height</span>: <span class="hljs-number">0</span>; <span class="hljs-comment">/* 设置父元素行高为0 */</span>
+</div></code></pre>
+</li>
+<li>
+<p>水平方向
+空格和换行字符被浏览器解析为空格，可以将图片元素不留空格连写、可以设置块级、浮动</p>
+</li>
+</ul>
+<h4 id="%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6">鼠标事件</h4>
+<ul>
+<li><code>cursor</code>
+鼠标指针放入元素范围内时显示的形状，常见：<code>cursor:pointer</code></li>
+<li><code>pointer-events</code>
+设置元素是否鼠标可点击，被设置 <code>pointer-events: none</code> 的元素不仅无法被点击，而且没有鼠标样式，且其子元素也无法被点击，若子元素需被点击，独自设置 <code>pointer-events: initial</code> ，即属性初始化，默认可以被点击</li>
+</ul>
+<h4 id="%E6%96%87%E5%AD%97%E8%AE%BE%E7%BD%AE">文字设置</h4>
+<ul>
+<li>
+<p><code>white-space</code>
+文字空格。多个空格默认为一个，显示全部空格常用的取值为：<code>white-space:pre</code> 和 pre-wrap，其中 pre 不允许自动换行，原原本本地显示文本，可能超出容器，而 pre-wrap 会根据容器宽度自动换行。二者都保留行尾空格，但pre-wrap 行尾空格也不自动换行，即超过容器，不影响下一行</p>
+<pre class="hljs"><code><div><span class="hljs-selector-class">.pre-article</span> {
+  <span class="hljs-attribute">font-family</span>: inherit;
+  <span class="hljs-attribute">word-break</span>: break-all;<span class="hljs-comment">//任意字符换行</span>
+  <span class="hljs-attribute">white-space</span>: pre-wrap;<span class="hljs-comment">//处理空格，是否换行</span>
+  }
+</div></code></pre>
+</li>
+<li>
+<p><code>word-break</code>
+文字断行，对于英文单词不进行断行，break-all 表示全部字母断行</p>
+</li>
+<li>
+<p>超出n行后显示省略</p>
+<ul>
+<li>一行：设置文字不换行、超出隐藏、超出使用省略号展示</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-attribute">white-space</span>:nowrap;
+<span class="hljs-attribute">overflow</span>:hidden;
+<span class="hljs-attribute">text-overflow</span>:ellipsis;
+</div></code></pre>
+<ul>
+<li>n行：超出隐藏、超出使用省略号展示</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-attribute">display</span>:-webkit-box;
+<span class="hljs-attribute">-webkit-box-orient</span>:vertical;
+<span class="hljs-attribute">-webkit-line-clamp</span>:n;
+<span class="hljs-attribute">overflow</span>:hidden;
+<span class="hljs-attribute">text-overflow</span>:ellipsis;
+</div></code></pre>
+</li>
+<li>
+<p>文本左右两端对齐</p>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">p</span>{
+    <span class="hljs-attribute">text-align</span>:justify;
+    <span class="hljs-attribute">text-justify</span>:distribute
+}
+</div></code></pre>
+</li>
+</ul>
+<h4 id="rgba%E5%92%8Copacity">rgba和opacity</h4>
+<p>opacity 属性后代元素都会继承 opacity 属性，而rgba后代元素不会继承不透明属性，故使用rgba代替opacity，取值皆是从 0.0 （完全透明）到 1.0（完全不透明）</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 设置分页器样式</span>
+    <span class="hljs-selector-tag">&amp;</span><span class="hljs-selector-tag">-paginat</span> {
+        <span class="hljs-attribute">display</span>: flex;
+        <span class="hljs-attribute">width</span>: <span class="hljs-number">100%</span>;
+        <span class="hljs-attribute">position</span>: absolute;
+        <span class="hljs-attribute">bottom</span>: <span class="hljs-number">84px</span>;
+        <span class="hljs-attribute">justify-content</span>: center;
+
+        <span class="hljs-selector-class">.swiper-pagination-bullet</span> {
+            <span class="hljs-attribute">width</span>: <span class="hljs-number">21px</span>;
+            <span class="hljs-attribute">height</span>: <span class="hljs-number">21px</span>;
+            <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">9px</span>;
+            <span class="hljs-attribute">border</span>: <span class="hljs-number">2px</span> solid <span class="hljs-number">#FFF</span>;
+            <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">50%</span>;
+            <span class="hljs-attribute">background</span>: rgba(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
+
+            <span class="hljs-selector-tag">&amp;</span><span class="hljs-selector-tag">-active</span> {
+                <span class="hljs-attribute">background</span>: <span class="hljs-number">#6B91CE</span>;
+            }
+
+            <span class="hljs-selector-tag">&amp;</span><span class="hljs-selector-pseudo">:last-child</span> {
+                <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">0</span>;
+            }
+        }
+    }
+</div></code></pre>
+<h4 id="%E5%9B%BE%E7%89%87%E7%9B%B8%E5%85%B3">图片相关</h4>
+<p>图片可以作为背景（background-img）插入元素，可以通过 img 标签作为行内元素插入 dom</p>
+<pre class="hljs"><code><div><span class="hljs-comment">// 使用background设置图片背景</span>
+<span class="hljs-comment">// 1，联用，不规定顺序，但是同一个属性不能分开，（位置left和top不能分开 background:10px #ccc 10px 报错）</span>
+<span class="hljs-attribute">background</span>: url(<span class="hljs-string">''</span>) repeat <span class="hljs-number">#fff</span> fixed center<span class="hljs-comment">// 图片 重复 颜色 是否固定 位置</span>
+<span class="hljs-comment">// 2，单用</span>
+<span class="hljs-attribute">background-image</span>:url(<span class="hljs-string">''</span>)
+</div></code></pre>
+<ul>
+<li>设置背景和容器契合
+直接使用img(width:100%)，图片不一定完全覆盖容器，即高度不够；在div中使用background，全覆盖和原比例都可以做到
+<ul>
+<li>
+<p>background-size</p>
+<ul>
+<li>cover
+将图片按照原有比例放大至填满容器，设置 width:100% 或 height：100%，超过部分不可见，图片不变形</li>
+<li>100%
+图片在x轴方向缩放至填满容器，y轴不管，图片不变形</li>
+<li>100% 100%
+图片宽度长度都按容器比例撑满，图片变形</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-attribute">background-repeat</span>: no-repeat;
+<span class="hljs-attribute">background-size</span>: cover;
+<span class="hljs-attribute">background-size</span>: <span class="hljs-number">100%</span>;
+<span class="hljs-attribute">background-size</span>: <span class="hljs-number">100%</span> <span class="hljs-number">100%</span>;
+</div></code></pre>
+</li>
+<li>
+<p>img</p>
+<pre class="hljs"><code><div><span class="hljs-attribute">display</span>:block
+<span class="hljs-attribute">width</span>:<span class="hljs-number">100%</span> <span class="hljs-comment">// 根据父元素宽度缩放</span>
+</div></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="displayflex">display:flex</h4>
+<p>弹性布局，设置子元素布局方式，当弹性盒子设置不换行时，子元素本身设置的宽度可能会变，若元素都能正常缩放，子元素自动缩放到能全部放下盒子，且按照宽度<strong>等比</strong>缩放，即宽度1：2：3，最后宽度也是1：2：3，但是元素最小宽度为<strong>子元素最大宽度</strong>，弹性布局也不能缩小到其以下，故比例也会变，先按照比例缩小，到有元素不能缩小后，缩小能缩小的元素，最后所有盒子缩小完毕，若仍不能放下，则超出（若纯文本盒子，最后缩小到一个字一行），弹性盒子拥有六大属性，子元素也有六大属性
+<strong>弹性盒子</strong></p>
+<ul>
+<li>flex-direction：决定子元素排列主轴与顺序，取值：row/column-reverse</li>
+<li>flex-wrap:决定子元素是否换行显示与换行方向（从顶端排到下or底部排到上），取值：nowrap/wrap-reverse</li>
+<li>flex-flow：不常用，简写上面两个属性，默认为：flex-flow:row nowrap</li>
+<li>justify-content：主轴上的对齐方式，flex-satrt/end，center，space-between，space-around（每个项目两侧的间隔相等，项目之间的间隔比项目与边框的间隔大一倍）</li>
+<li>align-items：项目在交叉轴上的对齐方式，除了左右中对齐外，还有基线对齐（baseline），stretch（项目未设置高度或设为auto，占满整个容器的高）</li>
+<li>align-content：多轴线的对齐方式，和justify-content差不多
+<strong>子元素</strong></li>
+<li>order：排列顺序</li>
+<li>flex-grow：放大比例，默认为0</li>
+<li>flex-shrink：缩小比例，默认为1</li>
+<li>flex-basis：在主轴占的空间，默认为原本项目大小</li>
+<li>flex：综合前面三个属性，默认为 0 1 auto，该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)</li>
+<li>align-self：不遵从父元素的对齐（align-item），自定义对齐方式
+<strong>弹性盒子缺点</strong></li>
+<li>flex盒子的内容可以溢出，即内容宽度可能超过父元素宽度（有些内容溢出不涉及宽度变化：比如 { width: 10px; white-space: nowrap;} ）</li>
+<li>若子元素写了 { overflow: hidden; }，则宽度不会溢出，文字内容也可以点点点。但会影响一些绝对定位等位置需要超出该元素的内容。
+<strong>检查弹性盒子是否溢出</strong>
+justify-content: center，若盒子移位了，表示溢出</li>
+</ul>
+<h4 id="position">position</h4>
+<p>设置元素位置，默认为static，即静止不移动，当position设置为relative/absolute/fixed时，通过top/left/right/bottom可改变元素位置，其中absolute/fixed是脱离文档流的，但relative是不会脱离文档流，即relative会占据着移动之前的位置，但是absolute和fixed就不会）</p>
+<h4 id="min-widthwidth%E5%92%8Cmax-width">min-width、width和max-width</h4>
+<p>优先级：min-width = max-width &gt; width
+当 max-width &gt; width &gt; min-width 时，宽度的标准是 width，否则取最大/小宽度，min-width、max-width设置百分比时，都会继承父元素的当前显示宽度</p>
+<h4 id="position%E5%92%8Cmargin%E5%86%B2%E7%AA%81">position和margin冲突</h4>
+<p>绝对定位是根据相对于父元素的top/left/right/bottom来定位的，而margin是根据自身当前位置来定位的，故设置margin失效
+1，元素在绝对定位以后，left/rigth/top/bottom是没有优先等级的，不像margin-left作用的时候margin-right没用，如果现在left:0,right:0,两方实力相当，浏览器没办法，都得满足</p>
+<pre class="hljs"><code><div>    <span class="hljs-attribute">position</span>:absolute
+    <span class="hljs-attribute">left</span>:<span class="hljs-number">0</span>
+    <span class="hljs-attribute">right</span>:<span class="hljs-number">0</span>
+    <span class="hljs-attribute">margin</span>:<span class="hljs-number">0</span> auto
+</div></code></pre>
+<p>2，当它距离父元素left:50%,top:50%，那就是父元素一半的距离，因为要实现居中即自身的中点在父元素的中间才算，所以margin-left/margin-top 负的自身宽/高的一半，那么正好水平垂直居中，但是由于margin相对于父元素，故不得使用百分比。</p>
+<pre class="hljs"><code><div>    <span class="hljs-attribute">position</span>:absolute
+    <span class="hljs-attribute">left</span>:<span class="hljs-number">50%</span>
+    <span class="hljs-attribute">right</span>:<span class="hljs-number">50%</span>
+    <span class="hljs-attribute">margin-left</span>:-<span class="hljs-number">50px</span>;<span class="hljs-comment">// 具体数值</span>
+    <span class="hljs-attribute">margin-top</span>:-<span class="hljs-number">50px</span>;
+</div></code></pre>
+<h4 id="%E5%9E%82%E7%9B%B4%E6%B0%B4%E5%B9%B3%E5%B1%85%E4%B8%AD">垂直水平居中</h4>
+<ul>
+<li>
+<p>水平居中，直接设置margin</p>
+<pre class="hljs"><code><div><span class="hljs-attribute">margin</span>:<span class="hljs-number">0</span> auto
+</div></code></pre>
+</li>
+<li>
+<p>垂直居中</p>
+<ul>
+<li>
+<p>position结合margin</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attribute">position</span>:relative;
+    <span class="hljs-attribute">top</span>:<span class="hljs-number">50%</span>;
+    <span class="hljs-attribute">margin-top</span>:-<span class="hljs-number">50px</span>;
+}
+</div></code></pre>
+</li>
+<li>
+<p>transform 结合 position</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attribute">position</span>:relative;
+    <span class="hljs-attribute">transform</span>:translateX(-<span class="hljs-number">50%</span>)
+}
+</div></code></pre>
+</li>
+<li>
+<p>弹性盒子</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attribute">display</span>:flex;
+    <span class="hljs-attribute">align-items</span>:center;
+    <span class="hljs-attribute">justify-content</span>:center;
+}
+</div></code></pre>
+</li>
+<li>
+<p>表格元素：显示设置父元素为：table，子元素为：cell-table，这样就可以使用vertical-align: center，实现垂直居中</p>
+<pre class="hljs"><code><div><span class="hljs-selector-class">.parent</span>{
+    <span class="hljs-attribute">display</span>:table
+}
+<span class="hljs-selector-class">.son</span>{
+    <span class="hljs-attribute">display</span>:table-cell;
+    <span class="hljs-attribute">vertical-align</span>:middle;
+    <span class="hljs-attribute">text-align</span>:center
+}
+</div></code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="css%E6%A0%B7%E5%BC%8F%E5%88%9D%E5%A7%8B%E5%8C%96">css样式初始化</h4>
+<p>初始化可以解决浏览器的兼容问题，因为不同浏览器对有些标签的默认值是不同的</p>
+<ul>
+<li>
+<p>通配符初始化，简单粗暴，但初始化所有标签，浪费性能</p>
+<pre class="hljs"><code><div>*{
+    <span class="hljs-attribute">paddind</span>:<span class="hljs-number">0</span>;
+    <span class="hljs-attribute">margin</span>:<span class="hljs-number">0</span>
+}
+</div></code></pre>
+</li>
+</ul>
+<h4 id="%E4%BC%AA%E5%85%83%E7%B4%A0%E5%92%8C%E4%BC%AA%E7%B1%BB">伪元素和伪类</h4>
+<p>伪类通过添加类来实现；伪元素通过添加实际的元素来实现，伪元素创建了一个不在文档树上但实际存在的新的元素，所以不能通过js来操作，仅仅是在 CSS 渲染层加入，要配合content属性一起使用</p>
+<ul>
+<li>
+<p>伪元素失效
+在input、radio、select等表单标签中，伪元素失效，::before的定义：在指定元素的内容之前插入内容。注意：是元素内容之前，而不是元素之前。而input并不是容器，所以没有内容之前一说，所以就无效了。</p>
+</li>
+<li>
+<p>伪元素使用，必须设置content ，其余和正常项目一致，常使用position改变伪元素位置</p>
+<pre class="hljs"><code><div><span class="hljs-selector-tag">&amp;</span><span class="hljs-selector-pseudo">::before</span>{
+    <span class="hljs-attribute">content</span>:<span class="hljs-string">''</span>;
+    <span class="hljs-attribute">position</span>: absolute;
+    <span class="hljs-attribute">top</span>: <span class="hljs-number">37px</span>;
+    <span class="hljs-attribute">left</span>: -<span class="hljs-number">15px</span>;
+}
+</div></code></pre>
+</li>
+</ul>
+<h4 id="%E7%9B%92%E5%AD%90%E4%B8%A4%E7%AB%AF%E5%AF%B9%E9%BD%90">盒子两端对齐</h4>
+<p>即元素每一行两端对齐，但是最后一行靠左，类似于文字的justify两端对齐，最佳实现效果是根据容器的宽度排列，决定元素之间的间隙与单行个数</p>
+<ul>
+<li>
+<p>使用margin-right搭配float，改变宽度时无法兼容</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attribute">margin-right</span>:<span class="hljs-number">20px</span>;
+    <span class="hljs-attribute">float</span>:left;
+    <span class="hljs-selector-tag">&amp;</span><span class="hljs-selector-pseudo">:nth-child(3+3n)</span>{
+        <span class="hljs-attribute">margin-right</span>:<span class="hljs-number">0</span>;
+    }
+}
+</div></code></pre>
+</li>
+<li>
+<p>弹性盒子添加空元素，宽度与项目保持一致，高度设为0</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attribute">display</span>:flex;
+    <span class="hljs-attribute">justify-content</span>:space-between;
+    <span class="hljs-attribute">flex-wrap</span>:wrap;
+}
+<span class="hljs-selector-class">.item-empty</span> {
+      <span class="hljs-attribute">height</span>: <span class="hljs-number">0px</span>;
+      <span class="hljs-attribute">width</span>: <span class="hljs-number">400px</span>;
+
+</div></code></pre>
+</li>
+</ul>
+<p>}</p>
+<pre class="hljs"><code><div>
+- 当一列只有2/3个时，使用伪元素
+
+```less
+  &amp;::after {
+              height: 0;
+              width: 20%;
+              min-width: 223px;
+              content: &quot;&quot;;
+          }
+</div></code></pre>
+<h1 id="js">js</h1>
+<h4 id="%E6%B7%B1%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B5%85%E6%8B%B7%E8%B4%9D">深拷贝和浅拷贝</h4>
+<ul>
+<li>
+<p>json化实现
+先使用JSON.stringify将对象变成json字符串，再使用JSON.parse将字符串转为新对象，缺点是遇到无法转换为json格式的属性时，例如function、RegExp、undefined等数据，转化直接忽略，即深拷贝的数据会丢失，可以使用JSON.stringify()对特殊类型进行格式化</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> _obj = <span class="hljs-built_in">JSON</span>.stringify(obj)
+<span class="hljs-keyword">let</span> obj = <span class="hljs-built_in">JSON</span>.parse(_obj)
+</div></code></pre>
+</li>
+<li>
+<p>Object.assign</p>
+</li>
+<li>
+<p>递归实现
+判断参数类型，判断参数属性类型，若参数属性为对象则递归调用，参数为非引用值则直接赋值</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">deepClone</span>(<span class="hljs-params">obj</span>)</span>{
+    <span class="hljs-keyword">let</span> result
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> obj == <span class="hljs-string">'Object'</span>){
+        result = <span class="hljs-built_in">Array</span>.isArray(obj) ? [] : {}
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> key <span class="hljs-keyword">in</span> obj){
+            <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> obj[key] !== <span class="hljs-string">'Object'</span>){
+                result[key] = obj[key]
+            }<span class="hljs-keyword">else</span>{
+               result[key] =  deepClone(obj[key])
+            }
+
+        }
+    }<span class="hljs-keyword">else</span>{
+        result = obj
+    }
+    <span class="hljs-keyword">return</span> result
+}
+</div></code></pre>
+</li>
+</ul>
+<h4 id="objectassignmainobject">Object.assign(mainObject,...)</h4>
+<p>参数一是目标对象，接收后面参数对象<strong>可枚举</strong>的属性（一般对象的属性都是可枚举的，除非对象的enumerable属性为false），目标对象有该属性则覆盖，无则添加，有一些拷贝的性质，但若参数的属性值为对象，则单凭赋值还是指向同一个地址，实现的是只有一层的拷贝，见<a href="#img1">图 1</a><span id="jumpImg1">*</span></p>
+<h4 id="%E6%A3%80%E6%B5%8B%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8Etostring">检测数据类型与toString()</h4>
+<ul>
+<li>typeof
+判断数据类型，对于非引用类型可显示（string、boolean、number），对于数组、对象、实例、null都识别为object，对于undefined识别为undefined，对于函数识别为function</li>
+<li>instanceof
+返回一个boolean值，查看对象B prototype指向的原型对象是否在对象A的prototype原型链上，若对象B的prototype为null将会报错，类似于空指针异常，不可以检测非引用类型，因为没有原型对象，对象A必须是对象</li>
+<li>constructor
+对象的constructor指向创建该对象的构造函数，但是不常用这个判断对象类型，因为contructor的指向是可以通过赋值操作被改变的，其中null、undefined没有construtor，其余可以被检测出来</li>
+<li>Object.prototype.toString.call(obj)
+返回一个形如'[Object type]'的字符串，例如'[Object String]'，Array、String中的toString方法是被修改过的，故不能直接使用toStirng检测，而要使用Object对象原型的toString检测</li>
+</ul>
+<h4 id="object%E7%9A%84%E5%86%85%E9%83%A8%E6%96%B9%E6%B3%95">Object的内部方法</h4>
+<ul>
+<li>
+<p>Object.defineProperty(obj，property，descriptor)
+操作对象的属性，有则修改，无则添加，参数三为一个对象，控制<strong>属性描述符</strong>对象，属性描述符对象有六个属性，不止控制属性的value（属性值），还有writable（是否可改），enumerable（是否可枚举）等，通过defineProperty定义的属性，与普通定义的属性不同，因为它是默认不可枚举、不可修改的、不可删除的。</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">Object</span>.defineProperty(obj,<span class="hljs-string">'name'</span>,{
+    <span class="hljs-attr">value</span>:<span class="hljs-string">''</span>,
+    <span class="hljs-attr">writable</span>:<span class="hljs-literal">true</span>,<span class="hljs-comment">// 是否可修改</span>
+    <span class="hljs-attr">enumerable</span>:<span class="hljs-literal">true</span>,<span class="hljs-comment">// 是否可枚举</span>
+    <span class="hljs-attr">configurable</span>:<span class="hljs-literal">true</span><span class="hljs-comment">// 是否可修改</span>
+})
+<span class="hljs-built_in">Object</span>.defineProperty(obj,<span class="hljs-string">'name'</span>,{})<span class="hljs-comment">// 定义并传空，默认描述符如下</span>
+obj.descriptor === {
+    <span class="hljs-attr">value</span>:<span class="hljs-literal">undefined</span>,<span class="hljs-comment">// 默认未定义</span>
+    <span class="hljs-attr">writable</span>:<span class="hljs-literal">false</span>,<span class="hljs-comment">// 不可修改</span>
+    <span class="hljs-attr">enumerable</span>:<span class="hljs-literal">false</span>,<span class="hljs-comment">// 不可枚举</span>
+    <span class="hljs-attr">configurable</span>:<span class="hljs-literal">false</span><span class="hljs-comment">// 不可修改</span>
+    <span class="hljs-attr">set</span>:<span class="hljs-literal">undefined</span>,<span class="hljs-comment">// 默认未定义</span>
+    <span class="hljs-attr">get</span>:<span class="hljs-literal">undefined</span>,<span class="hljs-comment">// 默认未定义</span>
+}
+</div></code></pre>
+</li>
+<li>
+<p>Object.defineProperties(obj, properties)
+批量操作对象的属性，参数二对象每一个属性都操作一个对象属性，属性名为对象属性名，属性值为对象的属性描述符</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">Object</span>.defineProperties(obj,{
+    <span class="hljs-string">'name'</span>:{
+        <span class="hljs-attr">vaule</span>:,
+        <span class="hljs-attr">writable</span>:
+    },
+    <span class="hljs-string">'age'</span>:{
+        <span class="hljs-attr">vaule</span>:,
+        <span class="hljs-attr">writable</span>:
+    }
+})
+</div></code></pre>
+</li>
+<li>
+<p>Object.getOwnPropertyDescriptor(obj,property)
+获取对象对于属性的属性描述符对象，返回一个对象</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> descriptor = <span class="hljs-built_in">Object</span>.getOwnPropertyDescriptor(obj,<span class="hljs-string">'name'</span>)
+descriptor<span class="hljs-comment">// 包含六个属性的name属性描述符对象</span>
+</div></code></pre>
+</li>
+<li>
+<p>Object.getOwnPropertyDescriptors(obj)
+获取对象所有属性的属性描述符对象，返回一个对象，每一个属性都表示一个对象属性的描述符对象</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">let</span> descriptors = <span class="hljs-built_in">Object</span>.getOwnPropertyDescriptors(obj)
+descriptors === {
+    <span class="hljs-string">'name'</span>:{
+        <span class="hljs-comment">// 包含六个属性的name属性描述符对象</span>
+    },
+    <span class="hljs-string">'age'</span>:{
+        <span class="hljs-comment">// 包含六个属性的name属性描述符对象</span>
+    }
+    }
+</div></code></pre>
+</li>
+<li>
+<p>Object.getPrototypeOf(obj)
+返回对象的原型对象，若没有继承的原型对象，则返回null，见<a href="#img2">图 2</a><span id="jumpImg2">*</span></p>
+</li>
+<li>
+<p>Object.setPrototypeOf(obj1,obj2)
+设置一个对象的原型对象，等价于obj1.<strong>proto</strong> = obj2</p>
+</li>
+<li>
+<p>Object.create(obj)
+其中参数1表示被创建出来新对象的原型对象,等价于obj1.<strong>proto</strong> = obj2</p>
+</li>
+<li>
+<p>Object.preventExtensios(obj)
+让一个对象变成不可扩展的，即不能再添加新属性，es5若仍要添加新属性，会抛出错误，es6后不改变属性不报错，但若是使用definePrototype定义属性的话，还是会报错。此外，Object.isExtensible()用于检查对象是否可扩展，传入一个对象返回boolean值，若传入一个非对象的变量，es5抛出错误，es6则将变量强制转为对象并返回false</p>
+</li>
+<li>
+<p>Object.keys(obj)
+返回可枚举属性组成的数组</p>
+</li>
+</ul>
+<h4 id="reflect%E5%AF%B9%E8%B1%A1">reflect对象</h4>
+<p>ES6提供的一个将常见js对象内部方法（Object.xxx(obj) or Object.prototype.xxx(obj)）封装并反射出来的对象（reflect.xxx(obj)），原因是：1，内部的方法不希望被暴露；2，reflect返回值更合理，使用defineProperty方法Object报错而reflect只是返回false；3，Object存在命令式，例如：delete obj.name，不符合面向对象的思想，reflect是对象，纯函数式调用方法，变成 reflect.deleteProperty(obj,name)。reflect对象拥有13个方法，且对第一个参数严格控制，若不传对象/函数，报错。</p>
+<ul>
+<li>get(obj,attribute,receiver)
+get和set的最后一个参数都是用来绑定this的，当属性部署了读取函数(get name(){})/赋值函数(set name(){})时起作用</li>
+<li>set(obj,attribute,value,receiver)</li>
+<li>has(obj,attribute)
+返回一个boolean值，和 attribute in obj效果相同</li>
+<li>deleteProperty(obj,attribute)</li>
+<li>construct(obj,args)
+等同于new，reflect.construct(Fun,'lyf') 等价于 new Fun('lyf')，但是参数一必须是函数，不常用</li>
+<li>apply(fun,receiver,args)
+参数一是函数，参数二表示绑定的this，参数三表示传入函数的实参，与fun.apply一致，实参传入一个数组</li>
+<li>getPrototypeOf(obj)
+获取对象的原型对象，返回boolean值</li>
+<li>setPrototypeof(obj,newProto)
+设置对象的原型对象，返回一个boolean值</li>
+<li>defineProperty(obj,attribute,descriptor)
+设置对象的标识属性</li>
+<li>getOwnPropertyDescriptor(obj,)</li>
+<li>isExtensible(obj)</li>
+<li>preventExtensions(obj)</li>
+<li>ownKeys(obj)
+返回一个包含所有属性名的数组</li>
+</ul>
+<h4 id="reflect%E5%92%8Cobject%E7%9A%84%E5%AF%B9%E6%AF%94">reflect和Object的对比</h4>
+<table>
+<thead>
+<tr>
+<th>reflect</th>
+<th>Object</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>reflect.has(attribute)</td>
+<td>attribute in obj</td>
+<td>检车属性是否在对象中</td>
+</tr>
+<tr>
+<td>reflect.set(obj,attribute,value,receiver)</td>
+<td>obj[attribute] = value</td>
+<td>设置对象属性，常用后者</td>
+</tr>
+<tr>
+<td>reflect.get(obj,attribute,reciver)</td>
+<td>obj[attribute]</td>
+<td>获取对象属性，常用后者</td>
+</tr>
+<tr>
+<td>reflect.deleteProperty(obj,attribute)</td>
+<td>delete obj[attribute]</td>
+<td>删除对象的属性,使用前者*</td>
+</tr>
+<tr>
+<td>reflect.ownKeys(obj)</td>
+<td>Object.keys(obj)</td>
+<td>皆返回一个属性组成的数组，前者返回所有属性，后者只返回可枚举属性</td>
+</tr>
+<tr>
+<td>reflect.defineProperty(obj,attribute,descriptor)</td>
+<td>Object.defineProperty(obj,attribute,descriptor)</td>
+<td>全面地<strong>描述</strong>属性，前者返回Boolean值，后者返回设置好的对象</td>
+</tr>
+<tr>
+<td>reflect.getOwnPropertyDescriptor(obj,attribute)</td>
+<td>Object.getOwnPropertyDescriptor(obj,attribute)</td>
+<td>返回对象某属性的属性属性描述符对象，二者几乎一致，无该属性则返回undefined</td>
+</tr>
+<tr>
+<td>reflect.getPrototyOf(obj)</td>
+<td>Object.getPrototyOf(obj)</td>
+<td>返回原型对象，如无返回null，二者几乎一致</td>
+</tr>
+<tr>
+<td>reflect.setPrototyOf(obj,prototype)</td>
+<td>Object.setPrototyOf(obj,prototype)</td>
+<td>设置对象的原型对象，前者返回Boolean值，后者返回新对象</td>
+</tr>
+<tr>
+<td>reflect.isExtensible(obj)</td>
+<td>Object.isExtensible(obj)</td>
+<td>检查对象是否可扩展，二者几乎一致</td>
+</tr>
+<tr>
+<td>reflect.preventExtensions(obj)</td>
+<td>Object.preventExtensions(obj)</td>
+<td>将对象设置为不可扩展的，前者返回Boolean值，后者返回设置好的对象</td>
+</tr>
+<tr>
+<td>reflect.apply(fun,receiver,args)</td>
+<td>Function.prototype.apply(receivers,args)</td>
+<td>二者功能几乎一致，常使用后者</td>
+</tr>
+<tr>
+<td>reflect.construct(Fun,args)</td>
+<td>new Fun(args)</td>
+<td>构造函数实例，常使用后者</td>
+</tr>
+</tbody>
+</table>
+<h1 id="%E9%9B%B6%E7%A2%8E">零碎</h1>
+<h4 id="cls">CLS</h4>
+<p>全称CommonLanguageSpecification，即公共语言规范</p>
+<h4 id="markdown%E8%AF%AD%E6%B3%95">markdown语法</h4>
+<ul>
+<li>页面内跳转
+定义一个锚(id)： <span id="jump">跳转到的地方</span>
+使用markdown语法：<a href="#jump">点击跳转</a></li>
+</ul>
+<h4 id="json%E7%9A%84%E6%96%B9%E6%B3%95">JSON的方法</h4>
+<ul>
+<li>
+<p>JSON.stringify(@param1,@param2,@param3)
+参数1：表示需要JSON化的对象，是必须的。
+参数2：函数or数组，用于过滤和自定义，当为过滤函数时，参数为对象的key和值，必须拥有return值，若return对象，则先遍历该对象，类似于栈先进先出，完了再按照顺序遍历，直到所有遍历完退出；若为数组，表示需遍历的属性，不在列表的不被序列化。
+参数3：表示字符串间距，每一级对比上一级缩进</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">JSON</span>.stringify(data,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key,val</span>)</span>{
+    <span class="hljs-built_in">console</span>.log(key)<span class="hljs-comment">// key和value最外层为 '' 和 object</span>
+    <span class="hljs-built_in">console</span>.log(val)
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> val === <span class="hljs-string">'function'</span>){
+        <span class="hljs-keyword">return</span> val + <span class="hljs-string">''</span>;
+    }
+})
+<span class="hljs-built_in">JSON</span>.stringify(data, [<span class="hljs-string">"name"</span>, <span class="hljs-string">"info"</span>, <span class="hljs-string">"sex"</span>]);
+</div></code></pre>
+</li>
+</ul>
+<pre class="hljs"><code><div>@startuml
+object1 -&gt; mainObject: for(keys in object1){ mainObject[keys] = object1[keys]}
+object2 -&gt; mainObject: for(keys in object2){mainObject[keys] = object2[keys]}
+@enduml
+</div></code></pre>
+<pre class="hljs"><code><div>@startuml
+object1.fun -&gt; 0*1000
+mainObject.fun-&gt; object1.fun
+mainObject.fun-&gt; 0*1000
+@enduml
+</div></code></pre>
+<p><span id="img1">图 1</span> <a href="#jumpImg1">点击回去</a></p>
+<pre class="hljs"><code><div>@startuml
+(Object.setPrototypeOf(obj1,obj2) -&gt; (obj1.__proto__ = obj2)
+(let obj1 = Object.create(obj)-&gt;(obj1.__proto__ = obj2)
+@enduml
+</div></code></pre>
+<p><span id="img2">图 2</span> <a href="#jumpImg2">点击回去</a></p>
+
+</body>
+</html>
