@@ -554,7 +554,70 @@ justify-content: center，若盒子移位了，表示溢出
 | reflect.apply(fun,receiver,args) | Function.prototype.apply(receivers,args) | 二者功能几乎一致，常使用后者 |
 | reflect.construct(Fun,args) | new Fun(args) | 构造函数实例，常使用后者 |
 
-## ES6
+#### js中的事件
+
+在页面中，一些用户触发的行为，浏览器对象BOM触发的行为，可以称为事件，js捕获事件并触发对应的回调函数，称为js事件
+
+- 事件流
+  过程是根节点到目标节点，再从目标节点到根节点，例如一个div触发点击事件，流程为：document->html->body->div(click)->body->html->document，前面为捕获事件，后面为冒泡事件
+  [点击跳转](#img3) <span id='jumpImg3'>回来</span>
+- 监听事件
+  1，html属性
+  属性名为 on+event，绑定的事件需**调用**，类似于事件触发时，调用一个早已准备好的函数
+
+  ```js
+  <div onclick="clickHandle()"></div>
+  ```
+
+  2，dom属性
+  在dom中获取元素并在事件属性中绑定函数，需确保dom中有此元素，故在window.onload中执行，属性值一般是唯一的，所以只能绑定一个函数
+
+  ```js
+  window.onload = function(){
+  document.getElementById('div1').onclick = clickHandle// 需注意在window.onload中，document才能获取到页面节点
+  }
+  ```
+
+  3，标准dom
+  在dom中获取元素并在事件属性中绑定函数，需确保dom中有此元素，故在window.onload中执行，可以绑定多个事件函数，顺序是先绑定先执行
+  element.addEventListener(event,callback,isCapture)
+  参数1 event 事件名的字符串，只能绑定确切存在事件，例如click，不能自创事件，啥'show'
+  参数2 callback 事件触发时绑定的回调函数，内有一个参数，代表触发事件的元素
+  参数3 isCapture 表示事件是在捕获还是冒泡环节触发，boolean值，默认为false，即不再捕获阶段触发，而是冒泡
+
+  ```js
+  window.onload = function(){
+  document.getElementById('div1').addEventListener('click',(e)=>{console.log(e)},true)
+  }
+  ```
+
+- 移除事件
+  只有使用标准dom绑定的事件函数可以移除，且必须移除同一个回调函数(地址)
+  element.removeEventListener(event,callback,isCapture)
+  参数1 event 必选，表示需移除的事件
+  参数2 callback 必选，表示事件
+  参数3 表示要移除的事件的触发阶段，即addEventListener的参数3
+
+  ```js
+  element.addEventListener('click',function(){1},false)// 函数在内部,其他地方无法获取
+  element.addEventListener('click',function(){2},false)
+  element.addEventListener('click',function(){3},false)
+  element.addEventListener('click',function(){4},false)
+
+  elsment.removeEventListener('click',function{1})// 不会移除,因为这只是长的一样的函数
+  ```
+
+# vue
+
+#### vue事件
+
+通过vue发送的事件，而不是dom事件，一般使用emit发送，on接收，off去除，和标准dom事件监听addEventListener、removeEventListener相对应
+
+- vue.$emit(event,attrbutes)
+  参数1 event 为表示事件的字符串，类似于dom事件的'click'、'mousedown'，但是这个没有固定的限制
+  参数2 attributes 表示
+
+# ES6
 
 #### class类
 
@@ -639,6 +702,7 @@ Promise是层级调用的，即then在同一层，调用就在一层，vue刷新
 也叫热更新，不需要刷新页面就更新
 
 #### 文档模式
+
 标准模式和混杂模式，一般是对css初始化的不同，例如标准盒子、是否有3px差异
 
 #### JSON的方法
@@ -684,3 +748,12 @@ mainObject.fun-> 0*1000
 ```
 
 <span id="img2">图 2</span> [点击回去](#jumpImg2)
+
+ ```plantuml
+@startuml
+(window) -> (触发事件的目标):捕获过程
+(触发事件的目标) -> (window):冒泡过程
+@enduml
+```
+
+<span id="img3">图 3</span> [点击回去](#jumpImg3)

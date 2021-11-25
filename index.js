@@ -44,7 +44,7 @@ function filterIdArr() {
   console.log(arr);
   let result = arr.filter((id) => {
     let item = list.find((item) => item.id == id);
-    return !(item.status == 3|| item.status == 4)
+    return !(item.status == 3 || item.status == 4);
   });
   console.log(result);
 }
@@ -87,3 +87,26 @@ function filterList() {
 
 filterIdArr();
 filterList();
+
+function checkEvent() {
+    let obj = document.getElementById('name')
+  var obj1 = document.getElementById('name');
+  console.log(obj1)
+//   obj1.addEventListener(
+//     "click",
+//     function () {
+//       alert("id1");
+//     },
+//     false
+//   );
+  //  var obj2=document.getElementById('id2');
+  //  obj2.addEventListener('click',function(){
+  //  alert('id2');
+  //  },true);
+  //  var obj3=document.getElementById('id3');
+  //  obj3.addEventListener('click',function(){
+  //  alert('id3');
+  //  },true);
+}
+
+// checkEvent();
