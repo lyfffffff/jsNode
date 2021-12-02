@@ -73,6 +73,15 @@ function filterList() {
   console.log(result_1);
 }
 
+
+// 暂时性死区
+var temp
+function testDead(){
+    temp = 1;
+    let temp
+}
+
+
 // 私有属性的类
 // class Foo {
 //     #a;
@@ -85,6 +94,6 @@ function filterList() {
 // testJSONStringify()
 // testJSONStringifyParams()
 
-filterIdArr();
-filterList();
-
+// filterIdArr();
+// filterList();
+// testDead()
