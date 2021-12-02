@@ -56,9 +56,18 @@ document.head.appendChild(script)
 
 - Number数据类型
 支持十进制、十六进制（0x开头）、八进制（0开头，后面数字不大于7）、浮点值。拥有最大值（Number.MAX_VALUE）和最小值（Number.MIN_VALUE），超过则为+-infinity，对于本该是数字但不是数字的表示为NaN，例如：分母为+-0，式子包含NaN等，但是每个NaN都互不相等
-
--
-
+- 非数值转为数值的方法
+  - Number(param)
+  - parseInt(param,scale)
+  常用。参数二表示进制，可以选择二、八、十六进制，若不定义，则按照字符串命名显示，即长得像什么（x0、07），就当做什么。自动忽略空字符串，从第一个非空开始检测，若其为非数字，返回NAN（纯空字符串也为NaN），若为数字，截取到非数值字符串之前，并作为结果返回，自然‘.’也当做非数值字符串，遇到也返回。
+  - parseFloat(param) 
+- Null和undefined
+Null表示空指针对象，undefined则是声明但未定义，但是null == undefined
+- String
+字符串，可以解析类似于‘\n’的转义字符
+- 非字符串转为字符串
+   - toString()
+   但是null和undefined没有此方法，对于数值，toString还有参数二，Number.toString(param,log)，表示将数值先转为几进制，再转为字符串
 ```js
 NaN == NaN // false
 ```
