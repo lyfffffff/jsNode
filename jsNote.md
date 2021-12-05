@@ -54,24 +54,74 @@ document.head.appendChild(script)
 | 000->对象 | 1->整数 | 010->浮点数 | 100->字符串 | 110->布尔
 |  ----  | ----  | ---- | ---- | ---- |
 
+- 构造函数与对象
+使用构造函数和对象创建实例的区别，虽然log打印相同，但是一个是Number型，一个是Object型，二者本质不相同。Number、Boolean、String皆是，但是Symbol没有new构造函数
+```js
+// Number 
+let num = Number(1) // num = 1
+typeof num // Number
+let num_1 = new Number(1) // num = 1
+typeof num // Object
+```
+
 - Number数据类型
 支持十进制、十六进制（0x开头）、八进制（0开头，后面数字不大于7）、浮点值。拥有最大值（Number.MAX_VALUE）和最小值（Number.MIN_VALUE），超过则为+-infinity，对于本该是数字但不是数字的表示为NaN，例如：分母为+-0，式子包含NaN等，但是每个NaN都互不相等
+```js
+NaN == NaN // false
+```
 - 非数值转为数值的方法
   - Number(param)
   - parseInt(param,scale)
   常用。参数二表示进制，可以选择二、八、十六进制，若不定义，则按照字符串命名显示，即长得像什么（x0、07），就当做什么。自动忽略空字符串，从第一个非空开始检测，若其为非数字，返回NAN（纯空字符串也为NaN），若为数字，截取到非数值字符串之前，并作为结果返回，自然‘.’也当做非数值字符串，遇到也返回。
   - parseFloat(param) 
+
 - Null和undefined
 Null表示空指针对象，undefined则是声明但未定义，但是null == undefined
+
 - String
 字符串，可以解析类似于‘\n’的转义字符
 - 非字符串转为字符串
    - toString()
    但是null和undefined没有此方法，对于数值，toString还有参数二，Number.toString(param,log)，表示将数值先转为几进制，再转为字符串
-```js
-NaN == NaN // false
-```
 
+- Symbol
+符号类型。使用Symbol(param)创建，每一次创建都是唯一的，主要用来确保**对象属性**唯一性，即虽然长得像，但不是一个东西，不会覆盖。
+```js
+let symbol = Symbol()
+typeof symbol // Symbol
+console.log(symbol)// Symbol()
+let symbol_s = Symbol('symbol_ 1')// 参数非必须
+let symbol_1 = Symbol('symbol_ 1')// 传一样的参数
+symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的Object
+```
+  - Symbol.for(param)全局注册
+  即没有就全局注册，有就直接全局拿过来，改善了长相相同却永不相同的缺点，但二者必须接皆使用for，否则不是全局注册。param必须传一个字符串给for方法，没传就当做传入'undefined'，传入非字符串则报错。对于for全局注册的符号，可以使用keyFor查询符号的字符串，若查询的不是全局注册的符号，返回undefined，若传入非符号，报错。
+  ```js
+  let symbol = new Symbol.for('symbol')// 此时没有，全局注册
+  let symbol_1 = new Symbol.for('symbol)// 此时全局有，直接拿过来，也就是上面的
+  symbol == symbol_1 // true
+
+  let symbol_f = new Symbol('symbol)// 与全局不同，只是新创建一个符号实例
+  symbol_f == symbol_1 // false
+  
+  Symbol.keyFor(symbol) // 'symbol'
+  ```
+  - 作为对象属性
+  出现一个对象，两个键值长得一毛一样的，但是别担心冲突，访问也只能使用那个symbol实例。获取属性集也是只能通过Object.getOwnPropertySymbols()。但是获取属性描述符Object.getOwnPropertyDescriptors()和reflect.ownKeys()，是返回普通属性和符号属性的。
+  ```js
+  symbol = Symbol('xxx')
+  symbol_1 = Symbol('xxx')
+  obj[symbol] = 1
+  Object.defineProperty(obj,symbol_1,1)
+  obj === {
+    Symbol(xxx): 1
+    Symbol(xxx): 1
+  }
+  obj[symbol] // 唯一访问标识
+  obj.Symbol(xxx) // 报错
+  Object.getOwnPropertyNames(obj) // []
+  Object.getOwnPropertySymbols(obj) // [Symbol(xxx), Symbol(xxx)]
+  ```
 #### 三种声明方式
 
 - var
@@ -97,3 +147,5 @@ for(var i = 0;i<5;i++){}// i 是全局变量，不会销毁，最后以i = 5 的
 
 - const
 与let相同，但是声明即需初始化，之后不能修改，常量则使用const，或只修改对象的属性，可以使用const
+
+##### 
