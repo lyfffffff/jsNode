@@ -54,9 +54,24 @@ document.head.appendChild(script)
 | 000->对象 | 1->整数 | 010->浮点数 | 100->字符串 | 110->布尔
 |  ----  | ----  | ---- | ---- | ---- |
 
+- 构造函数与对象
+使用构造函数和对象创建实例的区别，虽然log打印相同，但是一个是Number型，一个是Object型，二者本质不相同。Number、Boolean、String皆是，但是Symbol没有new构造函数
+
+```js
+// Number 
+let num = Number(1) // num = 1
+typeof num // Number
+let num_1 = new Number(1) // num = 1
+typeof num // Object
+```
+
 ##### Number数据类型
 
 支持十进制、十六进制（0x开头）、八进制（0开头，后面数字不大于7）、浮点值。拥有最大值（Number.MAX_VALUE）和最小值（Number.MIN_VALUE），超过则为+-infinity，对于本该是数字但不是数字的表示为NaN，例如：分母为+-0，式子包含NaN等，但是每个NaN都互不相等
+
+```js
+NaN == NaN // false
+```
 
 - 非数值转为数值的方法
   - Number(param)
@@ -75,6 +90,10 @@ Null表示空指针对象，undefined则是声明但未定义，但是null == un
    但是null和undefined没有此方法，对于数值，toString还有参数，Number.toString(log)，表示将数值先转为几进制，再转为字符串
   - String(param)
    当有可能是null和undefined时，使用此函数，返回'null'和'undefined'
+
+##### Symbol
+
+符号类型。使用Symbol(param)创建，每一次创建都是唯一的，主要用来确保**对象属性**唯一性，即虽然长得像，但不是一个东西，不会覆盖。
 
 ```js
 let symbol = Symbol()
