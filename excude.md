@@ -426,9 +426,9 @@ justify-content: center，若盒子移位了，表示溢出
 
 #### 检测数据类型与toString()
 
-- typeof
+- typeof --- typeof xxx
   判断数据类型，对于非引用类型可显示（string、boolean、number），对于数组、对象、实例、null都识别为object，对于undefined识别为undefined，对于函数识别为function
-- instanceof
+- instanceof --- xxx instanceof Object
   返回一个boolean值，查看对象B prototype指向的原型对象是否在对象A的prototype原型链上，若对象B的prototype为null将会报错，类似于空指针异常，不可以检测非引用类型，因为没有原型对象，对象A必须是对象
 - constructor
   对象的constructor指向创建该对象的构造函数，但是不常用这个判断对象类型，因为contructor的指向是可以通过赋值操作被改变的，其中null、undefined没有construtor，其余可以被检测出来
