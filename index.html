@@ -59,34 +59,56 @@
         //     }
         //     document.getElementById('create').addEventListener("click", create)
         // }
-        window.onload = function() {
-            var arr = [];
-            var tree = document.getElementById('tree')
-            let child_1 = document.createElement('div')
-                child_1.innerHTML = 'child_1'
-                child_1.id = 'child_1'
-            let child_2 = document.createElement('div')
-                child_2.innerHTML = 'child_2'
-                child_2.id = 'child_2'
-            function add() {
-                // let child_1 = document.createElement('div')
-                // child_1.innerHTML = 'child_1'
-                // child_1.id = 'child_1'
-                // let child_2 = document.createElement('div')
-                // child_2.innerHTML = 'child_2'
-                // child_2.id = 'child_2'
-                tree.appendChild(child_1)
-                tree.appendChild(child_2)
-            }
-            function splice() {
-                var child_1 = document.getElementById('child_1')
-                var child_2 = document.getElementById('child_2')
-                tree.removeChild(child_1)
-                tree.removeChild(child_2)
-            }
-            document.getElementById('increment').addEventListener('click', add);
-            document.getElementById('decrement').addEventListener('click', splice);
-        }
+        // window.onload = function() {
+        //     var arr = [];
+        //     var tree = document.getElementById('tree')
+        //     let child_1 = document.createElement('div')
+        //         child_1.innerHTML = 'child_1'
+        //         child_1.id = 'child_1'
+        //     let child_2 = document.createElement('div')
+        //         child_2.innerHTML = 'child_2'
+        //         child_2.id = 'child_2'
+        //     function add() {
+        //         // let child_1 = document.createElement('div')
+        //         // child_1.innerHTML = 'child_1'
+        //         // child_1.id = 'child_1'
+        //         // let child_2 = document.createElement('div')
+        //         // child_2.innerHTML = 'child_2'
+        //         // child_2.id = 'child_2'
+        //         tree.appendChild(child_1)
+        //         tree.appendChild(child_2)
+        //     }
+        //     function splice() {
+        //         var child_1 = document.getElementById('child_1')
+        //         var child_2 = document.getElementById('child_2')
+        //         tree.removeChild(child_1)
+        //         tree.removeChild(child_2)
+        //     }
+        //     document.getElementById('increment').addEventListener('click', add);
+        //     document.getElementById('decrement').addEventListener('click', splice);
+        // }
+           
+        // 使用缓存对象进行cache缓存
+    //     window.onload = function(){
+    //     let increment = document.getElementById('increment')
+    //     increment.onclick = function(){
+    //         caches.delete('c2');
+    //         Promise.all([
+    //         caches.open('c1').then(function(cache) {
+    //         return cache.put('http://182.254.171.126:9001/user_menu_list', new Response('aaa', { status: 200,statusText: "SuperSmashingGreat!" }));
+    //         }),
+    //         caches.open('c2').then(function(cache) {
+    //         return cache.put('http://182.254.171.126:9001/user_menu_list', new Response('bbb', { status: 200 }));
+    //         })
+    //         ]).then(function() {
+    //         return caches.match('http://182.254.171.126:9001/user_menu_list');
+    //         }).then(function(response) {
+    //         return response.text();
+    //         }).then(function(body) {
+    //         console.log(body);
+    //         });
+    //                 }
+    // }
     </script>
 </head>
 

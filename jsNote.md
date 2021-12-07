@@ -93,7 +93,7 @@ Null表示空指针对象，undefined则是声明但未定义，但是null == un
 
 ##### Symbol
 
-符号类型。使用Symbol(param)创建，每一次创建都是唯一的，主要用来确保**对象属性**唯一性，即虽然长得像，但不是一个东西，不会覆盖。
+符号类型。使用Symbol(param)创建，每一次创建都是唯一的，主要用来确保**对象属性**唯一性，即虽然长得像，但不是一个东西，不会覆盖，因为参数只起到一个描述的功能，并不做区别标识符，本质都是唯一的。
 
 ```js
 let symbol = Symbol()
@@ -136,6 +136,68 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的Obj
   Object.getOwnPropertySymbols(obj) // [Symbol(xxx), Symbol(xxx)]
   ```
 
+- symbol属性
+  内置在某些对象中，且在某些对象的某些方法被调用时，才被使用
+
+  - description
+  读取传入的描述参数，若无则返回一个undefined
+
+  ```js
+  Symbol('desc').toString();   // "Symbol(desc)"  
+  Symbol('desc').description;  // "desc"
+  Symbol('').description;      // ""
+  Symbol().description;        // undefined
+  ```
+
+  - hasInstance
+  xxx instanceof XXX 实际调用的是XXX内部的Symbol.hasInstance(xxx)，判断是否是某构造器（new）的实例，手动自定义就是修改instanceof的结果
+
+  ```js
+  class Array1 {
+  static [Symbol.hasInstance](item) {
+    return Array.isArray(item);
+    }
+  }
+  console.log([] instanceof Array1);// 使用instanceof检验
+  ```
+
+  - match、matchAll、repelace、serach、split
+  字符串对象的属性，在字符串调用上述方法时，其实就是使用symbol.xxx，可自定义，和instanceof用法一致，直接设置boolean值时决定：传入参数形如/xxx/时，是字符串还是表达式，默认为表达式
+
+  ```js
+  str.[symbol.match] = flase// 设置不作为表达式，而是字符串  
+  ```
+
+  - isConcatSpreadable
+  内置为数组的属性，判断数组是否可展开，默认数组为true，类数组为false，影响Array.contact合并数组的方式
+
+  ```js
+  arr.contact(arr_1)// 正常展开，为[...arr,...arr_1]
+  arr_1.[Symbol.isContcatSpreadable] = false
+  arr.contact(arr_1)// 不展开，为[...arr,arr]
+  let fakeArray = {
+  length: 1,
+  0: "hello",
+  }
+  arr.contact(fakeArray)// 展开，为[...arr,'hello']
+  ```
+
+  - toPrimitive
+  当对象做操作时，根据情况决定类型，例如运算操作当做数值类型，console当做字符串
+
+  ```js
+  class Num{
+      [Symbol.toPrimitive](hitn){
+          swith(hitn){
+              case 'number':{}
+              case 'string':{}
+              case 'default':{}
+          }
+
+      }
+  } 
+  ```
+
 #### 三种声明方式
 
 - var
@@ -162,4 +224,14 @@ for(var i = 0;i<5;i++){}// i 是全局变量，不会销毁，最后以i = 5 的
 - const
 与let相同，但是声明即需初始化，之后不能修改，常量则使用const，或只修改对象的属性，可以使用const
 
-#####
+##### for与continue和break
+
+- for(初始表达式;条件表达式;末尾循环体){中间循环体} ---- 条件表达式->中间循环体->末尾循环体
+- continue只是跳过这一次循环
+- break是跳出这**一层**循环
+
+#### for/of和for/in
+
+- for/of是**可迭代**对象遍历元素的，for/in是枚举对象的可枚举属性
+
+## 四、变量、作用域和内存
