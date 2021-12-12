@@ -270,13 +270,34 @@ with(obj_1){
 
 #### Date对象
 
-创建日期对象，当传一个参数时，可以传字符串和数字，数字代表时间戳，即1970年1月1日午夜至某日期所经过的毫秒数，字符串有多种格式。获取月份的方法是从 1 开始的，其余都是从 0 开始。
+创建日期对象，当传一个参数时，可以传字符串和数字，数字代表时间戳，即1970年1月1日午夜至某日期所经过的毫秒数，字符串有多种格式。Date函数中有许多方法，常用的是将Date转为形如‘xxxx-xx-xx xx:xx:xx’的格式，其中获取月份的方法是从 1 开始的，其余都是从 0 开始。
 
 ```js
-let d = new Date();// 默认调用Date.parse()
-let d = new Date(milliseconds);// 数字
-let d = new Date(dateString);
+// new Date的参数
+let d = new Date();// 后台默认调用Date.parse()
+let d = new Date(milliseconds);// 数字，毫秒数
+let d = new Date(dateString);// '月/日/年'、'年/月/日 时间'、'年-月-日 时间'、'标椎日期格式'、'月(英) 日，年'
 let d = new Date(year, month, day, hours, minutes, seconds, milliseconds);
-day = d.getDate()// 1-31
-month = d.getMonth() // 0-11
+
+// Date实例的方法
+time = d.getTime()// 获取总毫秒数
+year = d.getFullYear()// 获取年份
+month = d.getMonth() // 获取月份，0-11
+date = d.getDate()// 获取日，1-31
+day = d.getDay()// 获取星期几，0~6
+hour = d.getHours()// 获取小时，0~23
+minutes = d.getMinutes()// 获取分钟，0~59
+seconds = d.getSeconds()// 获取秒，0~59
+
+// 标准日期格式转换为 xxxx-xx-xx xx:xx:xx
+let d = new Date()
+year = d.getFullYear()
+month = d.getMonth() + 1 < 10 ? '0' + d.getMonth() : d.getMonth()
+date = d.getDate()
+hour = d.getHours() + 1 < 10 ? '0' + d.getHours() : d.getHours()
+minutes = d.getMinutes() + 1 < 10 ? '0' + d.getMinutes() : d.getMinutes()
+seconds = d.getSeconds() + 1 < 10 ? '0' + d.getSeconds() : d.getSeconds()
+let result = year + '-' + month + '-' + date + ' ' + hour + ':' + minutes + ':'+ seconds
 ```
+#### RegExp函数
+表示正则表达式对象，
