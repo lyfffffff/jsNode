@@ -110,6 +110,7 @@
     //                 }
     // }
     </script>
+<script type="text/javascript" src="https://cn.vuejs.org/js/vue.js"></script>
 </head>
 
 <body id="body">
@@ -157,12 +158,39 @@
         <div style="height:20px; border:1px solid saddlebrown;z-index: 9;">3</div>
     </div> -->
     <!-- </div> -->
-    <button id="increment">增加</button>
-    <button id="decrement">减少</button>
+    <!-- <button id="increment">增加</button>
+    <button id="decrement">减少</button> -->
     <!-- <div id="child_1">child_1</div>
     <div id="child_2">child_2</div> -->
-    <div id="tree">s</div>
-</body>
-</body>
+    <!-- <div id="tree">s</div> -->
 
+  <div id="app">
+    <template>
+      <div ref="list">{{name}}</div>
+    </template>
+  </div>
+  <script type="text/javascript">
+    new Vue({
+      el: '#app',
+      data: {
+        name: 'kongzhi111'
+      },
+      mounted() {
+        this.updateData();
+      },
+      methods: {
+        updateData() {
+          this.name = 'kongzhi222';
+          // 此时data数据变了,但是还没有更新dom节点
+          console.log(this.$refs.list.textContent); // 打印 kongzhi111
+          this.$nextTick(() => {
+            // 数据改变,dom节点更新后,才会触发
+            console.log(this.$refs.list.textContent); // 打印 kongzhi222
+          });
+        }
+      }
+    })
+  </script>
+
+</body>
 </html>

@@ -681,6 +681,67 @@ justify-content: center，若盒子移位了，表示溢出
   
   ```
 
+- 继承
+  通过 ES6 的关键字 extends 继承，若没有设置其他则相当于继承了父类的所有属性和方法。若在子类中自定义 constructor 设置 this 实例属性，必须使用 super 关键字继承父类的构造函数，因为 ES6 是先在解析父类的属性，再用子类的构造函数覆盖，super 就是使其先继承父类的构造函数，不设置则报错，且必须设置在最前面，不然也是跨父类了。super 作为函数调用只能在构造函数中，作为对象调用不受限，super 作为对象时在**普通方法**中指向父类的原型对象，即父类的静态方法；在**静态方法**中指向父类，即父类的普通方法。
+
+  ```js
+  class Farther{
+      constructor(x,y){
+          this.x = x;
+          this.y = y
+      }
+  }
+  class Son extends Farther{}// 没有构造函数，可以不使用super
+  class Son extends Farther{
+      constructor(x,y){
+          // 有构造函数，必须使用super
+          this.x = 111 // 报错，因为没有经过父类
+          super(x) // 将传入实例的参数赋值给父类，this.x = x
+          this.x = 1111 // 在此之前 this.x = x，在此之后 x == 1111
+      }
+  }
+  ```
+
+# Vue
+
+### 自定义指令
+
+可以全局和局部自定义指令，使用 directive 注册一个指令，并设置其钩子函数，全局则是调用Vue原型方法 Vue.directive('orderName',{pFunction1,pFunction2})，局部则是属性对象 directives:{orderName1:{pFunction1,pFunction2},orderName2:{pFunction1,pFunction2}}，在 dom 元素中使用 v-orderName 即可，也可绑定属性
+
+#### 自定义指令的钩子函数(pFunction) 五个
+
+- bind
+  绑定时调用，只调用一次，类似于 created 周期函数，此时元素还没有渲染
+- inserted
+  插入时调用
+- update
+  更新时调用，此时 dom 更新前
+- componentUpdate
+  在 dom 更新完毕后调用
+- unbind
+  解绑时调用，例如元素销毁
+
+#### 钩子函数的参数
+
+使用这些钩子函数时，固定有几个参数
+
+- el
+  表示绑定指令的元素，可以直接操作修改元素
+- binding
+  一个**对象**，包含一些具体的属性
+  - name
+    为指令名称，不含 v-
+  - value
+    为指令绑定的值，v-xxx="name"，自定义指令没有:绑定符号，故需要此属性找寻 data 中的 name 属性或 name 函数，无则警告
+  - expression
+    为指令绑定的字符串，以上直接返回 'name'
+  - arg
+    为指令传入的参数，使用 ':' 符号绑定，例如 v-xxx:name，即传给指令一个参数 'name'
+  - modifiers
+    一个对象，使用 '.' 绑定，不限个数，例如 v-xxx.a.b，显示 {a:true, b:true}
+- vnode
+- oldValue
+
 # 零碎
 
 #### Promise调用的区别
