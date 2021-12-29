@@ -607,15 +607,60 @@ justify-content: center，若盒子移位了，表示溢出
   elsment.removeEventListener('click',function{1})// 不会移除,因为这只是长的一样的函数
   ```
 
-# vue
+# Vue
 
-#### vue事件
+#### Vue事件
 
-通过vue发送的事件，而不是dom事件，一般使用emit发送，on接收，off去除，和标准dom事件监听addEventListener、removeEventListener相对应
+通过 Vue 发送的事件，而不是 dom 事件，一般使用 emit 发送，on 接收，off 去除，和标准 dom 事件监听 addEventListener、removeEventListener 相对应
 
 - vue.$emit(event,attrbutes)
   参数1 event 为表示事件的字符串，类似于dom事件的'click'、'mousedown'，但是这个没有固定的限制
-  参数2 attributes 表示
+  参数2 attributes 表示传给监听事件回调函数的参数
+  本质上是给本组件监听，可以在本组件使用 vue.$on 和 vue.$once 监听，在父组件则是使用 v-on 监听子组件传出的事件
+
+  ```js
+  <son @sonEvent="handle"></son>  
+  ```
+
+- vue.$on()
+
+### 自定义指令
+
+可以全局和局部自定义指令，使用 directive 注册一个指令，并设置其钩子函数，全局则是调用Vue原型方法 Vue.directive('orderName',{pFunction1,pFunction2})，局部则是属性对象 directives:{orderName1:{pFunction1,pFunction2},orderName2:{pFunction1,pFunction2}}，在 dom 元素中使用 v-orderName 即可，也可绑定属性
+
+#### 自定义指令的钩子函数(pFunction) 五个
+
+- bind
+  绑定时调用，只调用一次，类似于 created 周期函数，此时元素还没有渲染
+- inserted
+  插入时调用
+- update
+  更新时调用，此时 dom 更新前
+- componentUpdate
+  在 dom 更新完毕后调用
+- unbind
+  解绑时调用，例如元素销毁
+
+#### 钩子函数的参数
+
+使用这些钩子函数时，固定有几个参数
+
+- el
+  表示绑定指令的元素，可以直接操作修改元素
+- binding
+  一个**对象**，包含一些具体的属性
+  - name
+    为指令名称，不含 v-
+  - value
+    为指令绑定的值，v-xxx="name"，自定义指令没有:绑定符号，故需要此属性找寻 data 中的 name 属性或 name 函数，无则警告
+  - expression
+    为指令绑定的字符串，以上直接返回 'name'
+  - arg
+    为指令传入的参数，使用 ':' 符号绑定，例如 v-xxx:name，即传给指令一个参数 'name'
+  - modifiers
+    一个对象，使用 '.' 绑定，不限个数，例如 v-xxx.a.b，显示 {a:true, b:true}
+- vnode
+- oldValue
 
 # ES6
 
@@ -702,45 +747,192 @@ justify-content: center，若盒子移位了，表示溢出
   }
   ```
 
-# Vue
+## HTTP请求
 
-### 自定义指令
+超文本传输协议，基于 tcp，有 0.9、1、1.1、2 等版本，常见发送 HTTP 请求的方式有 AJAX 和 axios
 
-可以全局和局部自定义指令，使用 directive 注册一个指令，并设置其钩子函数，全局则是调用Vue原型方法 Vue.directive('orderName',{pFunction1,pFunction2})，局部则是属性对象 directives:{orderName1:{pFunction1,pFunction2},orderName2:{pFunction1,pFunction2}}，在 dom 元素中使用 v-orderName 即可，也可绑定属性
+### AJAX请求
 
-#### 自定义指令的钩子函数(pFunction) 五个
+创建一个ajax请求一般分为五步。
 
-- bind
-  绑定时调用，只调用一次，类似于 created 周期函数，此时元素还没有渲染
-- inserted
-  插入时调用
-- update
-  更新时调用，此时 dom 更新前
-- componentUpdate
-  在 dom 更新完毕后调用
-- unbind
-  解绑时调用，例如元素销毁
+- 1、创建对象
 
-#### 钩子函数的参数
+  ```js
+  let xhr = new XMLHttpRequest()
+  ```
 
-使用这些钩子函数时，固定有几个参数
+- 2、使用 open 设置请求
 
-- el
-  表示绑定指令的元素，可以直接操作修改元素
-- binding
-  一个**对象**，包含一些具体的属性
-  - name
-    为指令名称，不含 v-
-  - value
-    为指令绑定的值，v-xxx="name"，自定义指令没有:绑定符号，故需要此属性找寻 data 中的 name 属性或 name 函数，无则警告
-  - expression
-    为指令绑定的字符串，以上直接返回 'name'
-  - arg
-    为指令传入的参数，使用 ':' 符号绑定，例如 v-xxx:name，即传给指令一个参数 'name'
-  - modifiers
-    一个对象，使用 '.' 绑定，不限个数，例如 v-xxx.a.b，显示 {a:true, b:true}
-- vnode
-- oldValue
+  ```js
+  xhr.open('method','url',isAsycn)
+  /*
+  * @params GET or POST
+  * @params  请求地址
+  * @params 是否异步，默认为true，即 send 后不必等到其执行完毕
+  */
+  ```
+
+- 3、使用 send 发送请求
+
+  ```js
+  xhr.send(requestData)
+  /*
+  * @params 请求时传的参数，因为默认传的内容为文本格式，故需要设置请求头，可传字符串和对象
+  * /
+  ```
+
+- 4、监听状态变化，一旦状态变化调用函数
+
+  ```js
+  xhr.onreadystatechange = function(){
+
+  }
+  ```
+
+- 5、根据返回的请求状态表示请求成功
+
+  ```js
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState == 4 && xhr.status == 200){
+            // 请求成功后的操作，一般操作 responseText
+        }
+    } 
+  ```
+
+- 6、其余设置
+
+解决传参不便的问题，需设置请求头
+
+```js
+xhr.RequestHeader('Content-Type','application/x-www-form-urlencoded;charset=UTF-8')
+```
+
+### axios
+
+axios 是一个外部库，使用前需安装或引入。常用的 axios 方法参数都是不定的，可以只传一个 url 字符串，将参数拼至 url 后。也可以传多个参数，常见的方法有：axios()、axios.request()、axios.post()、axios.get()、axios.all()、axios.create()
+
+```js
+// 安装或引入 axios
+npm install axios
+import axios from 'axios';
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+```
+
+#### 请求配置项
+
+当直接使用 axios 时，传入一个定义关于请求的对象。
+
+```js
+{
+  url:'/user',
+  method:'get'//default
+  baseURL:'https://some-domain.com/api/',
+  transformRequest:[function(data){
+    //在这里根据自己的需求改变数据
+    return data;
+  }],
+  //`transformResponse`选项允许我们在数据传送到`then/catch`方法之前对数据进行改动
+  transformResponse:[function(data){
+    //在这里根据自己的需求改变数据
+    return data;
+  }],
+  //`headers`选项是需要被发送的自定义请求头信息
+  headers: {'X-Requested-With':'XMLHttpRequest'},
+  //`params`选项是要随请求一起发送的请求参数----一般链接在URL后面
+  //他的类型必须是一个纯对象或者是URLSearchParams对象
+  params: {
+    ID:12345
+  },
+  //`paramsSerializer`是一个可选的函数，起作用是让参数（params）序列化
+  paramsSerializer: function(params){
+    return Qs.stringify(params,{arrayFormat:'brackets'})
+  },
+  //`data`选项是作为一个请求体而需要被发送的数据
+  //该选项只适用于方法：`put/post/patch`
+  //当没有设置`transformRequest`选项时dada必须是以下几种类型之一
+  //string/plain/object/ArrayBuffer/ArrayBufferView/URLSearchParams
+  //仅仅浏览器：FormData/File/Bold
+  //仅node:Stream
+  data {
+    firstName:"Fred"
+  },
+  //`timeout`选项定义了请求发出的延迟毫秒数
+  //如果请求花费的时间超过延迟的时间，那么请求会被终止
+
+  timeout:1000,
+  //`withCredentails`选项表明了是否是跨域请求
+  
+  withCredentials:false,//default
+  //`adapter`适配器选项允许自定义处理请求，这会使得测试变得方便
+  //返回一个promise,并提供验证返回
+  adapter: function(config){
+    /*..........*/
+  },
+  //`auth`表明HTTP基础的认证应该被使用，并提供证书
+  //这会设置一个authorization头（header）,并覆盖你在header设置的Authorization头信息
+  auth: {
+    username:"zhangsan",
+    password: "s00sdkf"
+  },
+  //返回数据的格式
+  //其可选项是arraybuffer,blob,document,json,text,stream
+  responseType:'json',//default
+  //
+  xsrfCookieName: 'XSRF-TOKEN',//default
+  xsrfHeaderName:'X-XSRF-TOKEN',//default
+  //`onUploadProgress`上传进度事件
+  onUploadProgress:function(progressEvent){
+    //下载进度的事件
+onDownloadProgress:function(progressEvent){
+}
+  },
+  //相应内容的最大值
+  maxContentLength:2000,
+  //`validateStatus`定义了是否根据http相应状态码，来resolve或者reject promise
+  //如果`validateStatus`返回true(或者设置为`null`或者`undefined`),那么promise的状态将会是resolved,否则其状态就是rejected
+  validateStatus:function(status){
+    return status >= 200 && status <300;//default
+  },
+  //`maxRedirects`定义了在nodejs中重定向的最大数量
+  maxRedirects: 5,//default
+  //`httpAgent/httpsAgent`定义了当发送http/https请求要用到的自定义代理
+  //keeyAlive在选项中没有被默认激活
+  httpAgent: new http.Agent({keeyAlive:true}),
+  httpsAgent: new https.Agent({keeyAlive:true}),
+  //proxy定义了主机名字和端口号，
+  //`auth`表明http基本认证应该与proxy代理链接，并提供证书
+  //这将会设置一个`Proxy-Authorization` header,并且会覆盖掉已经存在的`Proxy-Authorization`  header
+  proxy: {
+    host:'127.0.0.1',
+    port: 9000,
+    auth: {
+      username:'skda',
+      password:'radsd'
+    }
+  },
+  //`cancelToken`定义了一个用于取消请求的cancel token
+  //详见cancelation部分
+  cancelToken: new cancelToken(function(cancel){
+
+  })
+}
+```
+
+#### 常见的请求状态码
+
+|  状态码   | 功能  |
+|  ----  | ----  |
+| 100 | 继续请求 |
+| 200 | 请求成功 |
+| 202 | 请求已接收，但未处理 |
+| 204 | 请求已处理，但是没有返回任何实体内容，可能只更新了头部信息 |
+| 301 | 请求已转移url |
+| 404 | 请求失败，资源没有找到或不存在 |
+| 500 | 服务器出错，无法完成请求 |
+| 503 | 服务器由于过载或维护，无法完成当前请求 |
+
+####
 
 # 零碎
 
