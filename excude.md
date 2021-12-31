@@ -823,13 +823,15 @@ import axios from 'axios';
 
 当直接使用 axios(paramObj) 时，传入一个定义关于请求的对象。
 
+- transformRequest、transformResponse 的格式是 数组嵌套函数，其中函数的参数就是请求参数，需返回一个值，表示操作后的请求参数:[function(data){return data}]。
+- params 和 data 的区别：params 拼接在 url 后，但是 data 作为一个请求体被发送。get 请求没有 data 属性，该属性仅存在 put/post/patch 中
+
 ```js
 {
     url:'',
     method:''
     baseURL:'',
-    // 在发送请求前操作参数，属性为一个 数组嵌套函数 的形式，其中函数的参数就是请求参数，需返回一个值，表示操作后的请求参数:[function(data){return data}]。
-    // 作用：将 undefined、null 转为空，或者将 Array -> &字符串
+    // 在请求发送之前，对数据进行改动。例如：将 undefined、null 转为空，或者将 Array -> &字符串
     transformRequest:[function(data){
     // 此处根据需求改变数据
     return data;
@@ -849,8 +851,6 @@ import axios from 'axios';
     params: {
     ID:
     },
-    // params 拼接在 url 后，但是 data 作为一个请求体被发送
-    // get 请求没有 data 属性，该属性仅存在 put/post/patch 中
     data {
     firstName:
     },
