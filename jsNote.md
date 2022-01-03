@@ -300,4 +300,25 @@ seconds = d.getSeconds() + 1 < 10 ? '0' + d.getSeconds() : d.getSeconds()
 let result = year + '-' + month + '-' + date + ' ' + hour + ':' + minutes + ':'+ seconds
 ```
 #### RegExp函数
-表示正则表达式对象，
+表示正则表达式对象，通常模式为 /xxx/xx ，其中xxx表示需要匹配的模式，xx表示属性，例如是否全局，是否区分大小写
+```js
+let pattern = new RegExp('.at','g')// 全局 匹配所有以 at 结尾的字符串
+let pattern = /.at/g
+pattern.lastIndex // 实例有一个 lastIndex 属性，表示上次匹配的结尾位置，只在全局匹配+y下起作用
+```
+- 匹配属性
+g、i、y、m 分别表示全局匹配、不区分大小写、从lastIndex开始匹配、匹配多行
+- 实例属性
+用于检查匹配属性，例如 pattern.global 检查正则表达式实例是否设置全局匹配。此外还有 ingoreCase、lastIndex等
+- 实例方法
+用于检查字符串是否符合匹配，例如 pattern.exec()、pattern.test()。皆是传入一个字符串，前者返回一个Array，其中有两个属性：input 和 index，分别表示匹配，和匹配的开始下标，Array 的项为表示可以作为匹配项的字符串；后者是返回 true、false，表示是否匹配。
+```js
+let pattern = /.at/g
+let test = 'cat,gat'
+let match = pattern.exec(test)
+match.input = 'cat'
+match.index = 0
+match[0] = 'cat'
+pattern.lastIndex = 3
+let match_1 = pattern.exec(test) // true
+```
