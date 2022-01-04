@@ -376,3 +376,18 @@ console.log(s.hello) // 为空，因为被销毁了
   str.chatCodeAt(2)// 99 == 0x63  
   String.fromCharCode(0x61,0x62,0x63)// 'abc'
   ```
+  对于subdtring来说，当前者大于后者时，交换位置，substr则不是，因为第二位就是长度
+```js
+let str = 'hello'
+undefined
+str.slice(1,2) //'e'
+str.substr(1,2) //'el'
+str.substring(1,2) //'e'
+str.slice(-1) //'o'
+str.substr(-1) //'o'
+str.substring(-1) //'hello'
+str.slice(-1,-2) //等价于str.slice(4,3) == ''
+str.substr(-1,-2) //等价于str.subsr(4,0) == ''
+str.substring(-1,-2) // 等价于 str.substring(0,0) == ''
+''
+```
