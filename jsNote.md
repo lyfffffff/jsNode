@@ -299,19 +299,24 @@ minutes = d.getMinutes() + 1 < 10 ? '0' + d.getMinutes() : d.getMinutes()
 seconds = d.getSeconds() + 1 < 10 ? '0' + d.getSeconds() : d.getSeconds()
 let result = year + '-' + month + '-' + date + ' ' + hour + ':' + minutes + ':'+ seconds
 ```
+
 #### RegExp函数
+
 表示正则表达式对象，通常模式为 /xxx/xx ，其中xxx表示需要匹配的模式，xx表示属性，例如是否全局，是否区分大小写
+
 ```js
 let pattern = new RegExp('.at','g')// 全局 匹配所有以 at 结尾的字符串
 let pattern = /.at/g
 pattern.lastIndex // 实例有一个 lastIndex 属性，表示上次匹配的结尾位置，只在全局匹配+y下起作用
 ```
+
 - 匹配属性
-g、i、y、m 分别表示全局匹配、不区分大小写、从lastIndex开始匹配、匹配多行
+  g、i、y、m 分别表示全局匹配、不区分大小写、从lastIndex开始匹配、匹配多行
 - 实例属性
-用于检查匹配属性，例如 pattern.global 检查正则表达式实例是否设置全局匹配。此外还有 ingoreCase、lastIndex等
+  用于检查匹配属性，例如 pattern.global 检查正则表达式实例是否设置全局匹配。此外还有 ingoreCase、lastIndex等
 - 实例方法
-用于检查字符串是否符合匹配，例如 pattern.exec()、pattern.test()。皆是传入一个字符串，前者返回一个Array，其中有两个属性：input 和 index，分别表示匹配，和匹配的开始下标，Array 的项为表示可以作为匹配项的字符串；后者是返回 true、false，表示是否匹配。
+  用于检查字符串是否符合匹配，例如 pattern.exec()、pattern.test()。皆是传入一个字符串，前者返回一个Array，其中有两个属性：input 和 index，分别表示匹配，和匹配的开始下标，Array 的项为表示可以作为**匹配项**的字符串，例如 /check(myheart)/，那么 Array 应是 ['checkmyheart','myheart']，若是全局匹配（g），则每调用一次 exec 方法，结果都会改变，因为 lastIndex 修改，此方法是从 lastIndex 开始匹配的；后者是返回 true、false，表示是否匹配。
+
 ```js
 let pattern = /.at/g
 let test = 'cat,gat'
@@ -320,5 +325,47 @@ match.input = 'cat'
 match.index = 0
 match[0] = 'cat'
 pattern.lastIndex = 3
-let match_1 = pattern.exec(test) // true
+let match_1 = pattern.exec(test)// 从 lastIndex 往后匹配
+match_1.input = 'gat'
+match.index = 5
+match[0]= 'gat'
+pattern.lastIndex = 7
 ```
+
+#### 原始类型的类型
+
+即 Boolean、Number、String 的构造函数，原始值在使用到其构造函数的属性方法时，其实是手动生成一个实例，完成操作，并在下一行之前销毁
+
+```js
+let s = 'hello'
+s.hello = 'xixi' // 其实等于 new String(s).hello = 'xixi'
+// 先销毁上面的 new String
+console.log(s.hello) // 为空，因为被销毁了
+```
+
+- Boolean 函数
+  形如 new Boolean(true)，传入一个 true 或 false，不传默认为 false，改写 toString 和 valueOf，返回 'true' 和 true；但是 Boolean 对象和 Boolean 值不一样，因为对象的布尔值默认为 true，故 new Boolean(false) == true，但是我本意是想设置一个false，只能使用 new Boolean(false).valueOf，所以会造成歧义，不建议使用。
+  此外，使用构造函数实例化原始类型，还造成 typeof 和 instanceof 判断失效，即判断为 object 而不是 number，故都不建议使用。
+
+  ```js
+  let b1 = new Boolean(true)
+  let b2 = true
+  typeof b1 // 'object'
+  typeof b2 // 'boolean'
+  b1 instanceof Boolean // true
+  b2 instanceof Boolean // false
+  ```
+
+- Number 函数
+  改写了 valueOf、toString、和 toLocaleString 方法。其中 toString 可以传一个参数，代表底基，将数值转为 n 进制的数值后**转为字符串**，Number 还携带其他将数值转为不同类型字符串的方法，例如 toFixed() 方法，可以传一个参数，表示数值保留几位小数后转为字符串。此外还有 toExponential()，使用科学计数法记录数值并转为字符串，同样可以传一个参数，表示小数点位数。此外还有 toPrecision()，表示将数值转为科学计数法并转为字符串，传一个参数，表示总保留位数。Number.isInteger() 传入一个数值，判断是否是整数，小数位为 0 也认为是整数。toLocaleStirng 将数值在特定语言环境下的表示字符串，接收两个参数，参数一为字符串，表示地区数字格式的差异，参数二为对象，自定义属性
+
+  ```js
+  let num = 1233
+  num.toFixed(2) // 1233.00
+  num.toExponential(2)// 1.23e+3
+  num.toPrecision(2) // 1.2e+3
+  Number.isInteger(1.0)// true
+  ```
+
+- String 函数
+  同样改写了valueOf、toString、和 toLocaleString 方法。还有一个length对象
