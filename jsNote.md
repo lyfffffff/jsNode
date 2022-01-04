@@ -368,4 +368,11 @@ console.log(s.hello) // 为空，因为被销毁了
   ```
 
 - String 函数
-  同样改写了valueOf、toString、和 toLocaleString 方法。还有一个length对象
+  同样改写了valueOf、toString、和 toLocaleString 方法。还有一个 length 属性，表示字符串长度。str.charAt()，表示字符串的指定索引的字符，传入一个数值，表示索引，从 0 开始计算。str.charCodeAt()，表示字符串指定索引值的字符的 Unicode 值，传入一个数值表示索引值，返回值为一个十进制的数值，可将其转为16进制的，就可以对照 Unicode 表。fromCharCode()，表示将 Unicode 转为字符串，可以传多个 Unicode，该方法会将其拼接并返回。
+
+  ```js
+  let str = 'abcde'
+  str.chatAt(2)// 'c'
+  str.chatCodeAt(2)// 99 == 0x63  
+  String.fromCharCode(0x61,0x62,0x63)// 'abc'
+  ```
