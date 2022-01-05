@@ -1,3 +1,5 @@
+[TOC]
+
 ## 二、javaScript
 
 #### js标签的属性
@@ -334,7 +336,7 @@ pattern.lastIndex = 7
 
 #### 原始类型的类型
 
-即 Boolean、Number、String 的构造函数，原始值在使用到其构造函数的属性方法时，其实是手动生成一个实例，完成操作，并在下一行之前销毁
+即 Boolean、Number、String 的构造函数，原始值在使用到其构造函数的属性方法时，其实是手动生成一个实例，完成操作，并在下一行之前销毁。有一些是实例方法，有一些是函数方法。
 
 ```js
 let s = 'hello'
@@ -368,7 +370,7 @@ console.log(s.hello) // 为空，因为被销毁了
   ```
 
 - String 函数
-  同样改写了valueOf、toString、和 toLocaleString 方法。还有一个 length 属性，表示字符串长度。str.charAt()，表示字符串的指定索引的字符，传入一个数值，表示索引，从 0 开始计算。str.charCodeAt()，表示字符串指定索引值的字符的 Unicode 值，传入一个数值表示索引值，返回值为一个十进制的数值，可将其转为16进制的，就可以对照 Unicode 表。fromCharCode()，表示将 Unicode 转为字符串，可以传多个 Unicode，该方法会将其拼接并返回。
+  同样改写了valueOf、toString、和 toLocaleString 方法。还有一个 length 属性，表示字符串长度。str.charAt()，表示字符串的指定索引的字符，传入一个数值，表示索引，从 0 开始计算。str.charCodeAt()，表示字符串指定索引值的字符的 Unicode 值，传入一个数值表示索引值，返回值为一个十进制的数值，可将其转为16进制的，就可以对照 Unicode 表。String.fromCharCode()，表示将 Unicode 转为字符串，可以传多个 Unicode，该方法会将其拼接并返回。
 
   ```js
   let str = 'abcde'
@@ -376,7 +378,19 @@ console.log(s.hello) // 为空，因为被销毁了
   str.chatCodeAt(2)// 99 == 0x63  
   String.fromCharCode(0x61,0x62,0x63)// 'abc'
   ```
-  对于subdtring来说，当前者大于后者时，交换位置，substr则不是，因为第二位就是长度
+
+  - String 的方法
+  str.contact 拼接字符串，可以传 1~n 个参数，参数为字符串，按参数顺序拼接在调用此方法的字符串后。截取字符串的方法有 slice、substr、subString，主要使用 slice，皆可以传 1~2 个数值参数。
+  如何区分 substr 和 substring：对于 substring 来说，当前者大于后者时，交换位置，substr则不是，因为第二位就是长度
+
+|属性|slice|substr|substirng|
+|------|-|-|-|
+|参数1|截取开始，表示字符串的索引，从0开始|
+|参数1_负数 | 参数1+字符串长度 | 参数1+字符串长度 | 0 |
+|参数2| 截取结束的字符串索引| 长度 | 截取结束的字符串索引|
+|参数2_负数 | 参数2+字符串长度 | 参数2+字符串长度 | 0 |
+|参数2 < 参数1 | 空字符串 | 没影响，因为参数2表示截取长度 | 交换位置 |
+
 ```js
 let str = 'hello'
 undefined
@@ -391,3 +405,18 @@ str.substr(-1,-2) //等价于str.subsr(4,0) == ''
 str.substring(-1,-2) // 等价于 str.substring(0,0) == ''
 ''
 ```
+
+- indexOf 和 lastIndexOf
+  皆是传 1~2 个参数，参数为字符串，返回字符串匹配的索引，indexOf 返回首次出现的第一个**单词**的索引，从 0 开始。lastIndexOf 返回最后一次匹配的索引。参数2表示开始搜索的位置
+- 判断是否包含字符串
+  在日常使用中，常使用 indexOf 判断是否包含某个字符串，但其实真正判断是否包含的是 inclueds。有 startsWith、endsWith、includes 三个判断是否包含，但是前两种有缺点，第一种只能从索引 0 开始匹配，第二种只能从索引 str.length - sub.length 开始匹配，而 includes 直接检查整个字符串，includes 和 startsWith 可以传第二个参数，表示开始匹配的索引，endsWith 的第二个参数代替 str.length。
+
+  ```js
+  let test = 'name'
+  test.startsWith('na')// true
+  test.startsWith('a')// false
+  test.endsWith('e')// 4-1 = 3 == e true
+  test.endsWith('m')// false
+  ```
+
+-
