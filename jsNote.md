@@ -409,8 +409,8 @@ str.substring(-1,-2) // 等价于 str.substring(0,0) == ''
 - indexOf 和 lastIndexOf
   皆是传 1~2 个参数，参数为字符串，返回字符串匹配的索引，indexOf 返回首次出现的第一个**单词**的索引，从 0 开始。lastIndexOf 返回最后一次匹配的索引。参数2表示开始搜索的位置
 - 判断是否包含字符串
-  在日常使用中，常使用 indexOf 判断是否包含某个字符串，但其实真正判断是否包含的是 inclueds。有 startsWith、endsWith、includes 三个判断是否包含，但是前两种有缺点，第一种只能从索引 0 开始匹配，第二种只能从索引 str.length - sub.length 开始匹配，而 includes 直接检查整个字符串，includes 和 startsWith 可以传第二个参数，表示开始匹配的索引，endsWith 的第二个参数代替 str.length。
-
+  在日常使用中，常使用 indexOf 判断是否包含某个字符串，但其实真正判断是否包含的是 inclueds。有 startsWith、endsWith、includes 三个判断是否包含，但是前两种有缺点，第一种必须从索引 0 开始匹配，第二种必须从索引 str.length - sub.length 开始匹配，而 includes 直接检查整个字符串，includes 和 startsWith 可以传第二个参数，表示开始匹配的索引，endsWith 的第二个参数代替 str.length。
+  其中，includes 对比 indexOf ，选择 includes。
   ```js
   let test = 'name'
   test.startsWith('na')// true
@@ -418,5 +418,29 @@ str.substring(-1,-2) // 等价于 str.substring(0,0) == ''
   test.endsWith('e')// 4-1 = 3 == e true
   test.endsWith('m')// false
   ```
+- trim()、repeat()
+trim 删除字符串前后所有空格，repeat 可以传一数值，表示重复次数，将重复的字符串拼接，并返回。
 
--
+- padStart() 和 padEnd()
+扩展字符串，可以传 1~2 个参数，参数1表示最终字符串长度，若小于原本长度，则返回原字符串，若大于原本长度，则根据 padStart/padEnd 在字符串前后填充参数2，其中参数2默认为空格，可以传一个字符串，循环填充。
+
+- 改变字符串大小写
+toLowerCase、toLocaleLowerCase、toUpperCase、toLocaleUpperCase。前两个将字符串小写，后两个将字符串大写。加Locale表示地区
+
+- 字符串匹配正则表达式
+前面使用 exec 和 test，都是正则对象匹配字符串，其实字符串也有匹配正则的方法 match 和 search 前者返回一个数组包含匹配项，后者返回匹配到的索引值，不匹配返回 -1。此外还有一个匹配修改字符串的，replace 传入两个参数，参数1表示查询的匹配项，参数2表示将其替换成的项，若有多处匹配，只修改第一次匹配到的项，但是若参数1是正则表达式，且有全局标识g，就会修改整个字符串。最后一个是 split，匹配字符串切割数组，参数1是需匹配的字符串，可以传正则表达式，参数2是最终数组长度，若切割超过，也只保留这么多。
+```js
+let str = 'test'
+let pattern = /te/g
+str.match(pattern) // ['te']
+str.search(pattern)// 0
+str.replace('t','l')// 'lest'
+str.replace(/t/g,h) // 'hesh'
+let color = 'red,bule,green,yellow'
+color.split(',',2)// ['red','bule']保留前两个。
+``` 
+- 比较两个字符串
+localeCompare 
+
+#### 其他内置对象
+最熟悉的就是 Math 和 Global 对象，何时何地都能使用的内置对象。Global 表示全局作用域对象
