@@ -607,6 +607,20 @@ justify-content: center，若盒子移位了，表示溢出
   elsment.removeEventListener('click',function{1})// 不会移除,因为这只是长的一样的函数
   ```
 
+#### toString 和 valueOf 的区别
+
+toString 返回一个表示该对象的字符串。valueOf 返回一个对象的原始值，即调用此方法的是什么类型，转换后仍是该类型。
+
+| 类型 | 值 | valueOf  | 值 |toString | 值 |
+| - | - | - | - | - | - |
+| Array | [1,2,3] | 数组 | [1,2,3] | 字符串 | '1,2,3' |
+| Boolean | true | 布尔值 | true | 字符串 | 'true' |
+| Number | 123 | 数值 | 123 | 字符串 | '123' |
+| String | '123' | 字符串 | '123' | 字符串 | '123' |
+| Object | {name:'lyf'} | 对象 | {name:'lyf'} | 字符串 | '[object Object]' |
+| Date* | new Date() | 数值时间戳 | 1213145466 | 字符串标准日期格式 | 'Fri Dec 23 2016 11:24:47 GMT+0800 (中国标准时间)' |
+| Function | function fn(){} | 函数 | function fn(){} | 函数字符串 | 'function fn(){}' |
+
 # Vue
 
 #### Vue事件

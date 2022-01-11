@@ -411,6 +411,7 @@ str.substring(-1,-2) // 等价于 str.substring(0,0) == ''
 - 判断是否包含字符串
   在日常使用中，常使用 indexOf 判断是否包含某个字符串，但其实真正判断是否包含的是 inclueds。有 startsWith、endsWith、includes 三个判断是否包含，但是前两种有缺点，第一种必须从索引 0 开始匹配，第二种必须从索引 str.length - sub.length 开始匹配，而 includes 直接检查整个字符串，includes 和 startsWith 可以传第二个参数，表示开始匹配的索引，endsWith 的第二个参数代替 str.length。
   其中，includes 对比 indexOf ，选择 includes。
+
   ```js
   let test = 'name'
   test.startsWith('na')// true
@@ -418,6 +419,7 @@ str.substring(-1,-2) // 等价于 str.substring(0,0) == ''
   test.endsWith('e')// 4-1 = 3 == e true
   test.endsWith('m')// false
   ```
+
 - trim()、repeat()
 trim 删除字符串前后所有空格，repeat 可以传一数值，表示重复次数，将重复的字符串拼接，并返回。
 
@@ -429,8 +431,9 @@ toLowerCase、toLocaleLowerCase、toUpperCase、toLocaleUpperCase。前两个将
 
 - 字符串匹配正则表达式
 前面使用 exec 和 test，都是正则对象匹配字符串，其实字符串也有匹配正则的方法 match 和 search 前者返回一个数组包含匹配项，后者返回匹配到的索引值，不匹配返回 -1。此外还有一个匹配修改字符串的，replace 传入两个参数，参数1表示查询的匹配项，参数2表示将其替换成的项，若有多处匹配，只修改第一次匹配到的项，但是若参数1是正则表达式，且有全局标识g，就会修改整个字符串。最后一个是 split，匹配字符串切割数组，参数1是需匹配的字符串，可以传正则表达式，参数2是最终数组长度，若切割超过，也只保留这么多。
+
 ```js
-let str = 'test'
+let str = 'test' 
 let pattern = /te/g
 str.match(pattern) // ['te']
 str.search(pattern)// 0
@@ -438,9 +441,241 @@ str.replace('t','l')// 'lest'
 str.replace(/t/g,h) // 'hesh'
 let color = 'red,bule,green,yellow'
 color.split(',',2)// ['red','bule']保留前两个。
-``` 
+str.padStart(5,',')// ',test'
+str.padEnd(5,'.')// 'test.'
+```
+
 - 比较两个字符串
-localeCompare 
+localeCompare
 
 #### 其他内置对象
-最熟悉的就是 Math 和 Global 对象，何时何地都能使用的内置对象。Global 表示全局作用域对象
+
+最熟悉的就是 Math 和 Global 对象，何时何地都能使用的内置对象。Global 表示全局作用域对象，有一个函数是 eval，接收一个字符串，字符串相当于要执行的表达式。
+
+```js
+eval("console.log('hi')")// 'hi'
+```
+
+## 六、集合引用类型
+
+### Object
+
+创建对象有两种方式，一个是实例化，一是对象字面量。
+
+```js
+let obj = new Object()
+let obj = {
+    name:'lyf'
+}
+```
+
+### Array
+
+创建对象也有两种方式，实例化和数组字面量。实例化可以传参数，传不同的参数，实例化的数组也不同。与对象一样，在使用数组字面量创建数组不会调用 Array 构造函数。Array 构造函数还有 from 和 of 方法（ES6），from 将类数组转为数组（具有 length 属性的变量都能称为类数组，包括字符串。根据 length 属性决定数组长度，只有类数字（'0',0）的属性才会被当做数组属性，根据属性大小决定数组顺序），接收第 2，3 个参数，Array.from(likeArray,callback,this) ，第二个参数表示数组后的回调函数，遍历每一项，操作后 return，组成一个新数组，类似 Array.map()；第三个参数表示回调函数中的 this 指向，当参数 2 不是箭头函数时起作用。of 创建数组。
+
+```js
+let arr = new Array(3) // [ , , ]
+let arr = new Array('3') // ['3']
+let arr = new Array('3','2') // ['3','2']
+Array.from('test') // ['t','e','s','t']
+Array.of(3) // [3]
+let likeArray = {
+    0:1,
+    1:3,
+    length:2
+}
+Array.from(likeArray,function(item){return item*this.attribute},{attribute:2}) // {length:2,0:1,1:3} -(from)> [1,3] -(function)> [2,6]
+
+```
+
+#### 数组的迭代器
+
+即遍历整个数组，返回数组的属性迭代器，有 keys、values、entries，因为返回是迭代器，所以需要 Array.from 将迭代器显示。
+
+```js
+let arr = [1,2,3]
+Array.from(arr.keys()) // [0,1,2]
+Array.from(arr.values()) // [1,2,3]
+Array.from(arr.entries()) // [[0,1],[1,2],[2,3]]
+```
+
+#### 复制和填充
+
+也是 ES6 后新增的方法，copyWith 类似于基因重组，将数组的某段变成数组的另一段，会改变原数组，但是数组大小不会变。传三个参数，参数一表示开始被覆盖的索引，参数二表示剪下的数组起始位置，参数三表示结束剪下的数组位置。fill 指定填充内容，参数一表示填充内容，参数二表示开始填充位置，参数三表示结束填充位置。
+
+```js
+[0,1,2,3,4,5].copyWith(0,3) // [3,4,5,3,4,5]
+[0,1,2,3,4,5].copyWith(0,3,4) // [3,1,2,3,4,5]
+Array.prototype.copyWith.call({ length : 5, 1 : 1, 2 : 2, 3 : 3 } , 0 , 3) 
+// likeArr -(call)> [ , 1 , 2 , 3 ,  ] -(copyWith)> [3, , 2 , 3 , ] -(likeArr)> {length : 5 , 0 : 3, 2 : 2, 3 : 3}
+```
+
+#### 严格相等
+
+即比较数组和方法参数时，使用 === 表示严格相等。包括 lastIndexOf、indexOf 和 includes（ES7）。参数一表示需要查找的元素，参数二表示开始查找的索引。但是 lastIndexOf 的参数二表示从该索引后往前搜索。若有找到就返回索引，没有就返回 -1。
+
+#### 迭代方法
+
+every、filter、forEach、map、some。
+
+#### 归并方法
+
+reduce 和 reduceRight。每次调用都操作前一次的结果，最终返回一个结果，皆有两个参数，参数一表示遍历回调函数，回调函数有四个 param，param1 表示前一次回调的结果，param2 表示本次的item，params 表示索引，param4 表示本数组。参数二表示第一次迭代时的 prev，若不填则默认 arr[0] 为 prev。reduceRight 则是从数组最后一位遍历至第一位。
+
+```js
+let arr = [1,2,3]
+arr.reduce((prev,now,index,arr) => { return prev + now}) // 1+2+3 = 6
+arr.reduceRight((prev,now,index,arr) => {return prev - now}) // 3-2-1 = 0
+```
+
+#### 所有归类
+
+| 类型 | 方法|
+| - | - |
+| 检测 | isArray、instanceof |
+| 迭代器方法 | entries、keys、values|
+| 复制和填充 | copyWithin、fill |
+| 转换方法 | valueOf、toString、toLocaleString |
+| 栈方法 | push、pop |
+| 队列方法 | push、shift |
+| 排序方法 | reserve、sort |
+| 操作方法 | slice、splice、contact |
+| 搜索和位置方法 | indexOf、lastIndexOf、includes、find、findIndex |
+| 迭代方法 | filter、map、forEach、some、every |
+| 归并方法 | reduce、reduceRight |
+
+### 定型数组
+
+#### ArrayBuffer
+
+在内存中分配特定数量的字节空间。作为所有定型数组和视图引用的基本单位。
+
+#### DataView
+
+视图对象，创建时必须要有 ArrayBuffer 作为参数。
+
+### Map
+
+俗称字典，以键值对的方式存储数据，实例化 Map 函数创建，可以传一个参数，为数组，数组的格式为 [[key1,value1],[key2,value2]]。 常见的方法是 set、get、has 调用操作字典，还有一个 size 属性，此外还有 delete 和 clear属性。字典的键是不限类型的，即函数、对象也能作为键，修改函数和对象时，键值和键同等改变。注意，修改对象时，若直接是 obj = xxx，其实不是修改，而是替换，因为指向的地址已经修改，需使用 obj.xxx
+
+```js
+let map = new Map()
+map.size // 0
+map.has('name') // false
+map.set('name','lyf')
+map.has('name') // true
+map.get('name') // 'lyf'
+map.set('age',18)
+map.set('height',188)
+map.size // 3
+map.delete('height') 
+map.size // 2
+map.clear()
+map.size // 0
+let fn = function(){
+    console.log('xxx')
+}
+map.set(fn,'fn') // 函数作为键
+```
+
+#### 迭代器
+
+字典也有 entries 迭代器，等价于 Symbol.iterator，即 map.entries == map[Symbol.iterator]，返回一个按插入顺序的键值数组。包括 keys 和value
+
+### WeakMap
+
+弱字典，拥有的功能和字典稍有不同，没有迭代器（entries、values、keys）、size 属性和 clear 方法，只有存取键和 delete。且只接受对象作为键名，null 虽然是对象，但是作为特殊对象，也不可以作为键滴，因为 WeakMap.set(key, val) 是通过 Object.definePoperty 给 key 加了一个新属性 this.name ，这就解释了为什么 WeakMap 的 key 必需是个 Object。弱的概念是对**对象的引用**是偏弱的，若正常的引用对象，则对象不会被垃圾回收，除非手动将引用移除。但是 WeakMap 可以正常销毁某个被引用的对象，该键自动消失。对于键值，是存储在 WeakMap 中的，不受外部影响的。
+
+```js
+let weak = new WeakMap()
+let obj = { name : 'lyf'}
+let res = {age : 18}
+weak.set(obj , res) // 设置键
+weak.get(obj) // 获取键 { age :18 }
+res = {age : 20} // 修改键值
+weak.get(obj) // 获取键 { age :18 } 不改变
+obj = null // 销毁了 obj
+weak.get(obj) // undefined 该建自动消失
+weak // WeakMap {}
+```
+
+### Set
+
+集合数据，非键值对，而是存储键的，每一个键都是唯一的，即多次添加同一个键，只会保存一次，实例化 Set 函数创建，可以传一个参数，为数组，数组的格式为 [key1,key2]。使用 add 添加，delete 和 clear 删除。delete 返回一个 boolean 值，若集合有此元素，返回 true ，否则返回 false。也有迭代器 entries、keys、values。
+
+```js
+let set = new Set()
+set.add('111') 
+```
+
+## 第七章、迭代器与生成器
+
+### 迭代器
+
+迭代即重复执行一段代码，有特定的退出迭代方法。迭代器模式即具备 Iterable 接口的可迭代对象， 有 Array、Map、Set、String、TypedArray，函数 arguments 对象和 NodeList 对象，这些对象**元素有限且具有无歧义的遍历顺序**。会暴露出一个属性 Symbol.iterator，该属性为一个函数，执行返回一个迭代器，每次调用迭代器的 next 方法，返回一个迭代结果（IteratorResult）的对象，包含属性 done 和 value，其中 done 为 Boolean 值，表示可否再次调用 next()，遍历到末尾时为 true；value 表示可迭代对象的值，当 done 为 true 时 value 为 undefined。
+一般不会使用此属性调用迭代器，而是在某些方法内部调用迭代器，例如 for...of、数组解构、扩展运算符、Array.from()、创建Set、Map，Promise.all()、Promise.race()、yield*。
+
+```js
+let arr = ['a','b','c'];
+let iter = arr[Symbol.iterator](); // 执行迭代器属性函数，返回迭代器
+iter.next() // 调用迭代器的 next 返回迭代器结果 {value:'a',done:false}
+iter.next() // {value: 'b',done:false}
+iter.next() // {value:'c',done:false}
+iter.next() // {value:undefined,done:true} 接下来调用都返回此
+
+// 修改迭代器
+class newArray{
+    constructor(stop){
+        this.stop = stop;
+    }
+    [Symbol.iterator](){ // 返回 this
+        return this;
+    }
+    next(){ // 在调用迭代器时使用
+            if(this.stop>0){
+                this.stop--
+                return {done:false,value:'xxx'}
+            }
+            return {done:true,value:'xxx'}
+    }
+}
+for (var value of new newArray(3)) {// [Symbol.iterator] -> next
+  console.log(value); // 'xxx'
+}
+```
+
+### 生成器
+
+生成器是函数，可以返回迭代器，为了区分生成器和普通函数，生成器函数的函数名一般带星号 function *test(){}，调用生成器函数时，并不执行函数内部代码，而是返回生成器对象，包含 Iterator 接口。调用生成器对象 next() 时，才执行函数内部，空生成器返回迭代结束 { done:true, value:undefined }，value 默认是 undefined，实际上是生成器函数的返回值，可以在生成器中修改。
+
+```js
+function *generatorFn(){
+}
+const g = generatorFn()
+g.next() // {value:undefined,done:true}
+
+// 自定义 return 
+function *generatorFn(){
+    return 'xxxx'
+}
+const g = generatorFn()
+g.next() // {value:'xxxx', done:true}
+```
+
+#### yield
+
+控制生成器开启和暂停，在遇到此关键词前，函数内部正常执行，遇到时执行停止，需要使用迭代器 next 激活
+
+```js
+function *generatorFn(){
+    console.log('xxxx')
+    yield 'xxxx'       // 第一次 next() 至此
+    console.log('ssss')
+    yield 'ssss'       // 第二次 next() 至此
+    return 'finally'
+}
+const g = generatorFn()
+g.next() // 'xxxx' {value:'xxxx',done:false}
+g.next() // 'ssss' {value:'ssss',done:false}
+g.next() // {value:'finally',done:true}
+```
