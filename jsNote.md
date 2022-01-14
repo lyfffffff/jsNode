@@ -610,10 +610,10 @@ set.add('111')
 
 ## 第七章、迭代器与生成器
 
-### 迭代器
+### 迭代器 Iterator
 
-迭代即重复执行一段代码，有特定的退出迭代方法。迭代器模式即具备 Iterable 接口的可迭代对象， 有 Array、Map、Set、String、TypedArray，函数 arguments 对象和 NodeList 对象，这些对象**元素有限且具有无歧义的遍历顺序**。会暴露出一个属性 Symbol.iterator，该属性为一个函数，执行返回一个迭代器，每次调用迭代器的 next 方法，返回一个迭代结果（IteratorResult）的对象，包含属性 done 和 value，其中 done 为 Boolean 值，表示可否再次调用 next()，遍历到末尾时为 true；value 表示可迭代对象的值，当 done 为 true 时 value 为 undefined。
-一般不会使用此属性调用迭代器，而是在某些方法内部调用迭代器，例如 for...of、数组解构、扩展运算符、Array.from()、创建Set、Map，Promise.all()、Promise.race()、yield*。
+自己调用自己称递归，重复执行一段代码叫迭代，且二者都有特定的退出执行指令。迭代器模式即具备 Iterable 接口的可迭代对象， 有 Array、Map、Set、String、TypedArray，函数 arguments 对象和 NodeList 对象，这些对象**元素有限且具有无歧义的遍历顺序**。可迭代属性有一个属性 Symbol.iterator，为一个函数，执行返回一个迭代器；调用迭代器的 next 方法，返回一个迭代结果（IteratorResult）的对象，包含属性 done 和 value，其中 done 为 Boolean 值，表示可否再次调用 next()，遍历到末尾时为 true；value 表示可迭代对象的值，当 done 为 true 时 value 为 undefined。
+一般不会使用此属性调用迭代器，而是在某些方法内部调用迭代器，例如 for...of、数组解构、扩展运算符、Array.from()、创建Set、Map，Promise.all()、Promise.race()、yield*。对于没有迭代器的 js 结构，使用迭代器方法，会报错。见[图 1](#img1)<span id="jumpImg1">*</span>
 
 ```js
 let arr = ['a','b','c'];
@@ -644,15 +644,16 @@ for (var value of new newArray(3)) {// [Symbol.iterator] -> next
 }
 ```
 
-### 生成器
+### 生成器 Generator
 
-生成器是函数，可以返回迭代器，为了区分生成器和普通函数，生成器函数的函数名一般带星号 function *test(){}，调用生成器函数时，并不执行函数内部代码，而是返回生成器对象，包含 Iterator 接口。调用生成器对象 next() 时，才执行函数内部，空生成器返回迭代结束 { done:true, value:undefined }，value 默认是 undefined，实际上是生成器函数的返回值，可以在生成器中修改。
+生成器是函数，调用时可以返回迭代器，且每次调用产生的实例相互不影响，但是不可以使用 new 实例化，且调用实例可以继承生成器的原型属性，但是没有 this 的概念。为了区分生成器和普通函数，生成器函数的函数名一般带星号 function *test(){}，调用生成器函数时，并不执行函数内部代码，而是返回迭代器对象，指向函数内部。当调用生成的迭代器 next() 时，才执行函数内部代码，并返回对象 { done:true, value:undefined }，value 是生成器函数的返回值，默认是 undefined，可以在生成器中修改。生成器执行返回一个迭代器，迭代器本身也有 Symbol.iterator 属性，执行后返回自身。在需要添加迭代器的 js 结构，将生成器添加到 js 结构的 Symbol.iterator 属性上。
 
 ```js
 function *generatorFn(){
 }
 const g = generatorFn()
 g.next() // {value:undefined,done:true}
+g[Symbol.iterator]() === g // 本身就是一个迭代器
 
 // 自定义 return 
 function *generatorFn(){
@@ -660,22 +661,210 @@ function *generatorFn(){
 }
 const g = generatorFn()
 g.next() // {value:'xxxx', done:true}
+
+let obj = {name:'',age:18}
+obj[Symbol.iterator] = function* test() {
+    let keys = Object.keys(this)
+    for(let key of keys){
+        yield [key,this[propKey]]
+    }
+}
 ```
 
 #### yield
 
-控制生成器开启和暂停，在遇到此关键词前，函数内部正常执行，遇到时执行停止，需要使用迭代器 next 激活
+控制生成器开启和暂停，在遇到此关键词前，函数内部正常执行，遇到时执行停止，需再次调用迭代器 next() 激活接下代码。yield 必须在生成器函数中使用，且不能在嵌套在非生成器函数里。当迭代器调用 next 传参数时，会被 yield 接收，即 yield === 参数，第 n 个 yield 存储着 第 n + 1 次调用 next() 时所传的参数，因为一次调用 next() 时执行到 yield 之前，传参无法接收。yield 后面可以跟一个表达式，表示 next() 至此的返回值，会先计算表达式再返回，同样，也只有函数执行到这一行时，才计算。若 yield 在其他表达式中，也需要计算，且其后面的表达式作为返回值不作数，不传参就是 undefined，影响表达式的值。
 
 ```js
+// yeild 的功能
 function *generatorFn(){
     console.log('xxxx')
-    yield 'xxxx'       // 第一次 next() 至此
+    yield 1+1       // 第一次 next() 至此，先计算表达式
     console.log('ssss')
     yield 'ssss'       // 第二次 next() 至此
-    return 'finally'
+    return 'finally'   // 执行至此，退出
 }
 const g = generatorFn()
-g.next() // 'xxxx' {value:'xxxx',done:false}
+g.next() // 'xxxx' {value:2, done:false}
 g.next() // 'ssss' {value:'ssss',done:false}
-g.next() // {value:'finally',done:true}
+g.next() // {value:'finally',done:true} 
+
+// yield 使用限制
+function *test(){
+    function test(){
+        yield '' // 虽在生成器函数中，但嵌套在普通函数中，报错
+    }
+}
+
+// return + yeild + 表达式
+function *test(){
+    return yield 'test' 
+}
+t.next() // 执行至 yield，返回 {value:'test',done:false }
+t.next('change') // 将 ‘change’ 传给 yield，变成 return 'changhe'，返回 {value:'change',done:true} 
+
+// yeild 在表达式里
+function * f(x){
+    let y = yield (x + 1)// yield 3 -> yield
+    return y
+}
+let g = f(2)
+g.next() // {value : 3, done: false}
+g.next() // {value : undefined, done: true}，因为 yield 为 undefined，表达式 yield  (2 + 1) == undefined
 ```
+
+#### Generator.prototype.throw()、Generator.prototype.return()
+
+生成器返回的迭代器对象有一个 throw 方法，调用时在生成器函数内抛出错误，需在生成器函数中进行 try...catch 捕获，捕获只能一次，因为抛出错误后就不执行 try 代码，且必须在至少执行一次 next() 后，不然不会再函数内部捕获。throw 方法被捕获以后，会附带执行 try...ctach 后下一条 yield 表达式，也就是说，会附带执行一次 next 方法，并不影响下一次遍历。但是第二次执行 throw 后，无法再执行接后代码，即抛出错误不是内部捕获的话，停止执行代码。return 则是直接终结生成器，可以有一个参数，表示 value，done 也是 true。现在 next、throw、return 都是操作关键字 yeild，next 表示将 yeild 替换成方法参数，throw 表示将 yeild 替换成 throw 语句，return 替换 yeild 为 return 语句。
+
+```js
+var g = function* () {
+  try {
+    yield console.log('我是第0个');
+    yield console.log('我是第一个');
+    yield console.log('我是第x个');
+  } catch (e) {
+    console.log('内部捕获', e);
+  }
+    yield console.log('我是第二个');
+    yield console.log('我是第三个');
+    yield console.log('我是第四个');
+    yield console.log('我是第五个');
+    yield console.log('我是第六个');
+};
+
+var i = g();
+i.next();// '我是第 0 个'
+i.throw('第一次出错') // '内部捕获''第一次出错''我是第二个'
+i.next() // '我是第三个'
+try{
+    i.throw('第二次出错')
+    }catch(e){
+        console.log('外部捕获', e);
+        } // '外部捕获', '第二次出错'
+i.next() // 直接返回 value-done 对象
+```
+
+#### yield*
+
+在生成器内部调用其他生成器，一是使用 for...of 手动遍历其他生成器，一是使用 yield* 执行生成器函数。
+
+```js
+function *f(){
+    yield 'xxx'
+    yield 'test'
+}
+function *f1(){
+    yield 'hello'
+    yield* f()// 调用生成器，并遍历迭代
+    yield f() // 只是调用返回迭代器
+}
+yield* f() 类似于 for(let key of f()){ yield key}
+```
+
+#### 对象属性
+
+生成器可以作为对象的属性
+
+```js
+let obj = {
+    * Generator(){
+    }
+}
+let obj = {
+    Generator:function *(){       
+    }
+}
+```
+
+## 第八章、类和对象以及面向对象编程
+
+对象拥有属性，属性也有属性，包括**数据属性**和**访问器属性**，
+
+### 对象属性
+
+#### 数据属性
+
+有 Configurable（可否删除 delete、修改）、Enumerable（可否枚举）、Writable（可否修改）、Value，前三个默认为 true，value 默认为 undefined。数据属性存储在属性描述符对象中，需使用 Object.defineProperty 修改数据属性，使用 Object.getOwnPropertyDescriptor 查看数据属性。若使用 Object.defineProperty() **定义**属性，会将 configurable、enumerable、writable 的值设置为 false，若将 Configurable 设置为 false，不能再使用 Object.defineProperty 修改数据属性。可以使用 Object.defineProperties(obj,{property1:{},property2:{}}) 定义一个对象的多个属性的描述符对象。可以使用 Object.getOwnPropertyDescriptors(obj) 获取一个对象的所有属性的属性描述符，该方法会遍历对象的所有属性。
+
+```js
+let obj = {name:'lyf'}
+Object.defineProperty(obj,'name',{configurable:false}) // 修改数据属性
+Object.getOwnPropertyDescriptor(obj,'name') // 获取数据属性
+Object.defineProperty(obj,'show',{writable:true})// 使用 defineProperty 生成的，默认将数据属性设为 false -> {value: undefined, writable: true, enumerable: false, configurable: false}
+```
+
+#### 访问器属性
+
+有 Configurable（可否删除、修改、变为数据属性）、Enumerable（可否枚举）、Get（获取函数）、Set（设置函数）。属性是拥有数据属性还是访问器属性是根据 Object.defineProperty 设置的，默认是数据属性，若设置了set、get 函数，则变为访问器，失去数据功能即 value 和 Writable，若设置了 writable 和 value，则变成数据属性。
+
+#### 合并对象 Object.assign(mainObj,otherObj...)
+
+将资源对象的属性混入目标对象，Object.assign(mainObj,otherObj...)，将其余对象中可枚举、自有属性（使用 Object.propertyIsEnumerable() 和 Object.hasOwnProperty() 检测皆返回 true）复制到目标对象。但是是浅拷贝
+
+```js
+let mainObj = {}
+let otherObj = {name:''}
+Object.assign(mainObj,otherObj)
+// 真实步骤
+// 1. otherObj.propertyIsEnumerable('name') // true
+// 2. otherObj.hasOwnProperty('name') // true
+// 3. Object.getOwnPropertyDescriptor(other,'name').set = Object.getOwnPropertyDescriptor(other,'name').get
+```
+
+#### 相等判定 Object.is()
+
+用于判断两个数是否全等，接收两个参数，但参数不限制类型。若全等返回 true，不全等返回 false，可以判断边界情况，如 +-0 和 0 ，NaN 与 NaN 的全等性。
+
+```js
+Object.is(true,1) //false
+Object.is(+0 ,-0) // false
+Object.is(NaN ,NaN) // true
++0 === -0 // true
+NaN === NaN // false
+```
+
+### 创建对象
+
+#### 工厂函数
+
+即调用一个函数返回一个对象，根据传入的参数不同，返回不同值的对象，缺点是创建出来的对象拥有一毛一样的属性，优点是整齐。
+
+```js
+function createObj(name,age){
+    let obj = new Object()
+    obj.name = name
+    obj.age = age 
+}
+let obj1 = createObj('lyf',18) // {name:'lyf',age:18}
+let obj2 = createObj('zzz',10) // {name:'zzz',age:10}
+```
+
+#### 构造函数
+
+构造函数的本质也是创建拥有一毛一样的属性的系列对象，但是使用 new 关键词实例化函数，且函数内部不用使用 new Object 创建 obj，而是使用 this 关键词赋值，也不需要 return 一个对象，因为 new 关键词帮助我们做了这些。
+
+```js
+function CreateObj(name,age){
+  this.name = name
+  this.age = age  
+}
+let obj1 = new CreateObj('lyf',18) // {name:'lyf',age:18}
+let obj2 = new CreateObj('zzzz',10) // {name:'zzzz',age:10}
+```
+
+#### new 关键字的本质
+
+- 创建对象：let obj = new Object()
+
+- 将新对象的 prototype 指向构造函数的 prototype
+
+```plantuml
+@startuml
+(Map、Set、Array、String、Arguments) -> (Symbol.iterator):可迭代对象 
+(Symbol.iterator) -> (Iterator):调用生成迭代器
+(Iterator) -> (IteratorResult):调用 next() 生成迭代器结果
+@enduml
+```
+
+<span id="img1">图 3</span> [点击回去](#jumpImg1)
