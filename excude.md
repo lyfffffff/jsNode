@@ -613,13 +613,23 @@ toString 返回一个表示该对象的字符串。valueOf 返回一个对象的
 
 | 类型 | 值 | valueOf  | 值 |toString | 值 |
 | - | - | - | - | - | - |
-| Array | [1,2,3] | 数组 | [1,2,3] | 字符串 | '1,2,3' |
+| Array | [1,2,3] | 数组 | [1,2,3] | 字符串 | **'1,2,3'** |
 | Boolean | true | 布尔值 | true | 字符串 | 'true' |
 | Number | 123 | 数值 | 123 | 字符串 | '123' |
 | String | '123' | 字符串 | '123' | 字符串 | '123' |
-| Object | {name:'lyf'} | 对象 | {name:'lyf'} | 字符串 | '[object Object]' |
-| Date* | new Date() | 数值时间戳 | 1213145466 | 字符串标准日期格式 | 'Fri Dec 23 2016 11:24:47 GMT+0800 (中国标准时间)' |
+| Object | {name:'lyf'} | 对象 | {name:'lyf'} | 字符串 | **'[object Object]'** |
+| Date* | new Date() | 数值时间戳 | **1213145466** | 字符串标准日期格式 | 'Fri Dec 23 2016 11:24:47 GMT+0800 (中国标准时间)' |
 | Function | function fn(){} | 函数 | function fn(){} | 函数字符串 | 'function fn(){}' |
+
+### prototype 和 __proto__ 的区别和联系
+
+对象皆具有 __proto__ 属性，指向构造该对象的构造函数的原型对象，而原型对象是对象，也会有 __proto__ 属性，指向构造其的构造函数的原型对象，以此生成 __proto__.__proto__.__proto__ 原型链，函数才拥有 prototype 属性，指向自身的原型对象，故对象 __proto__ 和函数 prototype 有可能是等价的，当且仅当该对象是该函数构造的。设置在函数 prototype 的属性，通过 new 实例化的对象可以访问，故 prototype 需严谨。
+
+```js
+let obj = new Object()// 构造函数为 Object，原型对象由 prototype 获取
+obj.__proto__ === 指向Object的原型对象 === Object.prototype
+arr.__proto__.__proto__ === Array.prototype.__proto__ === Object.prototype
+```
 
 # Vue
 

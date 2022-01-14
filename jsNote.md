@@ -855,9 +855,25 @@ let obj2 = new CreateObj('zzzz',10) // {name:'zzzz',age:10}
 
 #### new 关键字的本质
 
+- 将构造函数作为参数传入 new
 - 创建对象：let obj = new Object()
+- 该对象的 prototype 指向构造函数的 prototype
+- 该对象的 this 指向构造函数的 this
+- 执行构造函数代码
+- 返回 obj
 
-- 将新对象的 prototype 指向构造函数的 prototype
+```js
+function newFun(createFun){
+    return function(){
+        let obj = new Object()
+        obj.__proto__ = createFun.prototype // 指向构造函数的原型对象，故构造函数原型上的属性，new 实例也可以继承
+        createFun.call(obj,...arguments)
+        return obj
+    }
+}
+
+newFun(app)('name',10)
+```
 
 ```plantuml
 @startuml
