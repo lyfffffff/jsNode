@@ -842,7 +842,7 @@ let obj2 = createObj('zzz',10) // {name:'zzz',age:10}
 
 #### 构造函数
 
-构造函数的本质也是创建拥有一毛一样的属性的系列对象，但是使用 new 关键词实例化函数，且函数内部不用使用 new Object 创建 obj，而是使用 this 关键词赋值，也不需要 return 一个对象，因为 new 关键词帮助我们做了这些。
+构造函数的本质也是创建拥有一毛一样的属性的系列对象，但是使用 new 关键词实例化函数，且函数内部不用使用 new Object 创建 obj，而是使用 this 关键词赋值，也不需要 return 一个对象，因为 new 关键词帮助我们做了这些。实例有 constructor 属性指向构造其的构造函数。
 
 ```js
 function CreateObj(name,age){
@@ -851,6 +851,7 @@ function CreateObj(name,age){
 }
 let obj1 = new CreateObj('lyf',18) // {name:'lyf',age:18}
 let obj2 = new CreateObj('zzzz',10) // {name:'zzzz',age:10}
+obj1.constructor == CreatObj // construstor 属性
 ```
 
 #### new 关键字的本质
@@ -874,6 +875,203 @@ function newFun(createFun){
 
 newFun(app)('name',10)
 ```
+
+#### 原型
+
+对象的 __proto__ 和构造函数的 prototype，有以下几种方法和属性。在 625 页有详情。对于具有**遍历性**的对象方法（keys、getOwnPropertyNames、for-in 等）来说，遍历是有序的，即按照属性 数值 > 插入顺序的字符串 的顺序，但是对于一个对象来说，每次插入、删除。其内部也会根据属性进行排序。对于自定义的 prototype 对象，会修改其的 constructor 属性指向，默认指向 Object，若想指回构造函数，直接设置 constructor 属性，若想默认为不可枚举的属性，需使用 Object.defineProperty 定义 constructor 属性。若在构造实例后重新定义 prototype 对象，即改变 prototype 指向地址，此前的实例依然指向原本地址，会造成错误。
+
+```js
+function Person() { 
+} 
+Person.prototype = { 
+    name: "lyf", 
+    age: 29, 
+};
+Person.prototype.constructor == Object // true
+Object.defineProperty(Person.prototype,'constructor',{enumerable:false,value:Person})
+Person.prototype.constructor = Person
+Person.prototype.constructor == Person // true
+let person = new Person()
+person.name // 'lyf'
+Person.prototype = {
+    sayHi(){
+        console.log('xxxxx')
+    }
+}
+person.name // 'lyf'
+person.saiHi() // error，没定义
+```
+
+|调用对象 | 方法 | 作用|
+| - | - | - |
+| Object | Object.create(obj)| 创建一个对象，将参数作为对象所指向的原型对象 |
+| Object | Object.setPrototypeOf(obj,obj1) | 传入两个对象，将参数2 对象作为参数1 的原型对象 |
+| Object | Object.getPrototypeOf(obj) | 获取传入参数对象所指向的原型对象 |
+| Object | Object.keys(obj) | 返回传入参数**自身**不包括原型对象上的可枚举属性 |
+| Object | Object.getOwnPrototypeNames(obj) | 返回参数自身不包括原型上的所有属性，包括不可枚举 |
+| Object | Object.getOwnPrototypeSymbols(symbol) | 一样返回参数自身不包括原型上的所有属性，不过参数是符号类型 Symbol |
+| obj | obj.hasOwnPrototype(attribute) | 传入一个字符串属性，返回一个 Boolean 值，判断是自身属性还是原型对象上的属性 |
+| prototype | xxx.prototype.isPrototypeOf(obj) | 传一个实例对象，判断该实例是不是在原型链中 |
+| prototype | xxx.peototype.constructor | 指回构造函数 |
+| instanceof | xxx instanceof xxx | 左边是实例，右边是构造函数，判断实例的原型链中是否有该构造函数|
+
+```js
+// 手写一个 L instanceof R 判断
+function Instanceof(L,R){
+    // 当检测对象是基本类型时，返回 false
+    if((typeof L != 'Object' && typeof L != 'Function')|| L === null){
+        return false
+    }
+    // 类型为基本类型时，抛出错误
+    if ((typeof R !== 'object' && typeof R !== 'function')||R === null) 
+        throw Error("Right-hand side of instanceof is not an object")
+    while(true){
+        // 找到检测对象 L 指向的原型对象，判断是否与 R 相等，相等则返回 true， 不相等则往原型链后面找，直到找到 null 仍不相等，返回 false
+        if(Object.getProtopeOf(L) === null){
+            return false
+        }
+        if(Object.getProtopeOf(L) === R.prototype){
+            return true
+        }
+        L = Object.getPrototypeOf(L)
+    }
+}
+```
+
+#### 对象迭代
+
+即 Object.values、entries、keys，皆是传一个对象，返回一个数组。
+
+### 继承
+
+有很多语言支持接口继承和实现继承，但是 js 只能实现继承，一般通过修改原型链实现，即子类的**原型**指向父类的**实例**从而实现原型共享，或借用构造函数，即通过 apply、call 实现子类调用父类的属性、方法。就可以继承父类原型上的属性，但是父类实例属性也会继承，且若属性是引用值时，父类修改也会改变子类。原型对象指向父类实例后，子类可以覆盖父原型的函数，但是父构造函数的原型变量不受影响。若使用另一个对象覆盖继承的 prototype，则相当于不继承了，因为所指的地址修改了。JS 高级教程给出几种常见的继承方法，包括 6 种：原型链继承（new Farthet）、构造函数继承（call）、组合继承（call + new Farther）、原型式继承（Fun.prototype = obj）、寄生式继承（Fun.prototype = obj + 属性）、寄生组合式继承（call + Fun.prototype = obj）等。
+
+- 构造函数通过修改 this 指向，故使用 call、apply，即继承父类的实例属性
+- 实例是通过 constructor 属性，修改子类构造函数的原型对象指向的构造函数，即修改 Son.prototype.constructor 指向
+
+#### 原型链继承
+
+```js
+function Son(){
+    this.son = 'son'
+}
+function Farther(a){
+    this.farther = 'farther'
+    this.a = a 
+}
+Farther.prototype.sayHi = function(){
+    return true
+}
+Son.prototype = new Farther() // 原型链继承
+// 右边为一个实例，实例有一个属性 constructor 指向构造其的构造函数 Farther，
+// 故 Son.prototye.constructor == Farther ，故 son.__proto__ .__proto__ == Farther.prototype
+// 首先 son.__proto == Son.prototype，故 Son 将 Farther 放置在原型链里了，可以访问到原型链上的内容。
+Son.prototype.sayHi = function(){ // 覆盖所继承的 sayHi 方法，但是不改变父类的原型对象
+    return false
+}
+let son = new Son()
+son.sayHi() // false
+son.farther // 'farther'，这是 farther 实例属性，但是继承了
+let father = new Farther()
+father.sayHi() // true
+```
+
+#### 盗用构造函数继承
+
+在子类构造函数中调用父类构造函数，使用 call 和 apply 以实例为上下文，则每次实例化子类实例时，将父类的实例属性和原型属性初始化到自身去了，但是不会继承父类的原型对象。
+
+```js
+function Farther(){}
+function Son(){
+    Farther.call(this) // 每构造一个实例，都会执行一次父类，且将属性放入本实例中
+}
+```
+
+#### 组合继承
+
+原型链和盗用构造函数结合，使用原型链继承原型上的属性和方法，而通过盗用构造函数继承实例属性。缺点是会调用两次父类函数
+
+```js
+function Farther(name){
+    this.name = name 
+}
+function Son(){
+    Farther.call(this,'lyf') // 继承父类的实例属性，可以传参数实例化
+}
+Son.prototype = new Farther() // 原型链继承
+Son.prototype.constructor = Son
+```
+
+#### 原型式继承
+
+不需要单独创建构造函数，在函数内部临时建一个构造函数，构造函数的原型对象指向对象，返回构造函数实例，目的是**将传入参数 obj 作为原型对象**。效果等同于 Object.assign()，但是为浅拷贝，即传入同样的 obj 参数时，引用值数据互通。
+
+```js
+function fun(obj){
+    function Fun(){}
+    Fun.prototype = obj
+    return new Fun // 返回对象 returnObj.__proto__ = obj
+}
+let obj = {
+    name:['kobe']
+}
+let son1 = fun(obj)
+let son2 = fun(obj)
+son1.name.push('james')
+son2.name // ['kobe','james'] 
+```
+
+#### 寄生式继承
+
+结合原型式继承，在原型式继承的基础下，让这个对象拥有更多的功能。
+
+```js
+// 原型式继承
+function fun(obj){
+    function Fun(){}
+    Fun.prototype = obj
+    return new Fun
+}
+function Get(obj){
+    var clone = fun(obj) // 获取原型式继承后
+    clone.sayHi= function(){ // 使用工厂模式进行增强
+    }
+    return clone // 返回
+}
+```
+
+#### 寄生组合式继承
+
+最常用。寄生和组合结合，函数的参数是子构造函数和父构造函数，不通过调用父类构造函数（new Farther()）的方式将子类构造函数的原型指向父类构造函数，而是使用父类原型对象调用原型式。但是对于父类原型也是浅拷贝，即多个子实例可以修改共享父类原型的引用值属性。
+
+```js
+function fun(obj){
+    function Fun(){}
+    Fun.prototype = obj
+    return new Fun
+}
+function inherit(son,farther){
+    let prototype = fun(farther.prototype) // 而是调用原型继承函数，创建父类原型的副本
+    prototype.constructor = son // 解决由于重写原型导致默认 constructor 丢失的问题
+    son.prototype = prototype
+}
+
+function son(){
+    Farther.call(this) // 继承父类实例属性
+}
+Farther.prototype.name = ['kebo','james']
+let ccc = new son() 
+ccc.name.push('xxxx') // ['kebo','james','xxxx']
+let ddd = new son()
+ddd.name // ['kebo','james','xxxx']
+```
+
+### 类
+
+ES6 的新属性，定义时有 let Class = class{} 和 class Class{}，不具备变量提升，函数是后一种声明时可以变量提升。若不定义构造函数，构造函数默认为空 constructor(){}，使用时使用 new 构造，调用 constructor 对象，默认返回 this 对象，可以修改 return 值。
+
+- 类构造函数和普通构造函数的区别
+  使用普通构造函数时，必须使用 new 关键字，否则 this 作为全局变量 window 的属性。
 
 ```plantuml
 @startuml

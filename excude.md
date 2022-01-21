@@ -1,3 +1,5 @@
+[TOC]
+
 # css
 
 #### %百分比的使用
@@ -403,10 +405,10 @@ justify-content: center，若盒子移位了，表示溢出
   ```js
   function deepClone(obj){
       let result
-      if(typeof obj == 'Object'){
+      if(typeof obj == 'object'){
           result = Array.isArray(obj) ? [] : {}
           for(let key in obj){
-              if(typeof obj[key] !== 'Object'){
+              if(typeof obj[key] !== 'object'){
                   result[key] = obj[key]
               }else{
                  result[key] =  deepClone(obj[key])
@@ -623,12 +625,31 @@ toString 返回一个表示该对象的字符串。valueOf 返回一个对象的
 
 ### prototype 和 __proto__ 的区别和联系
 
-对象皆具有 __proto__ 属性，指向构造该对象的构造函数的原型对象，而原型对象是对象，也会有 __proto__ 属性，指向构造其的构造函数的原型对象，以此生成 __proto__.__proto__.__proto__ 原型链，函数才拥有 prototype 属性，指向自身的原型对象，故对象 __proto__ 和函数 prototype 有可能是等价的，当且仅当该对象是该函数构造的。设置在函数 prototype 的属性，通过 new 实例化的对象可以访问，故 prototype 需严谨。
+对象皆具有 __proto__ 属性，指向**构造该对象**的构造函数的原型对象，而原型对象是对象，也会有 __proto__ 属性，指向构造其的构造函数的原型对象，以此生成 __proto__.__proto__.__proto__ 原型链，函数才拥有 prototype 属性，指向自身的原型对象，故对象 __proto__ 和函数 prototype 有可能是等价的，当且仅当该对象是该函数构造的。在 prototype 对象上设置的属性，通过 new 实例化的对象可以访问，故 prototype 对象上的属性需严谨，具有一定的公共性。prototype 对象有一个属性 constructor，指向构造函数（Object.prototype.constructor == object）。prototype 对象还有一个 isPrototypeOf() 方法，判断**参数实例**是不是构造函数的实例。Object 也有可以操作原型对象的方法，getPrototypeOf() 返回传入参数的构造函数的 prototype。setPrototypeOf() 传入两个参数，参数1 是实例，参数2 是一个对象，表示将参数2 设置为参数1 的原型对象。create() 将参数作为新创建对象的原型对象。若要获取对象自身的可枚举属性，使用Object.keys()。对于一个实例 obj，判断一个属性是原型还是自身定义的，使用 obj.hasOwnProperty()，传入一个字符串参数，根据参数是不是实例自身属性返回一个 boolean 值，与之对应的操作符是 in，'name' in obj 不论参数在原型还是自身，都会显示 true，for-in 也是 in 的一种体现，遍历时也会返回原型的属性。
 
 ```js
-let obj = new Object()// 构造函数为 Object，原型对象由 prototype 获取
+let obj = new Object() // 构造函数为 Object，原型对象由 prototype 获取
 obj.__proto__ === 指向Object的原型对象 === Object.prototype
 arr.__proto__.__proto__ === Array.prototype.__proto__ === Object.prototype
+
+Array.prototype.constructor === Array
+
+Array.prototype.isPrototypeOf(arr) // true
+
+Object.getPrototypeOf(arr) == Array.prototype // true
+
+let obj1 = {name:'lyf'}
+let obj = {age:111}
+Object.setPrototypeOf(obj,obj1)
+obj.__proto__ == obj1 // true
+obj.hasOwnProperty('name') // false
+'name' in obj // true
+Objetc.keys(obj) // ['age']
+
+let obj = Object.create(obj1)
+obj.name  // 'lyf'
+obj.__proto__ == obj1 // true
+
 ```
 
 # Vue
@@ -788,7 +809,7 @@ arr.__proto__.__proto__ === Array.prototype.__proto__ === Object.prototype
 - 2、使用 open 设置请求
 
   ```js
-  xhr.open('method','url',isAsycn)
+  xhr.open(method,url,isAsycn)
   /*
   * @params GET or POST
   * @params  请求地址
@@ -951,17 +972,24 @@ import axios from 'axios';
 
 #### Promise调用的区别
 
-Promise是层级调用的，即then在同一层，调用就在一层，vue刷新也只有一次
+Promise 是层级调用的，即 then 在同一层，调用就在一层，vue 刷新也只有一次
+
+```js
+Promise(1).then(2)
+Promise(3)
+Promise(4)
+// 执行顺序 1->3->4->2
+```
 
 #### CLS
 
-  全称CommonLanguageSpecification，即公共语言规范
+全称 CommonLanguageSpecification，即公共语言规范，在定义类对象时作为文件名后缀。
 
 #### markdown语法
 
 - 页面内跳转
-  一个带id的html标签，代表要跳转的地方： <span id="jump">跳转到的地方</span>
-  当需要跳转时，使用[](#标签id)，例如：[点击跳转](#jump)
+  一个带 id 的 html 标签，代表要跳转到的地方： <span id="jump">跳转到的地方</span>
+  当需要跳转时，使用 [](#标签id)，例如：[点击跳转](#jump)
 
 #### 热重载
 
@@ -969,25 +997,55 @@ Promise是层级调用的，即then在同一层，调用就在一层，vue刷新
 
 #### 文档模式
 
-标准模式和混杂模式，一般是对css初始化的不同，例如标准盒子、是否有3px差异
+标准模式和混杂模式，一般是对 css 初始化的不同，例如标准盒子、是否有 3px 差异
 
 #### JSON的方法
 
-- JSON.stringify(@param1,@param2,@param3)
-   参数1：表示需要JSON化的对象，是必须的。
-   参数2：函数or数组，用于过滤和自定义，当为过滤函数时，参数为对象的key和值，必须拥有return值，若return对象，则先遍历该对象，类似于栈先进先出，完了再按照顺序遍历，直到所有遍历完退出；若为数组，表示需遍历的属性，不在列表的不被序列化。
-   参数3：表示字符串间距，每一级对比上一级缩进
+- JSON.stringify(obj, Array|callback, Number|String)
+  表示将 对象 变成 JSON 数据格式。
+   参数1：表示需要 JSON 化的对象，是必须的。
+   参数2：可选，函数 or 数组，用于过滤和自定义。当为过滤函数时，函数参数为参数1 的 key 和值，必须拥有 return 值，常常 return val。若对象的属性为一个对象，即函数 return 一个对象，则下一次先遍历该对象内部，因为对象不能简单加 ""，类似于入栈，完了再出栈按照顺序遍历，直到所有遍历完退出；若为数组，表示需遍历的属性，不在列表的不被序列化。
+   参数3：可选，表示字符串间距，每一级对比上一级缩进，可以传 '\t'等表示缩进的字符串
 
    ```js
-   JSON.stringify(data,function(key,val){
-       console.log(key)// key和value最外层为 '' 和 object
-       console.log(val)
-       if(typeof val === 'function'){
-           return val + '';
+   let obj = {
+       name:'lyf',
+       age:18,
+       hobby:{
+           sports:'football',
+           foods:'beef'
+       },
+       sayName(){
+           return this.name
        }
+   }
+   JSON.stringify(obj,function(key,val){// 3，hobby对象入栈 --- 5，hooby 对象出栈，继续遍历 sayName
+       console.log("key is %s",key)// 初次遍历时 key 和 value 为 '' 和 object
+       console.log("val is %s",val)// 1，遍历 name 和 age --- 4，遍历 hobby 对象的属性 sports 和 foods
+       return val // 2，遇到 hooby 对象
    })
-   JSON.stringify(data, ["name", "info", "sex"]);
+   JSON.stringify(obj, ["name", "info", "sex"]);
    ```
+
+#### 代码规范
+
+- void 0
+  返回一个 undefined，比直接使用 undefined 严谨，因为在函数作用域中，undefined 是可以修改的，但是 null 不能修改。
+
+  ```js
+  function test(){
+      let undefined = 10;
+      return undefined
+      }
+    test() // 10
+    function test(){
+        let null = 10;
+        return null
+        }
+    test() // error，因为 null 不可做修饰符 
+  ```
+  
+## 附录：画图结构
 
 ```plantuml
 @startuml
