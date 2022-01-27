@@ -2,25 +2,25 @@
 
 ## 二、javaScript
 
-#### js标签的属性
+#### js 标签的属性
 
 - defer
-在外部文件中使用，推迟执行js脚本，虽然立即下载脚本，但是在页面加载完才执行，不影响页面加载，有顺序影响，若多个推迟执行脚本，会按照顺序执行
+在外部文件中使用，推迟执行 js 脚本，虽然立即下载脚本，但是在页面加载完才执行，不影响页面加载，有顺序影响，若多个推迟执行脚本，会按照顺序执行
 - async
 在外部文件中使用，异步执行脚本，虽然立即下载脚本，但是在页面加载完才执行，不影响页面加载，没有顺序影响，若有多个异步执行，不能确保执行顺序
 - type
-默认为'text/javascript',当使用export和import时.可能会修改
+默认为'text/javascript',当使用 export 和 import 时。可能会修改
 - src
 设置外部文件的源，脚本没有跨域限制
 - integrity
-因为没有跨域限制，所以为了防止同一个源的js文件被恶意修改，integrity可以设置一个签名，对比js文件返回的签名，若不同则报错
+因为没有跨域限制，所以为了防止同一个源的 js 文件被恶意修改，integrity 可以设置一个签名，对比 js 文件返回的签名，若不同则报错
 
 #### 动态加载脚本
 
 即需要时才加载此脚本，但是浏览器预加载器不知道，需要设置'<link rel='pereload' href='index.js'>'
-1，创建一个script节点
+1，创建一个 script 节点
 2，给该节点添加属性
-3，将节点加入到dom结构中
+3，将节点加入到 dom 结构中
 
 ```js
 let script = document.createElement('script')
@@ -28,17 +28,17 @@ script.src = 'index.js'
 document.head.appendChild(script)
 ```
 
-#### js补充
+#### js 补充
 
 - 行内脚本的缺点
 1，不能使用'</script>'字符串，当做脚本结束标签，需要变成'<\/script>'
-2，在XTML标签中，将 < (小于号)当做标签
+2，在 XTML 标签中，将 < (小于号)当做标签
 3，多个页面使用同一段代码时，造成资源浪费
-4，在head标签中使用脚本，脚本代码没有加载完，页面也不会执行，但是设置了defer/async的外部脚本文件不会影响页面加载
+4，在 head 标签中使用脚本，脚本代码没有加载完，页面也不会执行，但是设置了 defer/async 的外部脚本文件不会影响页面加载
 - 外部文件脚本的优点
 1，多个页面使用，文件只下载一次
 2，没有以上限制
-- noscript标签
+- noscript 标签
 在不支持脚本的页面才显示，支持脚本的浏览器永远不显示标签的内容
 
 ## 三、语言语法
@@ -48,16 +48,16 @@ document.head.appendChild(script)
 | Number | String | Boolean | Symbol | Null | undefined | Object |
 |  ----  | ----  | ---- | ---- | ---- | --- | --- |
 | 原始 | 原始 | 原始 | 原始 | 原始 | 原始| 引用 |
-| typeof检查: Number | String | Boolean | Symbol | Object| undefined  | Object |
+| typeof 检查: Number | String | Boolean | Symbol | Object| undefined  | Object |
 
-- typeof缺点
-对于Array、Null数据，都会检测为Object，原理：typeof实际上检测的是数据类型指向的地址，其中000表示对象，而null恰好是空指针对象，所以判为对象
+- typeof 缺点
+对于 Array、Null 数据，都会检测为 Object，原理：typeof 实际上检测的是数据类型指向的地址，其中 000 表示对象，而 null 恰好是空指针对象，所以判为对象
 
 | 000->对象 | 1->整数 | 010->浮点数 | 100->字符串 | 110->布尔
 |  ----  | ----  | ---- | ---- | ---- |
 
 - 构造函数与对象
-使用构造函数和对象创建实例的区别，虽然log打印相同，但是一个是Number型，一个是Object型，二者本质不相同。Number、Boolean、String皆是，但是Symbol没有new构造函数
+使用构造函数和对象创建实例的区别，虽然 log 打印相同，但是一个是 Number 型，一个是 Object 型，二者本质不相同。Number、Boolean、String 皆是，但是 Symbol 没有 new 构造函数
 
 ```js
 // Number 
@@ -67,9 +67,9 @@ let num_1 = new Number(1) // num = 1
 typeof num // Object
 ```
 
-##### Number数据类型
+##### Number 数据类型
 
-支持十进制、十六进制（0x开头）、八进制（0开头，后面数字不大于7）、浮点值。拥有最大值（Number.MAX_VALUE）和最小值（Number.MIN_VALUE），超过则为+-infinity，对于本该是数字但不是数字的表示为NaN，例如：分母为+-0，式子包含NaN等，但是每个NaN都互不相等
+支持十进制、十六进制（0x 开头）、八进制（0 开头，后面数字不大于 7）、浮点值。拥有最大值（Number.MAX_VALUE）和最小值（Number.MIN_VALUE），超过则为+-infinity，对于本该是数字但不是数字的表示为 NaN，例如：分母为+-0，式子包含 NaN 等，但是每个 NaN 都互不相等
 
 ```js
 NaN == NaN // false
@@ -78,24 +78,24 @@ NaN == NaN // false
 - 非数值转为数值的方法
   - Number(param)
   - parseInt(param,scale)
-  常用。参数二表示进制，可以选择二、八、十六进制。若不定义，则按照字符串命名显示，即长得像什么（x0、07），就当做什么。自动忽略空字符串，从第一个非空开始检测，若其为非数字，返回NAN（纯空字符串也为NaN），若为数字，截取到非数值字符串之前，并作为结果返回，自然‘.’也当做非数值字符串，遇到也返回。
+  常用。参数二表示进制，可以选择二、八、十六进制。若不定义，则按照字符串命名显示，即长得像什么（x0、07），就当做什么。自动忽略空字符串，从第一个非空开始检测，若其为非数字，返回 NAN（纯空字符串也为 NaN），若为数字，截取到非数值字符串之前，并作为结果返回，自然‘.’也当做非数值字符串，遇到也返回。
   - parseFloat(param)
-- Null和undefined
-Null表示空指针对象，undefined则是声明但未定义，但是null == undefined
+- Null 和 undefined
+Null 表示空指针对象，undefined 则是声明但未定义，但是 null == undefined
 
-##### String数据类型
+##### String 数据类型
 
-使用单、双、反引号（模板字面量，可换行，可使用${}插值）包裹的都是字符串，可以解析类似于‘\n’的转义字符，若不想解析，使用String.row(string)
+使用单、双、反引号（模板字面量，可换行，可使用${}插值）包裹的都是字符串，可以解析类似于‘\n’的转义字符，若不想解析，使用 String.row(string)
 
 - 非字符串转为字符串
   - xxx.toString()
-   但是null和undefined没有此方法，对于数值，toString还有参数，Number.toString(log)，表示将数值先转为几进制，再转为字符串
+  但是 null 和 undefined 没有此方法，对于数值，toString 还有参数，Number.toString(log)，表示将数值先转为几进制，再转为字符串
   - String(param)
-   当有可能是null和undefined时，使用此函数，返回'null'和'undefined'
+  当有可能是 null 和 undefined 时，使用此函数，返回'null'和'undefined'
 
 ##### Symbol
 
-符号类型。使用Symbol(param)创建，每一次创建都是唯一的，主要用来确保**对象属性**唯一性，即虽然长得像，但不是一个东西，不会覆盖，因为参数只起到一个描述的功能，并不做区别标识符，本质都是唯一的。
+符号类型。使用 Symbol(param)创建，每一次创建都是唯一的，主要用来确保**对象属性**唯一性，即虽然长得像，但不是一个东西，不会覆盖，因为参数只起到一个描述的功能，并不做区别标识符，本质都是唯一的。
 
 ```js
 let symbol = Symbol()
@@ -103,11 +103,11 @@ typeof symbol // Symbol
 console.log(symbol)// Symbol()
 let symbol_s = Symbol('symbol_ 1')// 参数非必须
 let symbol_1 = Symbol('symbol_ 1')// 传一样的参数
-symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的Object
+symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的 Object
 ```
 
 - Symbol.for(param)全局注册
-  即没有就全局注册，有就直接全局拿过来，改善了长相相同却永不相同的缺点，但二者必须接皆使用for，否则不是全局注册。param必须传一个字符串给for方法，没传就当做传入'undefined'，传入非字符串则报错。对于for全局注册的符号，可以使用keyFor查询符号的字符串，若查询的不是全局注册的符号，返回undefined，若传入非符号，报错。
+  即没有就全局注册，有就直接全局拿过来，改善了长相相同却永不相同的缺点，但二者必须接皆使用 for，否则不是全局注册。param 必须传一个字符串给 for 方法，没传就当做传入'undefined'，传入非字符串则报错。对于 for 全局注册的符号，可以使用 keyFor 查询符号的字符串，若查询的不是全局注册的符号，返回 undefined，若传入非符号，报错。
 
   ```js
   let symbol = new Symbol.for('symbol')// 此时没有，全局注册
@@ -121,7 +121,7 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的Obj
   ```
 
 - 作为对象属性
-  出现一个对象，两个键值长得一毛一样的，但是别担心冲突，访问也只能使用那个symbol实例。获取属性集也是只能通过Object.getOwnPropertySymbols()。但是获取属性描述符Object.getOwnPropertyDescriptors()和reflect.ownKeys()，是返回普通属性和符号属性的。
+  出现一个对象，两个键值长得一毛一样的，但是别担心冲突，访问也只能使用那个 symbol 实例。获取属性集也是只能通过 Object.getOwnPropertySymbols()。但是获取属性描述符 Object.getOwnPropertyDescriptors()和 reflect.ownKeys()，是返回普通属性和符号属性的。
 
   ```js
   symbol = Symbol('xxx')
@@ -138,11 +138,11 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的Obj
   Object.getOwnPropertySymbols(obj) // [Symbol(xxx), Symbol(xxx)]
   ```
 
-- symbol属性
+- symbol 属性
   内置在某些对象中，且在某些对象的某些方法被调用时，才被使用
 
   - description
-  读取传入的描述参数，若无则返回一个undefined
+  读取传入的描述参数，若无则返回一个 undefined
 
   ```js
   Symbol('desc').toString();   // "Symbol(desc)"  
@@ -152,7 +152,7 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的Obj
   ```
 
   - hasInstance
-  xxx instanceof XXX 实际调用的是XXX内部的Symbol.hasInstance(xxx)，判断是否是某构造器（new）的实例，手动自定义就是修改instanceof的结果
+  xxx instanceof XXX 实际调用的是 XXX 内部的 Symbol.hasInstance(xxx)，判断是否是某构造器（new）的实例，手动自定义就是修改 instanceof 的结果
 
   ```js
   class Array1 {
@@ -160,18 +160,18 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的Obj
     return Array.isArray(item);
     }
   }
-  console.log([] instanceof Array1);// 使用instanceof检验
+  console.log([] instanceof Array1);//使用 instanceof 检验
   ```
 
   - match、matchAll、repelace、serach、split
-  字符串对象的属性，在字符串调用上述方法时，其实就是使用symbol.xxx，可自定义，和instanceof用法一致，直接设置boolean值时决定：传入参数形如/xxx/时，是字符串还是表达式，默认为表达式
+  字符串对象的属性，在字符串调用上述方法时，其实就是使用 symbol.xxx，可自定义，和 instanceof 用法一致，直接设置 boolean 值时决定：传入参数形如/xxx/时，是字符串还是表达式，默认为表达式
 
   ```js
   str.[symbol.match] = flase// 设置不作为表达式，而是字符串  
   ```
 
   - isConcatSpreadable
-  内置为数组的属性，判断数组是否可展开，默认数组为true，类数组为false，影响Array.contact合并数组的方式
+  内置为数组的属性，判断数组是否可展开，默认数组为 true，类数组为 false，影响 Array.contact 合并数组的方式
 
   ```js
   arr.contact(arr_1)// 正常展开，为[...arr,...arr_1]
@@ -185,7 +185,7 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的Obj
   ```
 
   - toPrimitive
-  当对象做操作时，根据情况决定类型，例如运算操作当做数值类型，console当做字符串
+  当对象做操作时，根据情况决定类型，例如运算操作当做数值类型，console 当做字符串
 
   ```js
   class Num{
@@ -203,7 +203,7 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的Obj
 #### 三种声明方式
 
 - var
-使用var声明的变量，都会提升到顶部，只有函数作用域，作用域内声明的变量都为局部变量，跟随函数结束而销毁。
+使用 var 声明的变量，都会提升到顶部，只有函数作用域，作用域内声明的变量都为局部变量，跟随函数结束而销毁。
 - let
 拥有块级作用域，即存在{}就存在作用域。不会变量提升，所以在**未声明前**就使用会造成暂时性死区。
 
@@ -215,40 +215,40 @@ function testDead(){
 }
 ```
 
--- var 和 let的对比
-for循环定义的变量是局部还是全局，影响到渲染
+-- var 和 let 的对比
+for 循环定义的变量是局部还是全局，影响到渲染
 
 ```js
-for(let i = 0;i<5;i++){}// i 是局部变量，在for循环之后销毁，在for内部的i绑定的也是局部的，当时的那个i
-for(var i = 0;i<5;i++){}// i 是全局变量，不会销毁，最后以i = 5 的形式存储，for内部最终绑定的也是全局的i，会变
+for(let i = 0;i<5;i++){}// i 是局部变量，在 for 循环之后销毁，在 for 内部的 i 绑定的也是局部的，当时的那个 i
+for(var i = 0;i<5;i++){}// i 是全局变量，不会销毁，最后以 i = 5 的形式存储，for 内部最终绑定的也是全局的 i，会变
 ```
 
 - const
-与let相同，但是声明即需初始化，之后不能修改，常量则使用const，或只修改对象的属性，可以使用const
+与 let 相同，但是声明即需初始化，之后不能修改，常量则使用 const，或只修改对象的属性，可以使用 const
 
-##### for与continue和break
+##### for 与 continue 和 break
 
 - for(初始表达式;条件表达式;末尾循环体){中间循环体} ---- 条件表达式->中间循环体->末尾循环体
-- continue只是跳过这一次循环
-- break是跳出这**一层**循环
+- continue 只是跳过这一次循环
+- break 是跳出这**一层**循环
 
-#### for/of和for/in
+#### for/of 和 for/in
 
-- for/of是**可迭代**对象遍历元素的，for/in是枚举对象的可枚举属性
+- for/of 是**可迭代**对象遍历元素的，for/in 是枚举对象的可枚举属性
 
 #### with(obj){}
 
-比较少接触，将作用域全部限制在某个对象中，只能操作对象已有的属性，若是对象内部没有该属性，会沿着作用域链寻找。比较bug，with不能调用，故只有它访问其他变量，没有其他变量访问它的，也不能重复调用，不知道算不算局部变量。
+比较少接触，将作用域全部限制在某个对象中，只能操作对象已有的属性，若是对象内部没有该属性，会沿着作用域链寻找。比较 bug，with 不能调用，故只有它访问其他变量，没有其他变量访问它的，也不能重复调用，不知道算不算局部变量。
 
 ```js
 let a = 1;
 let obj = {}
 let obj_1 = {a : 1}
 with(obj){
-    a = 2 // 此处因为obj没有a属性，修改的是全局的a
+    a = 2 //此处因为 obj 没有 a 属性，修改的是全局的 a
 } 
 with(obj_1){
-    a = 2 // 此处因为obj有a属性，修改的是obj_1
+    a = 2 //此处因为 obj 有 a 属性，修改的是 obj_1
 }
 // a == 2 ; obj == {}; obj_1 = {a : 2}
 ```
@@ -257,11 +257,11 @@ with(obj_1){
 
 #### 引用值和原始值
 
-原始值有undefined、symbol、null、string、number、boolean，引用值有对象object，操作的是对对象的引用。对于**复制**来说，原始值直接是将a的值赋值给b，但是对于引用值来说，是将a所指向的引用地址赋给b，故两者有联系，改其一变二者。**函数传参是按值传参**，相当于复制了参数，a作为参数传给函数，在函数内部操作参数‘a’，对外部a是没有影响的，但是引用值传给函数的仍是地址，故还是会影响外部a，但是当函数内部参数不再指向该地址时，二者就没有关系了。对于**动态属性**来说，原始值没有动态属性，引用值可以随意增删查改属性值。
+原始值有 undefined、symbol、null、string、number、boolean，引用值有对象 object，操作的是对对象的引用。对于**复制**来说，原始值直接是将 a 的值赋值给 b，但是对于引用值来说，是将 a 所指向的引用地址赋给 b，故两者有联系，改其一变二者。**函数传参是按值传参**，相当于复制了参数，a 作为参数传给函数，在函数内部操作参数‘a’，对外部 a 是没有影响的，但是引用值传给函数的仍是地址，故还是会影响外部 a，但是当函数内部参数不再指向该地址时，二者就没有关系了。对于**动态属性**来说，原始值没有动态属性，引用值可以随意增删查改属性值。
 
 #### 上下文和作用域
 
-函数和window产生上下文，其中window为全局上下文，上下文产生作用域链，作用域链是栈操作，越里层越早出栈，也就能访问到越外层的变量，当变量在当前上下文没有找到时，沿着作用域链往外寻找，直到找到全局上下文。
+函数和 window 产生上下文，其中 window 为全局上下文，上下文产生作用域链，作用域链是栈操作，越里层越早出栈，也就能访问到越外层的变量，当变量在当前上下文没有找到时，沿着作用域链往外寻找，直到找到全局上下文。
 
 #### 内存
 
@@ -270,18 +270,18 @@ with(obj_1){
 
 ## 五、基本引用类型
 
-#### Date对象
+#### Date 对象
 
-创建日期对象，当传一个参数时，可以传字符串和数字，数字代表时间戳，即1970年1月1日午夜至某日期所经过的毫秒数，字符串有多种格式。Date函数中有许多方法，常用的是将Date转为形如‘xxxx-xx-xx xx:xx:xx’的格式，其中获取月份的方法是从 1 开始的，其余都是从 0 开始。
+创建日期对象，当传一个参数时，可以传字符串和数字，数字代表时间戳，即 1970 年 1 月 1 日午夜至某日期所经过的毫秒数，字符串有多种格式。Date 函数中有许多方法，常用的是将 Date 转为形如‘xxxx-xx-xx xx:xx:xx’的格式，其中获取月份的方法是从 1 开始的，其余都是从 0 开始。
 
 ```js
-// new Date的参数
-let d = new Date();// 后台默认调用Date.parse()
+// new Date 的参数
+let d = new Date();//后台默认调用 Date.parse()
 let d = new Date(milliseconds);// 数字，毫秒数
 let d = new Date(dateString);// '月/日/年'、'年/月/日 时间'、'年-月-日 时间'、'标椎日期格式'、'月(英) 日，年'
 let d = new Date(year, month, day, hours, minutes, seconds, milliseconds);
 
-// Date实例的方法
+// Date 实例的方法
 time = d.getTime()// 获取总毫秒数
 year = d.getFullYear()// 获取年份
 month = d.getMonth() // 获取月份，0-11
@@ -302,22 +302,22 @@ seconds = d.getSeconds() + 1 < 10 ? '0' + d.getSeconds() : d.getSeconds()
 let result = year + '-' + month + '-' + date + ' ' + hour + ':' + minutes + ':'+ seconds
 ```
 
-#### RegExp函数
+#### RegExp 函数
 
-表示正则表达式对象，通常模式为 /xxx/xx ，其中xxx表示需要匹配的模式，xx表示属性，例如是否全局，是否区分大小写
+表示正则表达式对象，通常模式为 /xxx/xx ，其中 xxx 表示需要匹配的模式，xx 表示属性，例如是否全局，是否区分大小写
 
 ```js
 let pattern = new RegExp('.at','g')// 全局 匹配所有以 at 结尾的字符串
 let pattern = /.at/g
-pattern.lastIndex // 实例有一个 lastIndex 属性，表示上次匹配的结尾位置，只在全局匹配+y下起作用
+pattern.lastIndex // 实例有一个 lastIndex 属性，表示上次匹配的结尾位置，只在全局匹配+y 下起作用
 ```
 
 - 匹配属性
-  g、i、y、m 分别表示全局匹配、不区分大小写、从lastIndex开始匹配、匹配多行
+  g、i、y、m 分别表示全局匹配、不区分大小写、从 lastIndex 开始匹配、匹配多行
 - 实例属性
-  用于检查匹配属性，例如 pattern.global 检查正则表达式实例是否设置全局匹配。此外还有 ingoreCase、lastIndex等
+  用于检查匹配属性，例如 pattern.global 检查正则表达式实例是否设置全局匹配。此外还有 ingoreCase、lastIndex 等
 - 实例方法
-  用于检查字符串是否符合匹配，例如 pattern.exec()、pattern.test()。皆是传入一个字符串，前者返回一个Array，其中有两个属性：input 和 index，分别表示匹配，和匹配的开始下标，Array 的项为表示可以作为**匹配项**的字符串，例如 /check(myheart)/，那么 Array 应是 ['checkmyheart','myheart']，若是全局匹配（g），则每调用一次 exec 方法，结果都会改变，因为 lastIndex 修改，此方法是从 lastIndex 开始匹配的；后者是返回 true、false，表示是否匹配。
+  用于检查字符串是否符合匹配，例如 pattern.exec()、pattern.test()。皆是传入一个字符串，前者返回一个 Array，其中有两个属性：input 和 index，分别表示匹配，和匹配的开始下标，Array 的项为表示可以作为**匹配项**的字符串，例如 /check(myheart)/，那么 Array 应是 ['checkmyheart','myheart']，若是全局匹配（g），则每调用一次 exec 方法，结果都会改变，因为 lastIndex 修改，此方法是从 lastIndex 开始匹配的；后者是返回 true、false，表示是否匹配。
 
 ```js
 let pattern = /.at/g
@@ -346,7 +346,7 @@ console.log(s.hello) // 为空，因为被销毁了
 ```
 
 - Boolean 函数
-  形如 new Boolean(true)，传入一个 true 或 false，不传默认为 false，改写 toString 和 valueOf，返回 'true' 和 true；但是 Boolean 对象和 Boolean 值不一样，因为对象的布尔值默认为 true，故 new Boolean(false) == true，但是我本意是想设置一个false，只能使用 new Boolean(false).valueOf，所以会造成歧义，不建议使用。
+  形如 new Boolean(true)，传入一个 true 或 false，不传默认为 false，改写 toString 和 valueOf，返回 'true' 和 true；但是 Boolean 对象和 Boolean 值不一样，因为对象的布尔值默认为 true，故 new Boolean(false) == true，但是我本意是想设置一个 false，只能使用 new Boolean(false).valueOf，所以会造成歧义，不建议使用。
   此外，使用构造函数实例化原始类型，还造成 typeof 和 instanceof 判断失效，即判断为 object 而不是 number，故都不建议使用。
 
   ```js
@@ -370,7 +370,7 @@ console.log(s.hello) // 为空，因为被销毁了
   ```
 
 - String 函数
-  同样改写了valueOf、toString、和 toLocaleString 方法。还有一个 length 属性，表示字符串长度。str.charAt()，表示字符串的指定索引的字符，传入一个数值，表示索引，从 0 开始计算。str.charCodeAt()，表示字符串指定索引值的字符的 Unicode 值，传入一个数值表示索引值，返回值为一个十进制的数值，可将其转为16进制的，就可以对照 Unicode 表。String.fromCharCode()，表示将 Unicode 转为字符串，可以传多个 Unicode，该方法会将其拼接并返回。
+ 同样改写了 valueOf、toString、和 toLocaleString 方法。还有一个 length 属性，表示字符串长度。str.charAt()，表示字符串的指定索引的字符，传入一个数值，表示索引，从 0 开始计算。str.charCodeAt()，表示字符串指定索引值的字符的 Unicode 值，传入一个数值表示索引值，返回值为一个十进制的数值，可将其转为 16 进制的，就可以对照 Unicode 表。String.fromCharCode()，表示将 Unicode 转为字符串，可以传多个 Unicode，该方法会将其拼接并返回。
 
   ```js
   let str = 'abcde'
@@ -381,15 +381,15 @@ console.log(s.hello) // 为空，因为被销毁了
 
   - String 的方法
   str.contact 拼接字符串，可以传 1~n 个参数，参数为字符串，按参数顺序拼接在调用此方法的字符串后。截取字符串的方法有 slice、substr、subString，主要使用 slice，皆可以传 1~2 个数值参数。
-  如何区分 substr 和 substring：对于 substring 来说，当前者大于后者时，交换位置，substr则不是，因为第二位就是长度
+  区分 substr 和 substring：短（方法名）距（参数 2）。substr 第二位表示截取长度，且不为负数，因为长度不能小于 0 ；substring 功能和 slice 类似，但有两个 bug ，当参数前者大于后者时交换位置、当参数 为负数时索引值为 0 ；
 
-|属性|slice|substr|substirng|
-|------|-|-|-|
-|参数1|截取开始，表示字符串的索引，从0开始|
-|参数1_负数 | 参数1+字符串长度 | 参数1+字符串长度 | 0 |
-|参数2| 截取结束的字符串索引| 长度 | 截取结束的字符串索引|
-|参数2_负数 | 参数2+字符串长度 | 参数2+字符串长度 | 0 |
-|参数2 < 参数1 | 空字符串 | 没影响，因为参数2表示截取长度 | 交换位置 |
+| 属性 | slice | substr | substirng |
+|------| - | - | - |
+|参数 1 | 截取开始，表示字符串的索引，从 0 开始 |
+|参数 1_负数 |参数 1 + 字符串长度 |参数 1 + 字符串长度 | **索引下标为 0** |
+|参数 2 | 截取结束的字符串索引 | **截取长度** | 截取结束的字符串索引 |
+|参数 2_负数 |参数 2 + 字符串长度 | 长度不能为负值，故截取为空'' | **索引下标为 0，必然小于等于参数 1，故交换位置** |
+|参数 2 <参数 1 | 空字符串 | 没影响，因为参数 2 表示截取长度 | 交换位置 |
 
 ```js
 let str = 'hello'
@@ -400,16 +400,16 @@ str.substring(1,2) //'e'
 str.slice(-1) //'o'
 str.substr(-1) //'o'
 str.substring(-1) //'hello'
-str.slice(-1,-2) //等价于str.slice(4,3) == ''
-str.substr(-1,-2) //等价于str.subsr(4,0) == ''
+str.slice(-1,-2) //等价于 str.slice(4,3) == ''
+str.substr(-1,-2) //等价于 str.subsr(4,0) == ''
 str.substring(-1,-2) // 等价于 str.substring(0,0) == ''
 ''
 ```
 
 - indexOf 和 lastIndexOf
-  皆是传 1~2 个参数，参数为字符串，返回字符串匹配的索引，indexOf 返回首次出现的第一个**单词**的索引，从 0 开始。lastIndexOf 返回最后一次匹配的索引。参数2表示开始搜索的位置
+  皆是传 1~2 个参数，参数为字符串，返回字符串匹配的索引，indexOf 返回首次出现的第一个**单词**的索引，从 0 开始。lastIndexOf 返回最后一次匹配的索引。参数 2 表示开始搜索的位置
 - 判断是否包含字符串
-  在日常使用中，常使用 indexOf 判断是否包含某个字符串，但其实真正判断是否包含的是 inclueds。有 startsWith、endsWith、includes 三个判断是否包含，但是前两种有缺点，第一种必须从索引 0 开始匹配，第二种必须从索引 str.length - sub.length 开始匹配，而 includes 直接检查整个字符串，includes 和 startsWith 可以传第二个参数，表示开始匹配的索引，endsWith 的第二个参数代替 str.length。
+  在日常使用中，常使用 indexOf 判断是否包含某个字符串，但其实真正判断是否包含的是 includes。有 startsWith、endsWith、includes 三个判断是否包含，但是前两种有缺点，第一种必须从索引 0 开始匹配，第二种必须从索引 str.length - sub.length 开始匹配，而 includes 直接检查整个字符串，includes 和 startsWith 可以传第二个参数，表示开始匹配的索引，endsWith 的第二个参数代替 str.length。
   其中，includes 对比 indexOf ，选择 includes。
 
   ```js
@@ -424,13 +424,13 @@ str.substring(-1,-2) // 等价于 str.substring(0,0) == ''
 trim 删除字符串前后所有空格，repeat 可以传一数值，表示重复次数，将重复的字符串拼接，并返回。
 
 - padStart() 和 padEnd()
-扩展字符串，可以传 1~2 个参数，参数1表示最终字符串长度，若小于原本长度，则返回原字符串，若大于原本长度，则根据 padStart/padEnd 在字符串前后填充参数2，其中参数2默认为空格，可以传一个字符串，循环填充。
+扩展字符串，可以传 1~2 个参数，参数 1 表示最终字符串长度，若小于原本长度，则返回原字符串，若大于原本长度，则根据 padStart/padEnd 在字符串前后填充参数 2，其中参数 2 默认为空格，可以传一个字符串，循环填充。
 
 - 改变字符串大小写
-toLowerCase、toLocaleLowerCase、toUpperCase、toLocaleUpperCase。前两个将字符串小写，后两个将字符串大写。加Locale表示地区
+toLowerCase、toLocaleLowerCase、toUpperCase、toLocaleUpperCase。前两个将字符串小写，后两个将字符串大写。加 Locale 表示地区
 
 - 字符串匹配正则表达式
-前面使用 exec 和 test，都是正则对象匹配字符串，其实字符串也有匹配正则的方法 match 和 search 前者返回一个数组包含匹配项，后者返回匹配到的索引值，不匹配返回 -1。此外还有一个匹配修改字符串的，replace 传入两个参数，参数1表示查询的匹配项，参数2表示将其替换成的项，若有多处匹配，只修改第一次匹配到的项，但是若参数1是正则表达式，且有全局标识g，就会修改整个字符串。最后一个是 split，匹配字符串切割数组，参数1是需匹配的字符串，可以传正则表达式，参数2是最终数组长度，若切割超过，也只保留这么多。
+前面使用 exec 和 test，都是正则对象匹配字符串，其实字符串也有匹配正则的方法 match 和 search 前者返回一个数组包含匹配项，后者返回匹配到的索引值，不匹配返回 -1。此外还有一个匹配修改字符串的，replace 传入两个参数，参数 1 表示查询的匹配项，参数 2 表示将其替换成的项，若有多处匹配，只修改第一次匹配到的项，但是若参数 1 是正则表达式，且有全局标识 g，就会修改整个字符串。最后一个是 split，匹配字符串切割数组，参数 1 是需匹配的字符串，可以传正则表达式，参数 2 是最终数组长度，若切割超过，也只保留这么多。
 
 ```js
 let str = 'test' 
@@ -520,7 +520,7 @@ every、filter、forEach、map、some。
 
 #### 归并方法
 
-reduce 和 reduceRight。每次调用都操作前一次的结果，最终返回一个结果，皆有两个参数，参数一表示遍历回调函数，回调函数有四个 param，param1 表示前一次回调的结果，param2 表示本次的item，params 表示索引，param4 表示本数组。参数二表示第一次迭代时的 prev，若不填则默认 arr[0] 为 prev。reduceRight 则是从数组最后一位遍历至第一位。
+reduce 和 reduceRight。每次调用都操作前一次的结果，最终返回一个结果，皆有两个参数，参数一表示遍历回调函数，回调函数有四个 param，param1 表示前一次回调的结果，param2 表示本次的 item，params 表示索引，param4 表示本数组。参数二表示第一次迭代时的 prev，若不填则默认 arr[0] 为 prev。reduceRight 则是从数组最后一位遍历至第一位。
 
 ```js
 let arr = [1,2,3]
@@ -556,7 +556,7 @@ arr.reduceRight((prev,now,index,arr) => {return prev - now}) // 3-2-1 = 0
 
 ### Map
 
-俗称字典，以键值对的方式存储数据，实例化 Map 函数创建，可以传一个参数，为数组，数组的格式为 [[key1,value1],[key2,value2]]。 常见的方法是 set、get、has 调用操作字典，还有一个 size 属性，此外还有 delete 和 clear属性。字典的键是不限类型的，即函数、对象也能作为键，修改函数和对象时，键值和键同等改变。注意，修改对象时，若直接是 obj = xxx，其实不是修改，而是替换，因为指向的地址已经修改，需使用 obj.xxx
+俗称字典，以键值对的方式存储数据，实例化 Map 函数创建，可以传一个参数，为数组，数组的格式为 [[key1,value1],[key2,value2]]。 常见的方法是 set、get、has 调用操作字典，还有一个 size 属性，此外还有 delete 和 clear 属性。字典的键是不限类型的，即函数、对象也能作为键，修改函数和对象时，键值和键同等改变。注意，修改对象时，若直接是 obj = xxx，其实不是修改，而是替换，因为指向的地址已经修改，需使用 obj.xxx
 
 ```js
 let map = new Map()
@@ -580,7 +580,7 @@ map.set(fn,'fn') // 函数作为键
 
 #### 迭代器
 
-字典也有 entries 迭代器，等价于 Symbol.iterator，即 map.entries == map[Symbol.iterator]，返回一个按插入顺序的键值数组。包括 keys 和value
+字典也有 entries 迭代器，等价于 Symbol.iterator，即 map.entries == map[Symbol.iterator]，返回一个按插入顺序的键值数组。包括 keys 和 value
 
 ### WeakMap
 
@@ -613,7 +613,7 @@ set.add('111')
 ### 迭代器 Iterator
 
 自己调用自己称递归，重复执行一段代码叫迭代，且二者都有特定的退出执行指令。迭代器模式即具备 Iterable 接口的可迭代对象， 有 Array、Map、Set、String、TypedArray，函数 arguments 对象和 NodeList 对象，这些对象**元素有限且具有无歧义的遍历顺序**。可迭代属性有一个属性 Symbol.iterator，为一个函数，执行返回一个迭代器；调用迭代器的 next 方法，返回一个迭代结果（IteratorResult）的对象，包含属性 done 和 value，其中 done 为 Boolean 值，表示可否再次调用 next()，遍历到末尾时为 true；value 表示可迭代对象的值，当 done 为 true 时 value 为 undefined。
-一般不会使用此属性调用迭代器，而是在某些方法内部调用迭代器，例如 for...of、数组解构、扩展运算符、Array.from()、创建Set、Map，Promise.all()、Promise.race()、yield*。对于没有迭代器的 js 结构，使用迭代器方法，会报错。见[图 1](#img1)<span id="jumpImg1">*</span>
+一般不会使用此属性调用迭代器，而是在某些方法内部调用迭代器，例如 for...of、数组解构、扩展运算符、Array.from()、创建 Set、Map，Promise.all()、Promise.race()、yield*。对于没有迭代器的 js 结构，使用迭代器方法，会报错。见[图 1](#img1)<span id="jumpImg1">*</span>
 
 ```js
 let arr = ['a','b','c'];
@@ -720,9 +720,9 @@ g.next() // {value : undefined, done: true}，因为 yield 为 undefined，表�
 ```js
 var g = function* () {
   try {
-    yield console.log('我是第0个');
+    yield console.log('我是第 0 个');
     yield console.log('我是第一个');
-    yield console.log('我是第x个');
+    yield console.log('我是第 x 个');
   } catch (e) {
     console.log('内部捕获', e);
   }
@@ -785,7 +785,7 @@ let obj = {
 
 #### 数据属性
 
-有 Configurable（可否删除 delete、修改）、Enumerable（可否枚举）、Writable（可否修改）、Value，前三个默认为 true，value 默认为 undefined。数据属性存储在属性描述符对象中，需使用 Object.defineProperty 修改数据属性，使用 Object.getOwnPropertyDescriptor 查看数据属性。若使用 Object.defineProperty() **定义**属性，会将 configurable、enumerable、writable 的值设置为 false，若将 Configurable 设置为 false，不能再使用 Object.defineProperty 修改数据属性。可以使用 Object.defineProperties(obj,{property1:{},property2:{}}) 定义一个对象的多个属性的描述符对象。可以使用 Object.getOwnPropertyDescriptors(obj) 获取一个对象的所有属性的属性描述符，该方法会遍历对象的所有属性。
+有 Configurable（可否删除 delete、修改）、Enumerable（可否枚举）、Writable（可否修改）、Value，前三个默认为 true，value 默认为 undefined。数据属性存储在属性描述符对象中，需使用 Object.defineProperty 修改，使用 Object.getOwnPropertyDescriptor 查看。若使用 Object.defineProperty() **定义属性**，会将 configurable、enumerable、writable 的值设置为 false，若将 Configurable 设置为 false，不能再使用 Object.defineProperty 修改数据属性。可以使用 Object.defineProperties(obj,{property1:{},property2:{}}) 定义对象的多个属性的描述符对象。可以使用 Object.getOwnPropertyDescriptors(obj) 获取一个对象的所有属性的属性描述符，该方法会遍历对象的所有属性。
 
 ```js
 let obj = {name:'lyf'}
@@ -796,7 +796,7 @@ Object.defineProperty(obj,'show',{writable:true})// 使用 defineProperty 生成
 
 #### 访问器属性
 
-有 Configurable（可否删除、修改、变为数据属性）、Enumerable（可否枚举）、Get（获取函数）、Set（设置函数）。属性是拥有数据属性还是访问器属性是根据 Object.defineProperty 设置的，默认是数据属性，若设置了set、get 函数，则变为访问器，失去数据功能即 value 和 Writable，若设置了 writable 和 value，则变成数据属性。
+有 Configurable（可否删除、修改、变为数据属性）、Enumerable（可否枚举）、Get（获取函数）、Set（设置函数）。属性是拥有数据属性还是访问器属性是根据 Object.defineProperty 设置的，默认是数据属性，若设置了 set、get 函数，则变为访问器，失去数据功能即 value 和 Writable，若设置了 writable 和 value，则变成数据属性。
 
 #### 合并对象 Object.assign(mainObj,otherObj...)
 
@@ -902,18 +902,18 @@ person.name // 'lyf'
 person.saiHi() // error，没定义
 ```
 
-|调用对象 | 方法 | 作用|
+| 调用对象 | 方法 | 作用|
 | - | - | - |
 | Object | Object.create(obj)| 创建一个对象，将参数作为对象所指向的原型对象 |
-| Object | Object.setPrototypeOf(obj,obj1) | 传入两个对象，将参数2 对象作为参数1 的原型对象 |
+| Object | Object.setPrototypeOf(obj,obj1) | 传入两个对象，将参数 2 对象作为参数 1 的原型对象 |
 | Object | Object.getPrototypeOf(obj) | 获取传入参数对象所指向的原型对象 |
 | Object | Object.keys(obj) | 返回传入参数**自身**不包括原型对象上的可枚举属性 |
-| Object | Object.getOwnPrototypeNames(obj) | 返回参数自身不包括原型上的所有属性，包括不可枚举 |
-| Object | Object.getOwnPrototypeSymbols(symbol) | 一样返回参数自身不包括原型上的所有属性，不过参数是符号类型 Symbol |
-| obj | obj.hasOwnPrototype(attribute) | 传入一个字符串属性，返回一个 Boolean 值，判断是自身属性还是原型对象上的属性 |
+| Object | Object.getOwnPropertyNames(obj) | 返回参数自身不包括原型上的所有属性，**包括不可枚举** |
+| Object | Object.getOwnPropertySymbols(symbol) | 一样返回参数自身不包括原型上的所有属性，不过参数是符号类型 Symbol |
+| obj | obj.hasOwnProperty(attribute) | 传入一个字符串属性，返回一个 Boolean 值，判断是**自身属性**还是原型对象上的属性 |
 | prototype | xxx.prototype.isPrototypeOf(obj) | 传一个实例对象，判断该实例是不是在原型链中 |
 | prototype | xxx.peototype.constructor | 指回构造函数 |
-| instanceof | xxx instanceof xxx | 左边是实例，右边是构造函数，判断实例的原型链中是否有该构造函数|
+| instanceof | xxx instanceof xxx | 左边是实例，右边是构造函数，判断实例的原型链中是否有该构造函数 |
 
 ```js
 // 手写一个 L instanceof R 判断
@@ -1068,10 +1068,340 @@ ddd.name // ['kebo','james','xxxx']
 
 ### 类
 
-ES6 的新属性，定义时有 let Class = class{} 和 class Class{}，不具备变量提升，函数是后一种声明时可以变量提升。若不定义构造函数，构造函数默认为空 constructor(){}，使用时使用 new 构造，调用 constructor 对象，默认返回 this 对象，可以修改 return 值。
+ES6 的新属性，定义时有 let Class = class{} 和 class Class{}，不具备变量提升，函数使用声明式时可以变量提升。若不定义构造函数，构造函数默认为空 constructor(){}，使用 new 构造时，调用 constructor 对象，默认返回 this 对象，可以修改 return 值。其实类就是一种特殊函数，使用 typeof 检测类，返回 'function'。类也有 prototype 属性指向原型，而原型也有一个 constructor 属性指回类。
 
 - 类构造函数和普通构造函数的区别
-  使用普通构造函数时，必须使用 new 关键字，否则 this 作为全局变量 window 的属性。
+  使用普通构造函数时，若不使用 new 关键字，则 this 作为全局变量 window 的属性。但是不使用 new 关键字构造类时，会报错。
+- 构造函数
+  虽然 new 构造类实例时调用 constructor 方法，但是其并不是构造函数，而是**类本身是构造函数**，对类的构造函数进行 instanceof 操作时，返回 false
+
+```js
+class Person{}
+Person.prototype.constructor == Person // true
+let p = new Person()
+p instanceof Person // true
+p instanceof Person.constructor // false
+```
+
+#### 类的成员
+
+类中有三类成员：实例成员、原型成员、类本身的成员。一个同名属性可在类中定义 3 个不同功能的成员。成员可以是生成器和迭代器。
+
+- 实例成员
+  放置在构造函数 constructor 中，因为默认返回 this，故实例成员使用 this 关键字定义，**不会共享**，而是每次实例化时重新构造，必须使用赋值式定义，即使用 = 号赋值。
+
+  ```js
+  class Person{ constructor(){
+      this.names = ['lyf']
+  }}
+  let p1 = new Person()
+  p1.name // ['lyf']
+  let p2 = new Person()
+  p2.name // ['lyf']
+  p1.name == p2.name // false
+  ```
+
+- 原型成员
+  在类中定义的属性或方法为原型成员，被每个实例共享，实例遵循先在实例成员中搜索，若没有则在原型中搜索。
+
+  ```js
+  class Person{
+      sayName(){
+          console.log('i am groot')
+      }
+      name = 'lyf' // 不能使用 : ，此符号表示对象
+  } 
+  let p1 = new Person()
+  let p2 = new Person() 
+  p1.sayName == p2.sayName // true
+  ```
+
+- 类自身的成员
+  类的实例没有该成员，并不能访问，此成员仅在类中存在，使用 static 为前缀，使用类名 + 成员名调用。
+
+  ```js
+  class Person{
+    constructor(){
+        this.sayName = function(){
+            console.log('i am constructor')
+        }
+    }
+    sayName(){
+        console.log('i am prototype')
+    }  
+    static sayName(){
+        console.log('i am static')
+    }
+  }
+  p.sayName() // 实例成员 'i am constructor'  
+  Person.prototype.sayName() // 原型成员，实例也可以访问，当实例成员找不到时 'i am prototype'
+  Person.sayName() // 只有类本身可以调用 'i am static'
+  ```
+
+- 添加成员
+  可以直接在原型和类上添加成员
+
+  ```js
+  Person.name = 'lyf' // 等价于 static name = 'lyf'
+  Person.prototype.name = 'test' // 等价于在类内部定义
+  ```
+
+#### 类的继承
+
+类的出现很大目的是修改继承机制，本质依然是原型链继承。extends 关键字继承类，可以继承类的实例成员（constructor）、原型成员和自身成员（static），此时使用 instanceof 检测父类和子类，都返回 true，证明父类在原型链中。
+
+```js
+class Farther{
+    constructor(){
+        this.name = 'nono'
+    }
+    sayName(){
+        console.log('show me flowers')
+    }
+    static sayName(){
+        console.log('show me flowers too')
+    }
+}
+class Son extends Farther{
+    constructor(){
+        super() // 调用父类的构造函数
+        this.age = 22
+    }
+}
+let son = new Son()
+Son.sayName() // `show me flowers too`
+son instanceof Son // true
+son instanceof Farther // true
+```
+
+- super [Object | Function]
+  super 关键字只可以在 extends 中使用，且只能在构造函数中使用函数调用 super() 或在类方法中使用对象属性调用 super.sayName()，否则报错。
+  当子类有 constructor 函数时，必须先调用父类的构造函数，使用 super() 函数，可以传**参数**作为父类构造函数的参数，其将子类的 this 传入父构造函数调用后再返回。此时 this 上有父类的实例属性，然后再操作子类实例属性，以免冲突。
+  当想覆盖父类的原型方法和自身属性时，直接在子类上定义一个同名同类型的方法，在函数内部通过 super 调用该方法进行覆盖。
+
+  ```js
+    class Farther{
+        constructor(){
+            this.name = 'nono'
+        }
+    }
+    class Son extends Farther{
+        constructor(){
+            super() // 此时，this == {name:'nono'}
+            console.log(this instanceof Farther); // true
+            this.age = 22 // this == {name:'nono',age:22}
+        }
+    }
+    // 静态方法
+    class Farther{
+        static sayName(){}
+        static sayHi(){}
+    }
+    class Son extends Farther{
+        static sayName(){
+            super.sayName() 
+            console.log('i am son')
+        }
+    }
+    let son = new Son()
+    Son.sayName() // 此时调用的就是子类的 sayName，但是子类中引用了父类，故也有继承
+    Son.sayHi() // 未经修改，直接调用父类的 sayHi 方法
+  ```
+
+- 抽象基类
+  即父类只用来被继承，不被实例化，需使用 new.target 属性检测，new.target 表示当前作用在哪个构造函数，若不是使用 new 构造的实例，为 undefined。
+
+  ```js
+  class Person{
+      constructor(){
+          if(new.target == Person){
+              throw new Error('i am warng')
+          }
+      }
+  }
+  let per = new Person() // 抛出错误
+  ```
+
+- 内置类型
+  调用某些内置实例的方法会返回新实例，即子类继承父类，调用父类上的方法，仍返回一个子类实例。可以通过 Symbol.species，是一个函数，在构造实例时返回实例的类。
+
+  ```js
+  class newArray extends Array{
+  }
+  let nArray = new newArray(1,2,3,4)
+  let n2 = n.filter(x => !!(x%2)) // 调用实例的方法 filter
+  n2 instanceof newArray // 构造了一个新的 newArray 实例，仍为 true
+
+  class newArray extends Array{
+      static get [Symbol.species](){
+          return Array
+      }
+  }
+  let n2 = n.filter(x => !!(x%2))
+  n2 instanceof newArray // false
+  ```
+
+- 类混入
+  若要灵活实现继承,可以使用函数,将要继承的类作为参数传入.
+
+  ```js
+  let newClass = (newclass) =>{
+      class extends newclass {}
+  }
+  ```
+
+## 九、代理和反射
+
+类似于秘书，若想操作目标对象，必须通过一层代理，将操作放置在代理对象，由代理对象传达给目标函数，创建代理的关键字是Proxy。new Proxy(target,handler) 参数1表示需要被代理的目标对象,对象类型不限制.参数2表示一个属性为函数的对象,函数表示执行操作时代理的行为,通常有get、set等.Proxy.prototype 是undefined ,不能使用instanceof检测是否是代理实例
+
+```js
+let obj = {} // 目标对象
+let p = new Proxy(obj,{
+    get:function(obj,prop){// 获取对象属性时调用
+        return obj.hasOwnProperty(prop) ? obj[prop] : 22
+    }})
+    p.a // 22
+    obj.a // undefined
+    obj.a = 10
+    obj == p // false
+    p.a // 10 此时 obj 中有此属性
+    p instanceof Proxy // throw error
+```
+
+### 代理捕获器
+
+代理捕获器以函数形式存储在构造代理实例的参数2中,在处理操作时触发, get() 捕获器在实例proxy[xxx] 和object.create[proxy](xxx) 中触发,可以传入三个参数 get(target,property,proxy),分别是目标对象,获取的对象属性名,代理对象.在捕获器中使用Reflect反射,每一个捕获器都有同名称的反射API,例如Reflect.get(target,property,proxy).
+
+```js
+let obj = {}
+let p = new Proxy(obj,{
+    get(obj,prop,proxy){
+        console.log(obj == obj)
+        console.log(p == proxy)
+    }
+})
+p.name // true true
+```
+
+#### 捕获器错误
+
+当为目标对象设置了一个属性描述对象为不可操作时,此时使用捕获器修改get操作时,会抛出错误,类似这种不允许捕获器越界的行为称为 '捕获器不变式'
+
+```js
+let obj = {} // 目标对象
+Object.defineProperty(obj,'name',{
+    configurable:false,
+    writable:false,
+    value:'zzz'
+})
+let p = new Proxy(obj,{get(){
+    return 'lyf' // 获取参数时,将其赋值为'lyf'
+}})
+p.name // throw error
+```
+
+#### 撤销代理
+
+即中断代理和目标函数的联系,使用Proxy.revocable() 创建代理,会返回一个对象,有属性 proxy 和revoke,表示代理对象和撤销代理函数,撤销是不可逆的操作,不论撤销几次,都是一样会抛出错误.
+
+```js
+let obj = {name:'lyf'}
+let { proxy,revoke } = new Proxy.revocable(obj,{
+    get(){
+        return 'xxx'
+    }
+})
+proxy.name // 'xxx'
+obj.name // 'lyf'
+revoke() // 撤销代理
+proxy.name // throw error
+```
+
+#### 反射Reflect
+
+内部有很多方法，并不是为了代理而生，下面还会有更详细的介绍
+
+- 捕获代理，且在Object有对应API
+
+- 状态标记，即在不成功时返回布尔值，而不是Object抛出错误
+
+- 代理操作符，例如 get、set、has、deleteProperty、construct
+
+#### 代理某代理
+
+即秘书找了一个秘书，要达到目标对象，通过层层拦截与操作。
+
+```js
+let obj = {money:100} // 老板给了100 块
+let fproxy = new Proxy(obj,{
+    get(obj,prop){
+        if(prop.includes('money')){
+            console.log('一层代理吃了90%回扣')
+            return obj[prop]/10 // 一层代理吃了90%回扣
+        }
+    }
+})
+let sproxy = new Proxy(fproxy,{
+    get(obj,prop){
+        if(prop.includes('money')){
+            console.log('二层代理吃了90%回扣')
+            return obj[prop]/10 // 二层代理吃了90%回扣
+        }
+    }
+})
+sproxy.money // '二层代理吃了90%回扣' '一层代理吃了90%回扣' 1
+```
+
+#### 代理的问题
+
+一些细节,懒得看了,TODO
+
+### 代理捕获器
+
+基本上就是改写Object的方法
+
+- get(target,property,proxy)
+  对应的反射为 Reflect.get.
+- set(target,property,value,proxy)
+  对应的反射为 Reflect.set,返回一个布尔值,表示设置成功与否.
+- has(target,property)
+  对应的反射为 Relect.has(),必须返回一个布尔值
+- defineProperty()
+  对应的反射为 Relect.defineProperty()
+- getOwnPropertyDescritor()
+- getPrototypeOf()
+
+## 十、函数
+
+#### 声明函数的方式
+
+- 声明式 function xxx(){}
+  可以提升到顶部
+- 表达式 let xxx = function(){}
+- 箭头函数 let xxx = ()=>{}
+  当只有一行时,默认作为return值,当只有一个参数时不需要括号,多个或0个时需要.当只有一行代码时不需要{}号
+- 实例化Function函数 let xxx = new Function()
+  所有参数都是字符串,前n-1个参数作为函数的参数,最后一个参数作为函数体
+
+#### 函数属性
+
+皆有一个 name的属性,保存函数名,箭头函数返回空字符串,new Function创建的函数返回'anonymous'字符串.函数内部还有一个arguments属性,是一个类数组对象,存储所有参数,但是箭头函数没有此属性.js中函数没有重载,即同名的函数只有一个.ES6中支持参数默认值,即在定义时赋值 function sayName(name= 'lyf'),当不传参时,name默认为'lyf',参数默认值和let赋值一样,还可以将前面的参数默认值赋值给后面的参数,反之报错.还有可以使用... 扩展操作符传入一个数组
+
+```js
+function(name = 'lyf',show = name){}
+```
+
+#### 函数内部
+
+有arguments、this、和new.target.arguments有一个属性callee,指向函数,可以用来递归解耦
+
+```js
+function deepcopy(obj){
+    if((typeof obj.name == 'object' || typeof obj.name == 'function') && obj.name !== null)
+    deepcopy(obj.name) // 满足一定条件时递归,但是当函数修改名称时,内部也需跟着修改,否则报错
+    arguments.callee(obj.name) // 在严格模式下报错
+}
+```
 
 ```plantuml
 @startuml

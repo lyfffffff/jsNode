@@ -5,7 +5,7 @@
 #### %百分比的使用
 
 - ``width/height``
-  基于父元素。对于一些需要占满的元素，例如nav、footer，直接设置``width:100%``，当父元素也没有设置具体高度时，此时子元素就算设置了百分比高度仍会变成auto。故在使用百分比时，同一个选择器控制的元素样式可能会不同，因为他们的父元素宽高不同。对于父元素也设置百分比的元素，依然是按照父元素的百分比计算，即和爷爷也有百分比关系
+  基于父元素。对于一些需要占满的元素，例如 nav、footer，直接设置``width:100%``，当父元素也没有设置具体高度时，此时子元素就算设置了百分比高度仍会变成 auto。故在使用百分比时，同一个选择器控制的元素样式可能会不同，因为他们的父元素宽高不同。对于父元素也设置百分比的元素，依然是按照父元素的百分比计算，即和爷爷也有百分比关系
 
   ```css
   .grandpa {
@@ -22,7 +22,7 @@
 - ``left/right/top/bottom``
   基于父元素。对于一些左右布局，可以使用 ``position：left:50%`` 加 ``margin-left`` 偏移
 - ``transform: translateX(-50%)``
-  transform表示移动，translate(x,y) 表示X，Y轴移动距离，translateX，translateY分别表示X，Y轴移动距离，百分比基于自身宽高
+  transform 表示移动，translate(x,y) 表示 X，Y 轴移动距离，translateX，translateY 分别表示 X，Y 轴移动距离，百分比基于自身宽高
 
   ```less
     // 实现水平垂直居中
@@ -52,10 +52,10 @@
 - ``border-radius``
   基于自身宽高，设置 ``border-radius:50%`` 可以画出圆
 - ``background-position:@prams @prams``
-  表示背景图片基于容器的水平垂直位置，不设置时，图片位于元素左上角，参数可使用center/left等，也可以使用百分比，百分比表示：（容器的宽高—背景图片的宽高）*百分比，故50%时，元素居中
+  表示背景图片基于容器的水平垂直位置，不设置时，图片位于元素左上角，参数可使用 center/left 等，也可以使用百分比，百分比表示：（容器的宽高—背景图片的宽高）*百分比，故 50%时，元素居中
 
   ```less
-  // 参数二默认为center，二者等价，都表示水平垂直居中
+  // 参数二默认为 center，二者等价，都表示水平垂直居中
   background-position:50%;
   background-position:center;
   ```
@@ -63,27 +63,27 @@
 - ``line-height``
 基于自身``font-size``大小
 - ``vertical-align``
-  对行内元素 inline 和 table-cell 起效（img、span、input、td、button、strong、em），行内元素于一行中的对齐方式：基线对齐，各行内元素的基线皆不同，其中x字母、图片、设置overflow:hidden的行内元素基线在最底部。
-  vertical-align决定当前元素在基线的基础上，相对父元素字体垂直移动距离，正值上移，负值下移。还有一些可选值，top表示与元素最高点对齐，text-top表示与父元素字体的顶端对齐
+  对行内元素 inline 和 table-cell 起效（img、span、input、td、button、strong、em），行内元素于一行中的对齐方式：基线对齐，各行内元素的基线皆不同，其中 x 字母、图片、设置 overflow:hidden 的行内元素基线在最底部。
+  vertical-align 决定当前元素在基线的基础上，相对父元素字体垂直移动距离，正值上移，负值下移。还有一些可选值，top 表示与元素最高点对齐，text-top 表示与父元素字体的顶端对齐
 
   ```less
-  vertical-align: 50%;// 相对于基线上移15px
+  vertical-align: 50%;// 相对于基线上移 15px
   line-height: 30px; 
   ```
 
 #### 图片元素的间隙
 
-往div中放入图片，图片底部距离div下方会有一个间隙，两个图片水平之间也会有间隙
+往 div 中放入图片，图片底部距离 div 下方会有一个间隙，两个图片水平之间也会有间隙
 
 - 垂直方向
-  行内元素基线对齐后还要和父元素的字体基线保持一致，故图片基线由基于元素底部变成基于x字母，去掉空隙需操作父元素的字体，或者把图片设置成块级元素，或者设``vertical-align``属性
+  行内元素基线对齐后还要和父元素的字体基线保持一致，故图片基线由基于元素底部变成基于 x 字母，去掉空隙需操作父元素的字体，或者把图片设置成块级元素，或者设``vertical-align``属性
 
   ```less
   float: left; /* 设置图片浮动属性，默认变成块级元素 *
   vertical-align: top;/* 设置图片垂直对齐方式 */
-  font-size: 0; /* 设置父元素文本大小为0 */
+  font-size: 0; /* 设置父元素文本大小为 0 */
   display: block; /* 设置图片为块级元素 */
-  line-height: 0; /* 设置父元素行高为0 */
+  line-height: 0; /* 设置父元素行高为 0 */
   ```
 
 - 水平方向
@@ -99,7 +99,7 @@
 #### 文字设置
 
 - ``white-space``
-  文字空格。多个空格默认为一个，显示全部空格常用的取值为：``white-space:pre`` 和 pre-wrap，其中 pre 不允许自动换行，原原本本地显示文本，可能超出容器，而 pre-wrap 会根据容器宽度自动换行。二者都保留行尾空格，但pre-wrap 行尾空格也不自动换行，即超过容器，不影响下一行
+  文字空格。多个空格默认为一个，显示全部空格常用的取值为：``white-space:pre`` 和 pre-wrap，其中 pre 不允许自动换行，原原本本地显示文本，可能超出容器，而 pre-wrap 会根据容器宽度自动换行。二者都保留行尾空格，但 pre-wrap 行尾空格也不自动换行，即超过容器，不影响下一行
 
   ```less
   .pre-article {
@@ -111,7 +111,7 @@
 
 - ``word-break``
   文字断行，对于英文单词不进行断行，break-all 表示全部字母断行
-- 超出n行后显示省略
+- 超出 n 行后显示省略
   - 一行：设置文字不换行、超出隐藏、超出使用省略号展示
 
   ```less
@@ -120,7 +120,7 @@
   text-overflow:ellipsis;
   ```
 
-  - n行：超出隐藏、超出使用省略号展示
+  - n 行：超出隐藏、超出使用省略号展示
 
   ```less
   display:-webkit-box;
@@ -139,9 +139,9 @@
   }
   ```
 
-#### rgba和opacity
+#### rgba 和 opacity
 
-opacity 属性后代元素都会继承 opacity 属性，而rgba后代元素不会继承不透明属性，故使用rgba代替opacity，取值皆是从 0.0 （完全透明）到 1.0（完全不透明）
+opacity 属性后代元素都会继承 opacity 属性，而 rgba 后代元素不会继承不透明属性，故使用 rgba 代替 opacity，取值皆是从 0.0 （完全透明）到 1.0（完全不透明）
 
 ```less
 // 设置分页器样式
@@ -176,20 +176,20 @@ opacity 属性后代元素都会继承 opacity 属性，而rgba后代元素不�
 图片可以作为背景（background-img）插入元素，可以通过 img 标签作为行内元素插入 dom
 
 ```less
-// 使用background设置图片背景
-// 1，联用，不规定顺序，但是同一个属性不能分开，（位置left和top不能分开 background:10px #ccc 10px 报错）
+// 使用 background 设置图片背景
+// 1，联用，不规定顺序，但是同一个属性不能分开，（位置 left 和 top 不能分开 background:10px #ccc 10px 报错）
 background: url('') repeat #fff fixed center// 图片 重复 颜色 是否固定 位置
 // 2，单用
 background-image:url('')
 ```
 
 - 设置背景和容器契合
-  直接使用img(width:100%)，图片不一定完全覆盖容器，即高度不够；在div中使用background，全覆盖和原比例都可以做到
+  直接使用 img(width:100%)，图片不一定完全覆盖容器，即高度不够；在 div 中使用 background，全覆盖和原比例都可以做到
   - background-size
     - cover
      将图片按照原有比例放大至填满容器，设置 width:100% 或 height：100%，超过部分不可见，图片不变形
     - 100%
-     图片在x轴方向缩放至填满容器，y轴不管，图片不变形
+     图片在 x 轴方向缩放至填满容器，y 轴不管，图片不变形
     - 100% 100%
      图片宽度长度都按容器比例撑满，图片变形
 
@@ -209,41 +209,41 @@ background-image:url('')
 
 #### display:flex
 
-弹性布局，设置子元素布局方式，当弹性盒子设置不换行时，子元素本身设置的宽度可能会变，若元素都能正常缩放，子元素自动缩放到能全部放下盒子，且按照宽度**等比**缩放，即宽度1：2：3，最后宽度也是1：2：3，但是元素最小宽度为**子元素最大宽度**，弹性布局也不能缩小到其以下，故比例也会变，先按照比例缩小，到有元素不能缩小后，缩小能缩小的元素，最后所有盒子缩小完毕，若仍不能放下，则超出（若纯文本盒子，最后缩小到一个字一行），弹性盒子拥有六大属性，子元素也有六大属性
+弹性布局，设置子元素布局方式，当弹性盒子设置不换行时，子元素本身设置的宽度可能会变，若元素都能正常缩放，子元素自动缩放到能全部放下盒子，且按照宽度**等比**缩放，即宽度 1：2：3，最后宽度也是 1：2：3，但是元素最小宽度为**子元素最大宽度**，弹性布局也不能缩小到其以下，故比例也会变，先按照比例缩小，到有元素不能缩小后，缩小能缩小的元素，最后所有盒子缩小完毕，若仍不能放下，则超出（若纯文本盒子，最后缩小到一个字一行），弹性盒子拥有六大属性，子元素也有六大属性
 **弹性盒子**
 
 - flex-direction：决定子元素排列主轴与顺序，取值：row/column-reverse
-- flex-wrap:决定子元素是否换行显示与换行方向（从顶端排到下or底部排到上），取值：nowrap/wrap-reverse
+- flex-wrap:决定子元素是否换行显示与换行方向（从顶端排到下 or 底部排到上），取值：nowrap/wrap-reverse
 - flex-flow：不常用，简写上面两个属性，默认为：flex-flow:row nowrap
 - justify-content：主轴上的对齐方式，flex-satrt/end，center，space-between，space-around（每个项目两侧的间隔相等，项目之间的间隔比项目与边框的间隔大一倍）
-- align-items：项目在交叉轴上的对齐方式，除了左右中对齐外，还有基线对齐（baseline），stretch（项目未设置高度或设为auto，占满整个容器的高）
-- align-content：多轴线的对齐方式，和justify-content差不多
+- align-items：项目在交叉轴上的对齐方式，除了左右中对齐外，还有基线对齐（baseline），stretch（项目未设置高度或设为 auto，占满整个容器的高）
+- align-content：多轴线的对齐方式，和 justify-content 差不多
 **子元素**
 - order：排列顺序
-- flex-grow：放大比例，默认为0
-- flex-shrink：缩小比例，默认为1
+- flex-grow：放大比例，默认为 0
+- flex-shrink：缩小比例，默认为 1
 - flex-basis：在主轴占的空间，默认为原本项目大小
 - flex：综合前面三个属性，默认为 0 1 auto，该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)
 - align-self：不遵从父元素的对齐（align-item），自定义对齐方式
 **弹性盒子缺点**
-- flex盒子的内容可以溢出，即内容宽度可能超过父元素宽度（有些内容溢出不涉及宽度变化：比如 { width: 10px; white-space: nowrap;} ）
+- flex 盒子的内容可以溢出，即内容宽度可能超过父元素宽度（有些内容溢出不涉及宽度变化：比如 { width: 10px; white-space: nowrap;} ）
 - 若子元素写了 { overflow: hidden; }，则宽度不会溢出，文字内容也可以点点点。但会影响一些绝对定位等位置需要超出该元素的内容。
 **检查弹性盒子是否溢出**
 justify-content: center，若盒子移位了，表示溢出
 
 #### position
 
-设置元素位置，默认为static，即静止不移动，当position设置为relative/absolute/fixed时，通过top/left/right/bottom可改变元素位置，其中absolute/fixed是脱离文档流的，但relative是不会脱离文档流，即relative会占据着移动之前的位置，但是absolute和fixed就不会）
+设置元素位置，默认为 static，即静止不移动，当 position 设置为 relative/absolute/fixed 时，通过 top/left/right/bottom 可改变元素位置，其中 absolute/fixed 是脱离文档流的，但 relative 是不会脱离文档流，即 relative 会占据着移动之前的位置，但是 absolute 和 fixed 就不会）
 
-#### min-width、width和max-width
+#### min-width、width 和 max-width
 
 优先级：min-width = max-width > width
-当 max-width > width > min-width 时，宽度的标准是 width，否则取最大/小宽度，min-width、max-width设置百分比时，都会继承父元素的当前显示宽度
+当 max-width > width > min-width 时，宽度的标准是 width，否则取最大/小宽度，min-width、max-width 设置百分比时，都会继承父元素的当前显示宽度
 
-#### position和margin冲突
+#### position 和 margin 冲突
 
-绝对定位是根据相对于父元素的top/left/right/bottom来定位的，而margin是根据自身当前位置来定位的，故设置margin失效
-1，元素在绝对定位以后，left/rigth/top/bottom是没有优先等级的，不像margin-left作用的时候margin-right没用，如果现在left:0,right:0,两方实力相当，浏览器没办法，都得满足
+绝对定位是根据相对于父元素的 top/left/right/bottom 来定位的，而 margin 是根据自身当前位置来定位的，故设置 margin 失效
+1，元素在绝对定位以后，left/rigth/top/bottom 是没有优先等级的，不像 margin-left 作用的时候 margin-right 没用，如果现在 left:0,right:0,两方实力相当，浏览器没办法，都得满足
 
 ```less
     position:absolute
@@ -252,7 +252,7 @@ justify-content: center，若盒子移位了，表示溢出
     margin:0 auto
 ```
 
-2，当它距离父元素left:50%,top:50%，那就是父元素一半的距离，因为要实现居中即自身的中点在父元素的中间才算，所以margin-left/margin-top 负的自身宽/高的一半，那么正好水平垂直居中，但是由于margin相对于父元素，故不得使用百分比。
+2，当它距离父元素 left:50%,top:50%，那就是父元素一半的距离，因为要实现居中即自身的中点在父元素的中间才算，所以 margin-left/margin-top 负的自身宽/高的一半，那么正好水平垂直居中，但是由于 margin 相对于父元素，故不得使用百分比。
 
 ```less
     position:absolute
@@ -264,14 +264,14 @@ justify-content: center，若盒子移位了，表示溢出
 
 #### 垂直水平居中
 
-- 水平居中，直接设置margin
+- 水平居中，直接设置 margin
 
   ```less
   margin:0 auto
   ```
 
 - 垂直居中
-  - position结合margin
+  - position 结合 margin
 
     ```less
     {
@@ -300,7 +300,7 @@ justify-content: center，若盒子移位了，表示溢出
      }
      ```
 
-  - 表格元素：显示设置父元素为：table，子元素为：cell-table，这样就可以使用vertical-align: center，实现垂直居中
+  - 表格元素：显示设置父元素为：table，子元素为：cell-table，这样就可以使用 vertical-align: center，实现垂直居中
 
      ```less
      .parent{
@@ -313,7 +313,7 @@ justify-content: center，若盒子移位了，表示溢出
      }
      ```
 
-#### css样式初始化
+#### css 样式初始化
 
 初始化可以解决浏览器的兼容问题，因为不同浏览器对有些标签的默认值是不同的
 
@@ -328,11 +328,11 @@ justify-content: center，若盒子移位了，表示溢出
 
 #### 伪元素和伪类
 
-伪类通过添加类来实现；伪元素通过添加实际的元素来实现，伪元素创建了一个不在文档树上但实际存在的新的元素，所以不能通过js来操作，仅仅是在 CSS 渲染层加入，要配合content属性一起使用
+伪类通过添加类来实现；伪元素通过添加实际的元素来实现，伪元素创建了一个不在文档树上但实际存在的新的元素，所以不能通过 js 来操作，仅仅是在 CSS 渲染层加入，要配合 content 属性一起使用
 
 - 伪元素失效
-  在input、radio、select等表单标签中，伪元素失效，::before的定义：在指定元素的内容之前插入内容。注意：是元素内容之前，而不是元素之前。而input并不是容器，所以没有内容之前一说，所以就无效了。
-- 伪元素使用，必须设置content ，其余和正常项目一致，常使用position改变伪元素位置
+  在 input、radio、select 等表单标签中，伪元素失效，::before 的定义：在指定元素的内容之前插入内容。注意：是元素内容之前，而不是元素之前。而 input 并不是容器，所以没有内容之前一说，所以就无效了。
+- 伪元素使用，必须设置 content ，其余和正常项目一致，常使用 position 改变伪元素位置
 
   ```less
   &::before{
@@ -345,9 +345,9 @@ justify-content: center，若盒子移位了，表示溢出
 
 #### 盒子两端对齐
 
-即元素每一行两端对齐，但是最后一行靠左，类似于文字的justify两端对齐，最佳实现效果是根据容器的宽度排列，决定元素之间的间隙与单行个数
+即元素每一行两端对齐，但是最后一行靠左，类似于文字的 justify 两端对齐，最佳实现效果是根据容器的宽度排列，决定元素之间的间隙与单行个数
 
-- 使用margin-right搭配float，改变宽度时无法兼容
+- 使用 margin-right 搭配 float，改变宽度时无法兼容
 
   ```less
   {
@@ -359,7 +359,7 @@ justify-content: center，若盒子移位了，表示溢出
   }
   ```
 
-- 弹性盒子添加空元素，宽度与项目保持一致，高度设为0
+- 弹性盒子添加空元素，宽度与项目保持一致，高度设为 0
 
   ```less
   {
@@ -375,7 +375,7 @@ justify-content: center，若盒子移位了，表示溢出
 
   ```
 
-- 当一列只有2/3个时，使用伪元素
+- 当一列只有 2/3 个时，使用伪元素
 
   ```less
     &::after {
@@ -390,8 +390,8 @@ justify-content: center，若盒子移位了，表示溢出
 
 #### 深拷贝和浅拷贝
 
-- json化实现
-  先使用JSON.stringify将对象变成json字符串，再使用JSON.parse将字符串转为新对象，缺点是遇到无法转换为json格式的属性时，例如function、RegExp、undefined等数据，转化直接忽略，即深拷贝的数据会丢失，可以使用JSON.stringify()对特殊类型进行格式化
+- json 化实现
+  先使用 JSON.stringify 将对象变成 json 字符串，再使用 JSON.parse 将字符串转为新对象，缺点是遇到无法转换为 json 格式的属性时，例如 function、RegExp、undefined 等数据，转化直接忽略，即深拷贝的数据会丢失，可以使用 JSON.stringify()对特殊类型进行格式化
 
   ```js
   let _obj = JSON.stringify(obj)
@@ -424,23 +424,23 @@ justify-content: center，若盒子移位了，表示溢出
 
 #### Object.assign(mainObject,...)
 
-  参数一是目标对象，接收后面参数对象**可枚举**的属性（一般对象的属性都是可枚举的，除非对象的enumerable属性为false），目标对象有该属性则覆盖，无则添加，有一些拷贝的性质，但若参数的属性值为对象，则单凭赋值还是指向同一个地址，实现的是只有一层的拷贝，见[图 1](#img1)<span id="jumpImg1">*</span>
+  参数一是目标对象，接收后面参数对象**可枚举**的属性（一般对象的属性都是可枚举的，除非对象的 enumerable 属性为 false），目标对象有该属性则覆盖，无则添加，有一些拷贝的性质，但若参数的属性值为对象，则单凭赋值还是指向同一个地址，实现的是只有一层的拷贝，见[图 1](#img1)<span id="jumpImg1">*</span>
 
-#### 检测数据类型与toString()
+#### 检测数据类型与 toString()
 
 - typeof --- typeof xxx
-  判断数据类型，对于非引用类型可显示（string、boolean、number），对于数组、对象、实例、null都识别为object，对于undefined识别为undefined，对于函数识别为function
+  判断数据类型，对于非引用类型可显示（string、boolean、number），对于数组、对象、实例、null 都识别为 object，对于 undefined 识别为 undefined，对于函数识别为 function
 - instanceof --- xxx instanceof Object
-  返回一个boolean值，查看对象B prototype指向的原型对象是否在对象A的prototype原型链上，若对象B的prototype为null将会报错，类似于空指针异常，不可以检测非引用类型，因为没有原型对象，对象A必须是对象
+  返回一个 boolean 值，查看对象 B prototype 指向的原型对象是否在对象 A 的 prototype 原型链上，若对象 B 的 prototype 为 null 将会报错，类似于空指针异常，不可以检测非引用类型，因为没有原型对象，对象 A 必须是对象
 - constructor
-  对象的constructor指向创建该对象的构造函数，但是不常用这个判断对象类型，因为contructor的指向是可以通过赋值操作被改变的，其中null、undefined没有construtor，其余可以被检测出来
+  对象的 constructor 指向创建该对象的构造函数，但是不常用这个判断对象类型，因为 contructor 的指向是可以通过赋值操作被改变的，其中 null、undefined 没有 construtor，其余可以被检测出来
 - Object.prototype.toString.call(obj)
-  返回一个形如'[Object type]'的字符串，例如'[Object String]'，Array、String中的toString方法是被修改过的，故不能直接使用toStirng检测，而要使用Object对象原型的toString检测
+  返回一个形如'[Object type]'的字符串，例如'[Object String]'，Array、String 中的 toString 方法是被修改过的，故不能直接使用 toStirng 检测，而要使用 Object 对象原型的 toString 检测
   
-#### Object的内部方法
+#### Object 的内部方法
 
 - Object.defineProperty(obj，property，descriptor)
-  操作对象的属性，有则修改，无则添加，参数三为一个对象，控制**属性描述符**对象，属性描述符对象有六个属性，不止控制属性的value（属性值），还有writable（是否可改），enumerable（是否可枚举）等，通过defineProperty定义的属性，与普通定义的属性不同，因为它是默认不可枚举、不可修改的、不可删除的。
+  操作对象的属性，有则修改，无则添加，参数三为一个对象，控制**属性描述符**对象，属性描述符对象有六个属性，不止控制属性的 value（属性值），还有 writable（是否可改），enumerable（是否可枚举）等，通过 defineProperty 定义的属性，与普通定义的属性不同，因为它是默认不可枚举、不可修改的、不可删除的。
 
   ```js
   Object.defineProperty(obj,'name',{
@@ -481,7 +481,7 @@ justify-content: center，若盒子移位了，表示溢出
 
   ```js
   let descriptor = Object.getOwnPropertyDescriptor(obj,'name')
-  descriptor// 包含六个属性的name属性描述符对象
+  descriptor// 包含六个属性的 name 属性描述符对象
   ```
 
 - Object.getOwnPropertyDescriptors(obj)
@@ -491,45 +491,45 @@ justify-content: center，若盒子移位了，表示溢出
   let descriptors = Object.getOwnPropertyDescriptors(obj)
   descriptors === {
       'name':{
-          // 包含六个属性的name属性描述符对象
+          // 包含六个属性的 name 属性描述符对象
       },
       'age':{
-          // 包含六个属性的name属性描述符对象
+          // 包含六个属性的 name 属性描述符对象
       }
       }
   ```
 
 - Object.getPrototypeOf(obj)
-  返回对象的原型对象，若没有继承的原型对象，则返回null，见[图 2](#img2)<span id="jumpImg2">*</span>
+  返回对象的原型对象，若没有继承的原型对象，则返回 null，见[图 2](#img2)<span id="jumpImg2">*</span>
 
 - Object.setPrototypeOf(obj1,obj2)
-  设置一个对象的原型对象，等价于obj1.__proto__ = obj2
+  设置一个对象的原型对象，等价于 obj1.__proto__ = obj2
 - Object.create(obj)
-  其中参数1表示被创建出来新对象的原型对象,等价于obj1.__proto__ = obj2
+  其中参数 1 表示被创建出来新对象的原型对象，等价于 obj1.__proto__ = obj2
 
 - Object.preventExtensios(obj)
-  让一个对象变成不可扩展的，即不能再添加新属性，es5若仍要添加新属性，会抛出错误，es6后不改变属性不报错，但若是使用definePrototype定义属性的话，还是会报错。此外，Object.isExtensible()用于检查对象是否可扩展，传入一个对象返回boolean值，若传入一个非对象的变量，es5抛出错误，es6则将变量强制转为对象并返回false
+  让一个对象变成不可扩展的，即不能再添加新属性，es5 若仍要添加新属性，会抛出错误，es6 后不改变属性不报错，但若是使用 definePrototype 定义属性的话，还是会报错。此外，Object.isExtensible()用于检查对象是否可扩展，传入一个对象返回 boolean 值，若传入一个非对象的变量，es5 抛出错误，es6 则将变量强制转为对象并返回 false
 - Object.keys(obj)
   返回可枚举属性组成的数组
 
-#### reflect对象
+#### reflect 对象
 
-   ES6提供的一个将常见js对象内部方法（Object.xxx(obj) or Object.prototype.xxx(obj)）封装并反射出来的对象（reflect.xxx(obj)），原因是：1，内部的方法不希望被暴露；2，reflect返回值更合理，使用defineProperty方法Object报错而reflect只是返回false；3，Object存在命令式，例如：delete obj.name，不符合面向对象的思想，reflect是对象，纯函数式调用方法，变成 reflect.deleteProperty(obj,name)。reflect对象拥有13个方法，且对第一个参数严格控制，若不传对象/函数，报错。
+   ES6 提供的一个将常见 js 对象内部方法（Object.xxx(obj) or Object.prototype.xxx(obj)）封装并反射出来的对象（reflect.xxx(obj)），原因是：1，内部的方法不希望被暴露；2，reflect 返回值更合理，使用 defineProperty 方法 Object 报错而 reflect 只是返回 false；3，Object 存在命令式，例如：delete obj.name，不符合面向对象的思想，reflect 是对象，纯函数式调用方法，变成 reflect.deleteProperty(obj,name)。reflect 对象拥有 13 个方法，且对第一个参数严格控制，若不传对象/函数，报错。
 
 - get(obj,attribute,receiver)
-  get和set的最后一个参数都是用来绑定this的，当属性部署了读取函数(get name(){})/赋值函数(set name(){})时起作用
+  get 和 set 的最后一个参数都是用来绑定 this 的，当属性部署了读取函数(get name(){})/赋值函数(set name(){})时起作用
 - set(obj,attribute,value,receiver)
 - has(obj,attribute)
-  返回一个boolean值，和 attribute in obj效果相同
+  返回一个 boolean 值，和 attribute in obj 效果相同
 - deleteProperty(obj,attribute)
 - construct(obj,args)
-  等同于new，reflect.construct(Fun,'lyf') 等价于 new Fun('lyf')，但是参数一必须是函数，不常用
+  等同于 new，reflect.construct(Fun,'lyf') 等价于 new Fun('lyf')，但是参数一必须是函数，不常用
 - apply(fun,receiver,args)
-  参数一是函数，参数二表示绑定的this，参数三表示传入函数的实参，与fun.apply一致，实参传入一个数组
+  参数一是函数，参数二表示绑定的 this，参数三表示传入函数的实参，与 fun.apply 一致，实参传入一个数组
 - getPrototypeOf(obj)
-  获取对象的原型对象，返回boolean值
+  获取对象的原型对象，返回 boolean 值
 - setPrototypeof(obj,newProto)
-  设置对象的原型对象，返回一个boolean值
+  设置对象的原型对象，返回一个 boolean 值
 - defineProperty(obj,attribute,descriptor)
   设置对象的标识属性
 - getOwnPropertyDescriptor(obj,)
@@ -538,54 +538,54 @@ justify-content: center，若盒子移位了，表示溢出
 - ownKeys(obj)
   返回一个包含所有属性名的数组
 
-#### reflect和Object的对比
+#### reflect 和 Object 的对比
 
 |  reflect   | Object  | 功能 |
 |  ----  | ----  | ---- |
 | reflect.has(attribute)  | attribute in obj | 检车属性是否在对象中 |
 | reflect.set(obj,attribute,value,receiver)  | obj[attribute] = value | 设置对象属性，常用后者 |
 | reflect.get(obj,attribute,reciver) | obj[attribute] | 获取对象属性，常用后者 |
-| reflect.deleteProperty(obj,attribute) | delete obj[attribute]  | 删除对象的属性,使用前者* |
+| reflect.deleteProperty(obj,attribute) | delete obj[attribute]  | 删除对象的属性，使用前者* |
 | reflect.ownKeys(obj) | Object.keys(obj) | 皆返回一个属性组成的数组，前者返回所有属性，后者只返回可枚举属性 |
-| reflect.defineProperty(obj,attribute,descriptor) | Object.defineProperty(obj,attribute,descriptor) | 全面地**描述**属性，前者返回Boolean值，后者返回设置好的对象 |
-| reflect.getOwnPropertyDescriptor(obj,attribute) | Object.getOwnPropertyDescriptor(obj,attribute) | 返回对象某属性的属性属性描述符对象，二者几乎一致，无该属性则返回undefined |
-| reflect.getPrototyOf(obj) | Object.getPrototyOf(obj) | 返回原型对象，如无返回null，二者几乎一致 |
-| reflect.setPrototyOf(obj,prototype) | Object.setPrototyOf(obj,prototype) | 设置对象的原型对象，前者返回Boolean值，后者返回新对象 |
+| reflect.defineProperty(obj,attribute,descriptor) | Object.defineProperty(obj,attribute,descriptor) | 全面地**描述**属性，前者返回 Boolean 值，后者返回设置好的对象 |
+| reflect.getOwnPropertyDescriptor(obj,attribute) | Object.getOwnPropertyDescriptor(obj,attribute) | 返回对象某属性的属性属性描述符对象，二者几乎一致，无该属性则返回 undefined |
+| reflect.getPrototyOf(obj) | Object.getPrototyOf(obj) | 返回原型对象，如无返回 null，二者几乎一致 |
+| reflect.setPrototyOf(obj,prototype) | Object.setPrototyOf(obj,prototype) | 设置对象的原型对象，前者返回 Boolean 值，后者返回新对象 |
 | reflect.isExtensible(obj) | Object.isExtensible(obj) | 检查对象是否可扩展，二者几乎一致 |
-| reflect.preventExtensions(obj) | Object.preventExtensions(obj) | 将对象设置为不可扩展的，前者返回Boolean值，后者返回设置好的对象 |
+| reflect.preventExtensions(obj) | Object.preventExtensions(obj) | 将对象设置为不可扩展的，前者返回 Boolean 值，后者返回设置好的对象 |
 | reflect.apply(fun,receiver,args) | Function.prototype.apply(receivers,args) | 二者功能几乎一致，常使用后者 |
 | reflect.construct(Fun,args) | new Fun(args) | 构造函数实例，常使用后者 |
 
-#### js中的事件
+#### js 中的事件
 
-在页面中，一些用户触发的行为，浏览器对象BOM触发的行为，可以称为事件，js捕获事件并触发对应的回调函数，称为js事件
+在页面中，一些用户触发的行为，浏览器对象 BOM 触发的行为，可以称为事件，js 捕获事件并触发对应的回调函数，称为 js 事件
 
 - 事件流
-  过程是根节点到目标节点，再从目标节点到根节点，例如一个div触发点击事件，流程为：document->html->body->div(click)->body->html->document，前面为捕获事件，后面为冒泡事件
+  过程是根节点到目标节点，再从目标节点到根节点，例如一个 div 触发点击事件，流程为：document->html->body->div(click)->body->html->document，前面为捕获事件，后面为冒泡事件
   [点击跳转](#img3) <span id='jumpImg3'>回来</span>
 - 监听事件
-  1，html属性
+  1，html 属性
   属性名为 on+event，绑定的事件需**调用**，类似于事件触发时，调用一个早已准备好的函数
 
   ```js
   <div onclick="clickHandle()"></div>
   ```
 
-  2，dom属性
-  在dom中获取元素并在事件属性中绑定函数，需确保dom中有此元素，故在window.onload中执行，属性值一般是唯一的，所以只能绑定一个函数
+  2，dom 属性
+  在 dom 中获取元素并在事件属性中绑定函数，需确保 dom 中有此元素，故在 window.onload 中执行，属性值一般是唯一的，所以只能绑定一个函数
 
   ```js
   window.onload = function(){
-  document.getElementById('div1').onclick = clickHandle// 需注意在window.onload中，document才能获取到页面节点
+  document.getElementById('div1').onclick = clickHandle// 需注意在 window.onload 中，document 才能获取到页面节点
   }
   ```
 
-  3，标准dom
-  在dom中获取元素并在事件属性中绑定函数，需确保dom中有此元素，故在window.onload中执行，可以绑定多个事件函数，顺序是先绑定先执行
+  3，标准 dom
+  在 dom 中获取元素并在事件属性中绑定函数，需确保 dom 中有此元素，故在 window.onload 中执行，可以绑定多个事件函数，顺序是先绑定先执行
   element.addEventListener(event,callback,isCapture)
-  参数1 event 事件名的字符串，只能绑定确切存在事件，例如click，不能自创事件，啥'show'
-  参数2 callback 事件触发时绑定的回调函数，内有一个参数，代表触发事件的元素
-  参数3 isCapture 表示事件是在捕获还是冒泡环节触发，boolean值，默认为false，即不再捕获阶段触发，而是冒泡
+  参数 1 event 事件名的字符串，只能绑定确切存在事件，例如 click，不能自创事件，啥'show'
+  参数 2 callback 事件触发时绑定的回调函数，内有一个参数，代表触发事件的元素
+  参数 3 isCapture 表示事件是在捕获还是冒泡环节触发，boolean 值，默认为 false，即不再捕获阶段触发，而是冒泡
 
   ```js
   window.onload = function(){
@@ -594,19 +594,19 @@ justify-content: center，若盒子移位了，表示溢出
   ```
 
 - 移除事件
-  只有使用标准dom绑定的事件函数可以移除，且必须移除同一个回调函数(地址)
+  只有使用标准 dom 绑定的事件函数可以移除，且必须移除同一个回调函数(地址)
   element.removeEventListener(event,callback,isCapture)
-  参数1 event 必选，表示需移除的事件
-  参数2 callback 必选，表示事件
-  参数3 表示要移除的事件的触发阶段，即addEventListener的参数3
+  参数 1 event 必选，表示需移除的事件
+  参数 2 callback 必选，表示事件
+  参数 3 表示要移除的事件的触发阶段，即 addEventListener 的参数 3
 
   ```js
-  element.addEventListener('click',function(){1},false)// 函数在内部,其他地方无法获取
+  element.addEventListener('click',function(){1},false)// 函数在内部，其他地方无法获取
   element.addEventListener('click',function(){2},false)
   element.addEventListener('click',function(){3},false)
   element.addEventListener('click',function(){4},false)
 
-  elsment.removeEventListener('click',function{1})// 不会移除,因为这只是长的一样的函数
+  elsment.removeEventListener('click',function{1})// 不会移除，因为这只是长的一样的函数
   ```
 
 #### toString 和 valueOf 的区别
@@ -625,11 +625,11 @@ toString 返回一个表示该对象的字符串。valueOf 返回一个对象的
 
 ### prototype 和 __proto__ 的区别和联系
 
-对象皆具有 __proto__ 属性，指向**构造该对象**的构造函数的原型对象，而原型对象是对象，也会有 __proto__ 属性，指向构造其的构造函数的原型对象，以此生成 __proto__.__proto__.__proto__ 原型链，函数才拥有 prototype 属性，指向自身的原型对象，故对象 __proto__ 和函数 prototype 有可能是等价的，当且仅当该对象是该函数构造的。在 prototype 对象上设置的属性，通过 new 实例化的对象可以访问，故 prototype 对象上的属性需严谨，具有一定的公共性。prototype 对象有一个属性 constructor，指向构造函数（Object.prototype.constructor == object）。prototype 对象还有一个 isPrototypeOf() 方法，判断**参数实例**是不是构造函数的实例。Object 也有可以操作原型对象的方法，getPrototypeOf() 返回传入参数的构造函数的 prototype。setPrototypeOf() 传入两个参数，参数1 是实例，参数2 是一个对象，表示将参数2 设置为参数1 的原型对象。create() 将参数作为新创建对象的原型对象。若要获取对象自身的可枚举属性，使用Object.keys()。对于一个实例 obj，判断一个属性是原型还是自身定义的，使用 obj.hasOwnProperty()，传入一个字符串参数，根据参数是不是实例自身属性返回一个 boolean 值，与之对应的操作符是 in，'name' in obj 不论参数在原型还是自身，都会显示 true，for-in 也是 in 的一种体现，遍历时也会返回原型的属性。
+对象皆具有 __proto__ 属性，指向**构造该对象**的构造函数的原型对象，而原型对象是对象，也会有 __proto__ 属性，指向构造其的构造函数的原型对象，以此生成 __proto__.__proto__.__proto__ 原型链，函数才拥有 prototype 属性，指向自身的原型对象，故对象 __proto__ 和函数 prototype 有可能是等价的，当且仅当该对象是该函数构造的。在 prototype 对象上设置的属性，通过 new 实例化的对象可以访问，故 prototype 对象上的属性需严谨，具有一定的公共性。prototype 对象有一个属性 constructor，指向构造函数（Object.prototype.constructor == object）。prototype 对象还有一个 isPrototypeOf() 方法，判断**参数实例**是不是构造函数的实例。Object 也有可以操作原型对象的方法，getPrototypeOf() 返回传入参数的构造函数的 prototype。setPrototypeOf() 传入两个参数，参数 1 是实例，参数 2 是一个对象，表示将参数 2 设置为参数 1 的原型对象。create() 将参数作为新创建对象的原型对象。若要获取对象自身的可枚举属性，使用 Object.keys()。对于一个实例 obj，判断一个属性是原型还是自身定义的，使用 obj.hasOwnProperty()，传入一个字符串参数，根据参数是不是实例自身属性返回一个 boolean 值，与之对应的操作符是 in，'name' in obj 不论参数在原型还是自身，都会显示 true，for-in 也是 in 的一种体现，遍历时也会返回原型的属性。
 
 ```js
 let obj = new Object() // 构造函数为 Object，原型对象由 prototype 获取
-obj.__proto__ === 指向Object的原型对象 === Object.prototype
+obj.__proto__ === 指向 Object 的原型对象 === Object.prototype
 arr.__proto__.__proto__ === Array.prototype.__proto__ === Object.prototype
 
 Array.prototype.constructor === Array
@@ -654,13 +654,13 @@ obj.__proto__ == obj1 // true
 
 # Vue
 
-#### Vue事件
+#### Vue 事件
 
 通过 Vue 发送的事件，而不是 dom 事件，一般使用 emit 发送，on 接收，off 去除，和标准 dom 事件监听 addEventListener、removeEventListener 相对应
 
 - vue.$emit(event,attrbutes)
-  参数1 event 为表示事件的字符串，类似于dom事件的'click'、'mousedown'，但是这个没有固定的限制
-  参数2 attributes 表示传给监听事件回调函数的参数
+  参数 1 event 为表示事件的字符串，类似于 dom 事件的'click'、'mousedown'，但是这个没有固定的限制
+  参数 2 attributes 表示传给监听事件回调函数的参数
   本质上是给本组件监听，可以在本组件使用 vue.$on 和 vue.$once 监听，在父组件则是使用 v-on 监听子组件传出的事件
 
   ```js
@@ -671,7 +671,7 @@ obj.__proto__ == obj1 // true
 
 ### 自定义指令
 
-可以全局和局部自定义指令，使用 directive 注册一个指令，并设置其钩子函数，全局则是调用Vue原型方法 Vue.directive('orderName',{pFunction1,pFunction2})，局部则是属性对象 directives:{orderName1:{pFunction1,pFunction2},orderName2:{pFunction1,pFunction2}}，在 dom 元素中使用 v-orderName 即可，也可绑定属性
+可以全局和局部自定义指令，使用 directive 注册一个指令，并设置其钩子函数，全局则是调用 Vue 原型方法 Vue.directive('orderName',{pFunction1,pFunction2})，局部则是属性对象 directives:{orderName1:{pFunction1,pFunction2},orderName2:{pFunction1,pFunction2}}，在 dom 元素中使用 v-orderName 即可，也可绑定属性
 
 #### 自定义指令的钩子函数(pFunction) 五个
 
@@ -709,12 +709,12 @@ obj.__proto__ == obj1 // true
 
 # ES6
 
-#### class类
+#### class 类
 
 定义一个类，直接 class className{constructor(attributes){}}，实例化一个类，直接 new className(attributes)
 
-- 静态static
-  没有被修饰符修饰的属性直接在实例上，static修饰的属性不会被实例继承，只能被类调用
+- 静态 static
+  没有被修饰符修饰的属性直接在实例上，static 修饰的属性不会被实例继承，只能被类调用
 
   ```js
   class FullName{
@@ -741,14 +741,14 @@ obj.__proto__ == obj1 // true
       Prototype:{ // 原型上挂载类的公有方法和 constructor
           constructor: class FullName,
           reserveFullName: ƒ reserveFullName(),
-          Prototype:Object// 原型的原型才是Object的原型对象
+          Prototype:Object// 原型的原型才是 Object 的原型对象
       }
     }
 
   ```
 
 - 私有属性
-  ES6没有私有属性的概念，使用形如'#attribute'，即在属性前加#符号，表达私有属性。虽然只有在类内部才能读取该属性，但其在实例中仍可以打印显示，只是#开头的属性违法，无法通过 class.#attribute 访问。这只是一种巧妙，使用其他符号定义属性也是一样的，只是约定是#，其他符号都犯法。此外，js命名规则是只能使用字母、$符号、下划线开头
+  ES6 没有私有属性的概念，使用形如'#attribute'，即在属性前加#符号，表达私有属性。虽然只有在类内部才能读取该属性，但其在实例中仍可以打印显示，只是#开头的属性违法，无法通过 class.#attribute 访问。这只是一种巧妙，使用其他符号定义属性也是一样的，只是约定是#，其他符号都犯法。此外，js 命名规则是只能使用字母、$符号、下划线开头
 
   ```js
   class Foo {
@@ -772,19 +772,19 @@ obj.__proto__ == obj1 // true
   ```
 
 - 继承
-  通过 ES6 的关键字 extends 继承，若没有设置其他则相当于继承了父类的所有属性和方法。若在子类中自定义 constructor 设置 this 实例属性，必须使用 super 关键字继承父类的构造函数，因为 ES6 是先在解析父类的属性，再用子类的构造函数覆盖，super 就是使其先继承父类的构造函数，不设置则报错，且必须设置在最前面，不然也是跨父类了。super 作为函数调用只能在构造函数中，作为对象调用不受限，super 作为对象时在**普通方法**中指向父类的原型对象，即父类的静态方法；在**静态方法**中指向父类，即父类的普通方法。
+  通过 ES6 的关键字 extends 继承，若在子类中自定义 constructor 构造函数，必须使用 super 关键字继承父类的构造函数，因为 extends 的机制是先解析父类的属性，再用子类的构造函数覆盖，super 使子类先继承父类的构造函数，必须设置在 constructor 最前面。super 作为函数调用只能在构造函数中，作为对象调用不受限，super 作为对象时在**普通方法**中指向父类的原型对象，即父类的静态方法；在**静态方法**中指向父类，即父类的普通方法。
 
   ```js
-  class Farther{
+  class Farther {
       constructor(x,y){
           this.x = x;
           this.y = y
       }
   }
-  class Son extends Farther{}// 没有构造函数，可以不使用super
+  class Son extends Farther{} // 没有构造函数，可以不使用 super
   class Son extends Farther{
       constructor(x,y){
-          // 有构造函数，必须使用super
+          // 有构造函数，必须使用 super
           this.x = 111 // 报错，因为没有经过父类
           super(x) // 将传入实例的参数赋值给父类，this.x = x
           this.x = 1111 // 在此之前 this.x = x，在此之后 x == 1111
@@ -792,13 +792,13 @@ obj.__proto__ == obj1 // true
   }
   ```
 
-## HTTP请求
+## HTTP 请求
 
 超文本传输协议，基于 tcp，有 0.9、1、1.1、2 等版本，常见发送 HTTP 请求的方式有 AJAX 和 axios
 
-### AJAX请求
+### AJAX 请求
 
-创建一个ajax请求一般分为五步。
+创建一个 ajax 请求一般分为五步。
 
 - 1、创建对象
 
@@ -813,7 +813,7 @@ obj.__proto__ == obj1 // true
   /*
   * @params GET or POST
   * @params  请求地址
-  * @params 是否异步，默认为true，即 send 后不必等到其执行完毕
+  * @params 是否异步，默认为 true，即 send 后不必等到其执行完毕
   */
   ```
 
@@ -903,7 +903,7 @@ import axios from 'axios';
     timeout:1000,
     // 表明是否是跨域请求，默认为 false，表示不是跨域请求
     withCredentials:false,
-    // 表示返回数据的格式，可选值为：arraybuffer、blob、document、json、text、stream，默认为json
+    // 表示返回数据的格式，可选值为：arraybuffer、blob、document、json、text、stream，默认为 json
     responseType:'json',
     // 相应内容的最大值
     maxContentLength:2000,
@@ -912,32 +912,32 @@ import axios from 'axios';
     // 下载进度的事件
     onDownloadProgress:function(progressEvent){}
     },
-    // 表明 HTTP 基础的认证和证书，这会设置一个 authorization头（header），并覆盖你在 header 设置的 Authorization 头信息
+    // 表明 HTTP 基础的认证和证书，这会设置一个 authorization 头（header），并覆盖你在 header 设置的 Authorization 头信息
     auth: {
     username:"zhangsan",
     password: "s00sdkf"
     },
     // 适配器选项允许自定义处理请求，这会使得测试变得方便
-    // 返回一个promise，并提供验证返回
+    // 返回一个 promise，并提供验证返回
     adapter: function(config){
     /*..........*/
     },
-    // 用作 xsrf token 的值的cookie的名称
+    // 用作 xsrf token 的值的 cookie 的名称
     xsrfCookieName: 'XSRF-TOKEN',// default
     xsrfHeaderName:'X-XSRF-TOKEN',// default
-    // `validateStatus`定义了是否根据http相应状态码，来resolve或者reject promise
-    // 如果`validateStatus`返回true(或者设置为`null`或者`undefined`),那么promise的状态将会是resolved,否则其状态就是rejected
+    // `validateStatus`定义了是否根据 http 相应状态码，来 resolve 或者 reject promise
+    // 如果`validateStatus`返回 true(或者设置为`null`或者`undefined`),那么 promise 的状态将会是 resolved,否则其状态就是 rejected
     validateStatus:function(status){
     return status >= 200 && status <300;//default
     },
     // 表示 nodejs 中重定向的最大数量，默认为 5 
     maxRedirects: 5, //default
-    // `httpAgent/httpsAgent`定义了当发送http/https请求要用到的自定义代理
-    // keeyAlive在选项中没有被默认激活
+    // `httpAgent/httpsAgent`定义了当发送 http/https 请求要用到的自定义代理
+    // keeyAlive 在选项中没有被默认激活
     httpAgent: new http.Agent({keeyAlive:true}),
     httpsAgent: new https.Agent({keeyAlive:true}),
-    // proxy定义了主机名字和端口号，
-    // `auth`表明http基本认证应该与proxy代理链接，并提供证书
+    // proxy 定义了主机名字和端口号，
+    // `auth`表明 http 基本认证应该与 proxy 代理链接，并提供证书
     // 这将会设置一个`Proxy-Authorization` header,并且会覆盖掉已经存在的`Proxy-Authorization`  header
     proxy: {
     host:'127.0.0.1',
@@ -947,8 +947,8 @@ import axios from 'axios';
         password:'radsd'
     }
     },
-    // `cancelToken`定义了一个用于取消请求的cancel token
-    // 详见cancelation部分
+    // `cancelToken`定义了一个用于取消请求的 cancel token
+    // 详见 cancelation 部分
     cancelToken: new cancelToken(function(cancel){})
 }
 ```
@@ -961,7 +961,7 @@ import axios from 'axios';
 | 200 | 请求成功 |
 | 202 | 请求已接收，但未处理 |
 | 204 | 请求已处理，但是没有返回任何实体内容，可能只更新了头部信息 |
-| 301 | 请求已转移url |
+| 301 | 请求已转移 url |
 | 404 | 请求失败，资源没有找到或不存在 |
 | 500 | 服务器出错，无法完成请求 |
 | 503 | 服务器由于过载或维护，无法完成当前请求 |
@@ -970,7 +970,7 @@ import axios from 'axios';
 
 # 零碎
 
-#### Promise调用的区别
+#### Promise 调用的区别
 
 Promise 是层级调用的，即 then 在同一层，调用就在一层，vue 刷新也只有一次
 
@@ -985,11 +985,11 @@ Promise(4)
 
 全称 CommonLanguageSpecification，即公共语言规范，在定义类对象时作为文件名后缀。
 
-#### markdown语法
+#### markdown 语法
 
 - 页面内跳转
   一个带 id 的 html 标签，代表要跳转到的地方： <span id="jump">跳转到的地方</span>
-  当需要跳转时，使用 [](#标签id)，例如：[点击跳转](#jump)
+  当需要跳转时，使用 [](#标签 id)，例如：[点击跳转](#jump)
 
 #### 热重载
 
@@ -999,13 +999,13 @@ Promise(4)
 
 标准模式和混杂模式，一般是对 css 初始化的不同，例如标准盒子、是否有 3px 差异
 
-#### JSON的方法
+#### JSON 的方法
 
 - JSON.stringify(obj, Array|callback, Number|String)
   表示将 对象 变成 JSON 数据格式。
-   参数1：表示需要 JSON 化的对象，是必须的。
-   参数2：可选，函数 or 数组，用于过滤和自定义。当为过滤函数时，函数参数为参数1 的 key 和值，必须拥有 return 值，常常 return val。若对象的属性为一个对象，即函数 return 一个对象，则下一次先遍历该对象内部，因为对象不能简单加 ""，类似于入栈，完了再出栈按照顺序遍历，直到所有遍历完退出；若为数组，表示需遍历的属性，不在列表的不被序列化。
-   参数3：可选，表示字符串间距，每一级对比上一级缩进，可以传 '\t'等表示缩进的字符串
+   参数 1：表示需要 JSON 化的对象，是必须的。
+   参数 2：可选，函数 or 数组，用于过滤和自定义。当为过滤函数时，函数参数为参数 1 的 key 和值，必须拥有 return 值，常常 return val。若对象的属性为一个对象，即函数 return 一个对象，则下一次先遍历该对象内部，因为对象不能简单加 ""，类似于入栈，完了再出栈按照顺序遍历，直到所有遍历完退出；若为数组，表示需遍历的属性，不在列表的不被序列化。
+   参数 3：可选，表示字符串间距，每一级对比上一级缩进，可以传 '\t'等表示缩进的字符串
 
    ```js
    let obj = {
@@ -1019,7 +1019,7 @@ Promise(4)
            return this.name
        }
    }
-   JSON.stringify(obj,function(key,val){// 3，hobby对象入栈 --- 5，hooby 对象出栈，继续遍历 sayName
+   JSON.stringify(obj,function(key,val){// 3，hobby 对象入栈 --- 5，hooby 对象出栈，继续遍历 sayName
        console.log("key is %s",key)// 初次遍历时 key 和 value 为 '' 和 object
        console.log("val is %s",val)// 1，遍历 name 和 age --- 4，遍历 hobby 对象的属性 sports 和 foods
        return val // 2，遇到 hooby 对象
