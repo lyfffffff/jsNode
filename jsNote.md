@@ -1393,13 +1393,17 @@ function(name = 'lyf',show = name){}
 
 #### 函数内部
 
-有arguments、this、和new.target.arguments有一个属性callee,指向函数,可以用来递归解耦
+有arguments、this、和new.target.arguments有一个属性callee,指向函数,可以用来递归解耦.此外还有一个caller属性,这个属性引用的是调用当前函数的函数
 
 ```js
 function deepcopy(obj){
     if((typeof obj.name == 'object' || typeof obj.name == 'function') && obj.name !== null)
     deepcopy(obj.name) // 满足一定条件时递归,但是当函数修改名称时,内部也需跟着修改,否则报错
     arguments.callee(obj.name) // 在严格模式下报错
+    test()
+}
+function test(){
+    console.log(test.caller) // 即为deepcopy函数
 }
 ```
 
