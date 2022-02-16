@@ -444,7 +444,8 @@ justify-content: center，若盒子移位了，表示溢出
 
 #### Object.assign(mainObject,...)
 
-  参数一是目标对象，接收后面参数对象**可枚举**的属性（一般对象的属性都是可枚举的，除非对象的 enumerable 属性为 false），目标对象有该属性则覆盖，无则添加，有一些拷贝的性质，但若参数的属性值为对象，则单凭赋值还是指向同一个地址，实现的是只有一层的拷贝，见[图 1](#img1)<span id="jumpImg1">*</span>
+  参数一是目标对象，接收后面参数对象**可枚举**的属性（一般对象的属性都是可枚举的，除非对象的 enumerable 属性为 false），目标对象有该属性则覆盖，无则添加，有一些拷贝的性质，但若参数的属性值为对象，则单凭赋值还是指向同一个地址，实现的是只有一层的拷贝
+  ![assing](./img/assign.png)
 
 #### 检测数据类型与 toString()
 
@@ -520,7 +521,8 @@ justify-content: center，若盒子移位了，表示溢出
   ```
 
 - Object.getPrototypeOf(obj)
-  返回对象的原型对象，若没有继承的原型对象，则返回 null，见[图 2](#img2)<span id="jumpImg2">*</span>
+  返回对象的原型对象，若没有继承的原型对象，则返回 null，
+  ![create](img/create.png)
 
 - Object.setPrototypeOf(obj1,obj2)
   设置一个对象的原型对象，等价于 obj1.**proto** = obj2
@@ -587,7 +589,7 @@ ES6 提供的一个将常见 js 对象内部方法（Object.xxx(obj) or Object.p
 
 - 事件流
   过程是根节点到目标节点，再从目标节点到根节点，例如一个 div 触发点击事件，流程为：document->html->body->div(click)->body->html->document，前面为捕获事件，后面为冒泡事件
-  [点击跳转](#img3) <span id='jumpImg3'>回来</span>
+  ![事件](img/captrue.png)
 - 监听事件
   1，html 属性
   属性名为 on + event，绑定的事件需**调用**，类似于事件触发时，调用一个早已准备好的函数
@@ -1124,39 +1126,3 @@ Promise(4)
     test() // error，因为 null 不可做修饰符 
   ```
   
-## 附录：画图结构
-
-```plantuml
-@startuml
-object1 -> mainObject: for(keys in object1){ mainObject[keys] = object1[keys]}
-object2 -> mainObject: for(keys in object2){mainObject[keys] = object2[keys]}
-@enduml
- ```
-
- ```plantuml
-@startuml
-object1.fun -> 0*1000
-mainObject.fun-> object1.fun
-mainObject.fun-> 0*1000
-@enduml
- ```
-
-<span id="img1">图 1</span> [点击回去](#jumpImg1)
-
- ```plantuml
-@startuml
-(Object.setPrototypeOf(obj1,obj2) -> (obj1.__proto__ = obj2)
-(let obj1 = Object.create(obj)->(obj1.__proto__ = obj2)
-@enduml
-```
-
-<span id="img2">图 2</span> [点击回去](#jumpImg2)
-
- ```plantuml
-@startuml
-(window) -> (触发事件的目标):捕获过程
-(触发事件的目标) -> (window):冒泡过程
-@enduml
-```
-
-<span id="img3">图 3</span> [点击回去](#jumpImg3)
