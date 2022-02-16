@@ -1723,3 +1723,22 @@ my.showFarther() // false 原型模式 虽然可以访问函数内部的私有�
 ```
 
 ## 十一、期约（Promise）和异步函数
+异步有许多缺点，其中最为显著的是回调地狱，最常见的异步为setTimeout。期约表示Promise，介于同步和异步之间，使用new调用，且需传一个作为执行器的函数参数。期约有三种状态，分别是待定（pending）、成功（fulfilled）、拒绝（rejected），最初是待定状态，一旦从待定状态脱离，便是不可逆的，且不一定能脱离待定状态。new Promise((resolve,reject)=>{})状态转换通过调用函数参数的两个参数实现，惯例命名为resolve和reject，调用前者期约状态自动变为成功，调用后者为失败。
+```js
+// setTimeout的参数
+setTimeout(function,delay,...arguments) // arguments 为传给function的参数
+// promide的参数
+new Promise(()=>{})
+```
+### Promise.resolve(arg)
+不一定非要待定，可以直接创建一个状态为成功的期约，与 new Promise((resolve)=>{resolve(arg)})等价，参数arg不论传几个，只有第一个有效，作为期约的值。同理还有 Promise.reject()，但是reject会抛出错误。
+
+#### 期约的实例方法
+- Promise.prototype.then(onResolved,onRejected)
+返回一个新的期约实例。参数为函数，表示进入成功和拒绝状态时执行，即在resolve和reject被调用时，立即执行then上的参数，且resolve返回的值，会作为onResolved和onRejected的参数，且因为状态是互斥的，所有两函数最终必然只会执行一个。
+
+- Promise.prototype.catch(onRejected)
+返回一个新的期约实例。参数为期约的状态为失败时执行，是Promise.prototype.then(null,onRejected)的语法糖。
+
+- Promise.prototype.finally()
+
