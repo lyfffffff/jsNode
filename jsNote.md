@@ -806,7 +806,7 @@ for (var value of new newArray(3)) { // [Symbol.iterator] -> next
 ### 生成器 Generator
 
 生成器 Generator 是函数，为了区分生成器和普通函数，生成器函数名一般带星号 function *test(){}.
-生成器不可以使用 new 实例化,调用生成器函数返回**迭代器**，每次调用产生的实例相互不影响，且继承生成器的原型属性，但是没有 this 的概念。
+生成器不可以使用 new 实例化，调用生成器函数返回**迭代器**，每次调用产生的实例相互不影响，且继承生成器的原型属性，但是没有 this 的概念。
 调用生成器函数时，并不执行函数内部代码，而是返回迭代器对象，指向函数内部。
 当调用生成的迭代器 next() 时，才执行函数内部代码，并返回对象 { done:true, value:undefined }，value 是生成器函数的**返回值**，默认是 undefined，可以在生成器中修改。
 生成器执行返回一个迭代器，迭代器本身也有 Symbol.iterator 属性，执行后返回自身。
@@ -1009,7 +1009,7 @@ let obj2 = createObj('zzz',10) // {name:'zzz',age:10}
 
 #### 构造函数
 
-构造函数的本质也是创建拥有一毛一样的属性的系列对象，但是使用 new 关键词实例化函数，且函数内部不用使用 new Object 创建 obj，而是使用 this 关键词赋值，也不需要 return 一个对象，因为 new 关键词帮助我们做了这些。使用 new 创建的实例拥有__proto__属性,指向原型对象,原型对象有 constructor 属性指向构造其的构造函数,可以直接简写为 obj.constructor。
+构造函数的本质也是创建拥有一毛一样的属性的系列对象，但是使用 new 关键词实例化函数，且函数内部不用使用 new Object 创建 obj，而是使用 this 关键词赋值，也不需要 return 一个对象，因为 new 关键词帮助我们做了这些。使用 new 创建的实例拥有__proto__属性，指向原型对象，原型对象有 constructor 属性指向构造其的构造函数，可以直接简写为 obj.constructor。
 
 ```js
 function CreateObj(name,age){
@@ -1046,7 +1046,7 @@ newFun(app)('name',10)
 #### 原型
 
 实例拥有 **proto** 指向构造函数的 prototype。在 625 页有详情
-若自定义构造函数的 prototype 对象，设为 B,会修改实例的 constructor 指向，指向B的构造函数,若想指回原本的构造函数，直接设置 prototype.constructor 属性
+若自定义构造函数的 prototype 对象，设为 B,会修改实例的 constructor 指向，指向 B 的构造函数，若想指回原本的构造函数，直接设置 prototype.constructor 属性
 若在构造实例后重新定义 prototype 对象，即改变 prototype 指向地址，此前的实例依然指向原本地址，会造成错误
 
 ```js
@@ -1054,28 +1054,28 @@ function Test(){}
 let test_1 = new Test()
 Test.prototype = []
 let test_2 = new Test()
-test_2.constructor == Array // true 且此时test_1 和test_2指向的原型不同
+test_2.constructor == Array // true 且此时 test_1 和 test_2 指向的原型不同
 Test.prototype.constructor = Test // 修改回来
 ```
 
 - 原型、实例和构造函数的关系
-每个对象都有一个__proto__属性，并且指向它的prototype原型对象
-每个构造函数都有一个prototype原型对象
-prototype原型对象里的constructor指向构造函数本身
+每个对象都有一个__proto__属性，并且指向它的 prototype 原型对象
+每个构造函数都有一个 prototype 原型对象
+prototype 原型对象里的 constructor 指向构造函数本身
 
 ![关系](./img/proto_prototype.png)
 
 - 属性遍历 (?)
-若想默认为不可枚举的属性，需使用 Object.defineProperty 定义 constructor 属性,对于**遍历**对象方法（keys、getOwnPropertyNames、for-in 等），遍历是**有序**的，按照属性名： 数值排序 - 字符串插入顺序（b,1,0,a -> 0,1,b,a）
+若想默认为不可枚举的属性，需使用 Object.defineProperty 定义 constructor 属性，对于**遍历**对象方法（keys、getOwnPropertyNames、for-in 等），遍历是**有序**的，按照属性名： 数值排序 - 字符串插入顺序（b,1,0,a -> 0,1,b,a）
 
 - 原型相关方法与属性
 | 调用对象 | 方法 | 作用|
 | - | - | - |
-| Object | Object.create(obj)| 创建一个对象，将参数obj作为对象所指向的原型对象 |
+| Object | Object.create(obj)| 创建一个对象，将参数 obj 作为对象所指向的原型对象 |
 | Object | Object.setPrototypeOf(obj,prototypeObj) | 传入两个对象，将参数 2 对象作为参数 1 的原型对象 |
-| Object | Object.getPrototypeOf(obj) | 获取参数obj所指向的原型对象 |
-| Object | Object.keys(obj) | 返回参数obj**自身**不包括原型对象上的可枚举属性 |
-| Object | Object.getOwnPropertyNames(obj) | 返回参数obj不包括原型上的所有属性，**包括不可枚举**,但是不包括Symbol命名的属性 |
+| Object | Object.getPrototypeOf(obj) | 获取参数 obj 所指向的原型对象 |
+| Object | Object.keys(obj) | 返回参数 obj**自身**不包括原型对象上的可枚举属性 |
+| Object | Object.getOwnPropertyNames(obj) | 返回参数 obj 不包括原型上的所有属性，**包括不可枚举**,但是不包括 Symbol 命名的属性 |
 | Object | Object.getOwnPropertySymbols(symbol) | 一样返回参数自身不包括原型上的所有属性，不过参数是符号类型 Symbol |
 | obj | obj.hasOwnProperty(attribute) | 传入一个字符串属性，返回一个 Boolean 值，判断是**自身属性**还是原型对象上的属性 |
 | prototype | xxx.prototype.isPrototypeOf(obj) | 传一个实例对象，判断该实例是不是在原型链中 |
@@ -1118,7 +1118,7 @@ function Instanceof(L,R){
 
 #### 原型链继承
 
-即子类的构造函数指向父类,原型链添加父类原型对象,且实例的 son.**proto**.constructor == son.constructor
+即子类的构造函数指向父类，原型链添加父类原型对象，且实例的 son.**proto**.constructor == son.constructor
 
 ```js
 function Son(){
@@ -1135,11 +1135,11 @@ Son.prototype.sayHi = function(){ // 覆盖所继承的 sayHi 方法，但是不
     return false
 }
 Son.prototype = new Farther() // 修改子类的原型对象指向父类实例
-// 右式为父类实例,因为实例会继承原型上的属性,即子类实例继承了父类实例
-// 实例有属性 constructor 指向构造其的构造函数 Farther，也有__proto__属性,指向父类原型对象,
-// Son.prototype.constructor == Farther ，故 son.__proto__.constructor == Farther,即son.constructor = Farther
+// 右式为父类实例，因为实例会继承原型上的属性，即子类实例继承了父类实例
+// 实例有属性 constructor 指向构造其的构造函数 Farther，也有__proto__属性，指向父类原型对象，
+// Son.prototype.constructor == Farther ，故 son.__proto__.constructor == Farther,即 son.constructor = Farther
 // Son.prototype.__proto__ == Farther.prototype ，故 son.__proto__.__proto__ == Farther.prototype
-// 故严格来说, 虽然是 Son 构造 son 实例, 但son的 构造属性constructor指向Farther ,son的__proto__指向父类实例对象,且Farther的原型被添加在子类原型链中
+// 故严格来说， 虽然是 Son 构造 son 实例， 但 son 的 构造属性 constructor 指向 Farther ,son 的__proto__指向父类实例对象，且 Farther 的原型被添加在子类原型链中
 
 let son = new Son()
 son.sayHi() // false
@@ -1176,8 +1176,8 @@ Son.prototype.constructor = Son
 
 #### 原型式继承
 
-在函数内部临时定义一个函数，函数的原型对象指向参数obj，返回构造实例，目的是**将传入参数 obj 作为原型对象**。效果等同于 Object.create(obj)，但为浅拷贝.即传入同样的 obj 参数时，实例数据互通。
-适用情况:对原有的obj进行统一操作
+在函数内部临时定义一个函数，函数的原型对象指向参数 obj，返回构造实例，目的是**将传入参数 obj 作为原型对象**。效果等同于 Object.create(obj)，但为浅拷贝。即传入同样的 obj 参数时，实例数据互通。
+适用情况:对原有的 obj 进行统一操作
 
 ```js
 function fun(obj){
@@ -1217,8 +1217,8 @@ function Get(obj){
 
 #### 寄生组合式继承 - 最常用
 
-组合继承虽然合理,但是父类构造函数在call和new中被调用了两次,且call已经继承了父类实例属性,new的作用只有继承父类实例,有改进空间.
-使用寄生式继承代替new继承父类原型,即不调用父类函数（new Farther()）,而是调用一个寄生函数,将父类函数原型放置在寄生函数原型中,本质还是有new调用的.
+组合继承虽然合理，但是父类构造函数在 call 和 new 中被调用了两次，且 call 已经继承了父类实例属性，new 的作用只有继承父类实例，有改进空间。
+使用寄生式继承代替 new 继承父类原型，即不调用父类函数（new Farther()）,而是调用一个寄生函数，将父类函数原型放置在寄生函数原型中，本质还是有 new 调用的。
 但是对于父类原型也是浅拷贝，即多个子实例可以修改共享父类原型的引用值属性。
 
 ```js
@@ -1580,7 +1580,7 @@ function Name(...arr){}
 
 #### 函数内部
 
-即在函数内部直接使用，arguments、this、和 new.target（表示是否是 new 实例化）。arguments 有一个属性 callee,指向函数，可以用来递归解耦。此外还有一个 caller 属性，这个属性引用的是调用当前函数的函数
+即在函数内部直接使用，arguments、this、和 new.target（表示是否是 new 实例化）。arguments 有一个属性 callee，指向函数，可以用来递归解耦。此外还有一个 caller 属性，这个属性引用的是调用当前函数的函数
 
 ```js
 function deepcopy(obj){
@@ -1598,7 +1598,7 @@ arguments.callee.caller == Function.caller
 #### 函数方法
 
 Function.call(thisObj,...arguments)
-参数 1 为 this 指向的上下文，参数 2 ~ n 表示传给函数的参数，调用返回函数执行结果return
+参数 1 为 this 指向的上下文，参数 2 ~ n 表示传给函数的参数，调用返回函数执行结果 return
 Function.apply(thisObj,arguments)
 参数 1 为 this 指向的上下文，参数 2 表示传给函数的参数，为一个数组，调用返回函数执行结果 return
 Function.bind(thisObj,...arguments)
@@ -1633,9 +1633,9 @@ testBind(20) // 等于 testName.call(obj,10,20) // 'lfy' 10 20
 
 #### 闭包
 
-即在函数中引用了其他函数的变量，通常是嵌套函数由内部函数B引用外部函数A。
+即在函数中引用了其他函数的变量，通常是嵌套函数由内部函数 B 引用外部函数 A。
 函数形成上下文，上下文形成作用域链，作用域链自下往上记录当前上下文可以操作的变量，作用域上的节点构成变量对象，函数的变量对象在函数执行完毕后销毁，故称为活动对象。
-因为被函数B引用，函数A在调用完毕后仍不能被回收，虽然作用域链断了,但是活动对象一直保存,需手动释放内存。
+因为被函数 B 引用，函数 A 在调用完毕后仍不能被回收，虽然作用域链断了，但是活动对象一直保存，需手动释放内存。
 
 ```js
 function Farther(){
@@ -1647,16 +1647,16 @@ function Farther(){
 }
 let son = Farther()
 son() // 100
-son() // 100 不论调用多少次,仍能访问到Farther函数的变量 num = 10 
+son() // 100 不论调用多少次，仍能访问到 Farther 函数的变量 num = 10 
 son = null // 释放内存
 ```
 
 - 闭包中的 this 指向
 this 对象会在运行时绑定到执行函数的上下文。若在全局函数中调用，则 this 为 window。如果作为某个对象的方法调用，则 this 等于这个对象。
-但嵌套函数B无法访问到函数A的this,故若在嵌套函数中使用this,仍访问window,故需要将this赋值给that
+但嵌套函数 B 无法访问到函数 A 的 this,故若在嵌套函数中使用 this,仍访问 window,故需要将 this 赋值给 that
 
 ```js
-var name = 'lyf' // 使用let的不会变成window
+var name = 'lyf' // 使用 let 的不会变成 window
 let obj = {
     name: 'kobe'
 }
@@ -1671,14 +1671,14 @@ obj.showName = Farther
 let son = Farther()
 son() // 'lyf' 'lyf'
 let oson = obj.showName() 
-oson() // 'Kobe' 'lyf' 虽是obj调用函数,但此时this仍指向window
+oson() // 'Kobe' 'lyf' 虽是 obj 调用函数，但此时 this 仍指向 window
 
-// 修改this赋值给that
+// 修改 this 赋值给 that
 function Farther_1(){
     console.log(this.name)
     let that = this
     return function(){
-        console.log(that.name) // that一直指向函数A的this
+        console.log(that.name) // that 一直指向函数 A 的 this
     }
 }
 let obj_1 = {
@@ -1694,17 +1694,17 @@ oson() // 'Kobe' 'kobe'
 
 #### IIFE
 
-与之相反的是立即执行函数,即生成就调用,一般无法访问IIFE内部的变量,除非有意抛出
+与之相反的是立即执行函数，即生成就调用，一般无法访问 IIFE 内部的变量，除非有意抛出
 
 #### 私有变量和静态私有变量
 
-私有变量包括函数参数、局部变量，以及函数内部定义的其他函数,但是又能通过闭包进行访问变成公有的,所以很bug啊,可以访问私有变量的公共方法叫作特权方法。
+私有变量包括函数参数、局部变量，以及函数内部定义的其他函数，但是又能通过闭包进行访问变成公有的，所以很 bug 啊，可以访问私有变量的公共方法叫作特权方法。
 特权方法可以使用构造函数或原型模式通过自定义类型中实现，也可以使用模块模式或模块增强模式在单例对象上实现。
 
-- 构造函数 在函数内部中定义一个全局函数,里面访问函数的私有变量
-- 原型模式 在函数内部中定义一个全局函数,在函数原型上访问函数的私有变量
+- 构造函数 在函数内部中定义一个全局函数，里面访问函数的私有变量
+- 原型模式 在函数内部中定义一个全局函数，在函数原型上访问函数的私有变量
 - 模块模式 在函数中返回一个对象字面量{},属性包含函数的私有变量
-- 单例对象 创建对象,给它添加额外函数的私有变量属性或方法,将操作完的对象返回
+- 单例对象 创建对象，给它添加额外函数的私有变量属性或方法，将操作完的对象返回
 
 ```js
 
@@ -1719,46 +1719,46 @@ oson() // 'Kobe' 'kobe'
 })()
 
 let my = new publish()
-my.showFarther() // false 原型模式 虽然可以访问函数内部的私有变量,但是放置在函数的原型对象上,即静态的
+my.showFarther() // false 原型模式 虽然可以访问函数内部的私有变量，但是放置在函数的原型对象上，即静态的
 ```
 
 ## 十一、期约（Promise）和异步函数
 
-最常见的异步为setTimeout,但异步有许多缺点，其中最为显著的是**回调地狱**。期约表示Promise，介于直接同步和异步之间，使用new调用，且需传一个作为**执行器**的函数参数。期约有三种状态，分别是待定（pending）、成功（fulfilled）、拒绝（rejected），最初是待定状态，一旦从待定状态脱离，便是不可逆的，且不一定能脱离待定状态。new Promise((resolve,reject)=>{}) 期约状态转换通过调用**参数函数**的两个参数(resolve/reject)实现，惯例命名为resolve和reject，**调用**前者期约状态自动变为成功，调用后者为失败。
+最常见的异步为 setTimeout，但异步有许多缺点，其中最为显著的是**回调地狱**。期约表示 Promise，介于直接同步和异步之间，使用 new 调用，且需传一个作为**执行器**的函数参数。期约有三种状态，分别是待定（pending）、成功（fulfilled）、拒绝（rejected），最初是待定状态，一旦从待定状态脱离，便是不可逆的，且不一定能脱离待定状态。new Promise((resolve,reject)=>{}) 期约状态转换通过调用**参数函数**的两个参数(resolve/reject)实现，惯例命名为 resolve 和 reject，**调用**前者期约状态自动变为成功，调用后者为失败。
 
 ```js
-// setTimeout的参数
-setTimeout(function,delay,...arguments) // arguments 为传给function的参数
-// promide的参数
-new Promise((resolve,reject)=>{}) // 参数为一个函数,函数参数为 resolve和reject
+// setTimeout 的参数
+setTimeout(function,delay,...arguments) // arguments 为传给 function 的参数
+// promise 的参数
+new Promise((resolve,reject)=>{}) // 参数为一个函数，函数参数为 resolve 和 reject
 ```
 
 - 回调地狱
-  即函数调用嵌套多层,在函数回调中嵌套多层异步更是致命的,原因:嵌套有一定的局限性,即虽然有多个函数,但后者函数就是为前者服务的,无法复原或独立,且一旦前者函数失败,则后者函数永远不会被使用.
-  异步回调本身是非线性的、非顺序的，加上某环节可能会失败,导致致命问题。
+  即函数调用嵌套多层，递归也是一种回调地狱，在函数回调中嵌套多层异步更是致命的，原因：嵌套有一定的局限性，即虽然有多个函数，但后者函数就是为前者服务的，无法复原或独立，且一旦前者函数失败，则后者函数永远不会被使用。
+  异步回调本身是非线性的、非顺序的，加上某环节可能会失败，导致致命问题。
 
 #### Promise.resolve(arg)
 
-期望的初始状态不一定非是待定(pending)，可以直接创建一个状态为成功(fulfilled)的期约，与 new Promise((resolve)=>{resolve(arg)}) 等价，参数arg不论传几个，只有第一个有效，作为期约的值。同理还有 Promise.reject()，但是reject会抛出错误。
+期望的初始状态不一定非是待定(pending)，可以直接创建一个状态为成功(fulfilled)的期约，与 new Promise((resolve)=>{resolve(arg)}) 等价，参数 arg 不论传几个，只有第一个有效，作为期约的值。同理还有 Promise.reject()，但是 reject 会抛出错误。
 
 #### 期约的实例方法
 
 - Promise.prototype.then(onResolved,onRejected)
-返回一个新的期约实例。参数为函数，表示进入成功和拒绝状态时执行，即在resolve和reject被调用时，立即执行then上的参数，且resolve返回的值，会作为onResolved和onRejected的参数，且因为状态是互斥的，所有两函数最终必然只会执行一个。
+返回一个新的期约实例。参数为函数，表示进入成功和拒绝状态时执行，即在 resolve 和 reject 被调用时，立即执行 then 上的参数，且 resolve 返回的值，会作为 onResolved 和 onRejected 的参数，且因为状态是互斥的，所有两函数最终必然只会执行一个。
 
 - Promise.prototype.catch(onRejected)
-返回一个新的期约实例。参数为期约的状态为失败时执行，是Promise.prototype.then(null,onRejected)的语法糖。
+返回一个新的期约实例。参数为期约的状态为失败时执行，是 Promise.prototype.then(null,onRejected) 的语法糖。
 
 - Promise.prototype.finally()
-返回一个期约实例.参数为函数,不论期约进入何种状态(失败/成功)都会实现,
+返回一个期约实例。参数为函数，不论期约进入何种状态(失败/成功)都会调用
 
 #### 非重入期约
 
-期约在改变完状态后,回调函数并不会立即执行,而是排期,在同步程序执行完后执行,称为'非重入'.
+期约在改变完状态后，回调函数并不会立即执行，而是排期，在同步程序执行完后执行，称为'非重入'。
 
 #### 期约连锁
 
-因为实例方法返回新的期约实例,故可以将多个期约组合(catch/then/finally)
+因为实例方法返回新的期约实例，故可以将多个期约组合(catch/then/finally)
 
 ```js
 let p = Promise.resolve().then() // 也是一个期约实例
@@ -1769,9 +1769,9 @@ Promise.resolve().then().then() // 结合一式和二式
 #### 期约合成
 
 - Promise.all(arr)
-  也是一个Promise.resolve(),待参数arr中的所有期约状态变为成功后(即调用resolve)才执行,arr可为空数组,但不可以不传(报错),一般也是结合then调用.
+  也是一个 Promise.resolve()，待参数 arr 中的所有期约状态变为成功后(即调用 resolve)才执行，arr 可为空数组，但不可以不传(报错),一般也是结合 then 调用。
 - Promise.race(arr)
-  参数arr中哪一个期约最先改变状态,race就返回该状态,变成Promise.resolve 或 Promise.reject,arr可为空数组,但不可以不传(报错),一般也是结合then调用.
+  参数 arr 中哪一个期约最先改变状态，race 就返回该状态，变成 Promise.resolve 或 Promise.reject，arr 可为空数组，但不可以不传(报错)，一般也是结合 then 调用。
 
 ```js
 let p = Promise.race([ 
@@ -1783,83 +1783,278 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
 
 ### 期约拓展
 
-非ES6自带的,而是其他库中实现的:期约取消和进度追踪.
+非 ES6 自带的，而是其他库中实现的：期约取消和进度追踪。
 
 - 期约取消
-  并不是内部取消Promise转为成功的过程,而是不让它转为成功状态,即在resolve()之前操作,达到不到达resolve()的目的.例如设置定时器延迟返回resolve,在想取消时,移除定时器
+  并不是内部取消 Promise 转变状态的过程，而是设置定时器延迟返回 resolve()，在想取消时，移除定时器。ajax 的 cancelTonken 也是返回一个 Promise 实例。
 
   ```js
-  Promise(let id = setTimeout(resolve,time);if()clearTimeout(id)) // 不能在Promise外,会污染
+  // 期约取消实例
   class CancelToken {
             constructor(cancelFn) {
                 this.promise = new Promise((resolve, reject) => {
                     cancelFn(() => {
                         setTimeout(console.log, 0, "delay cancelled");
                         resolve();
-                    }); // 为cancelToken点击事件绑定回调函数
+                    }); // 为 cancelToken 点击事件绑定回调函数
                 });
             }
         }
-        const startButton = document.querySelector('#start');
-        const cancelButton = document.querySelector('#cancel');
+    const startButton = document.querySelector('#start');
+    const cancelButton = document.querySelector('#cancel');
 
-        function cancellableDelayedResolve(delay) {
-            setTimeout(console.log, 0, "set delay");
-            return new Promise((resolve, reject) => {
+    function cancellableDelayedResolve(delay) {
+        setTimeout(console.log, 0, "set delay");
+        return new Promise((resolve, reject) => {
 
-                // 定时器设置延时期约状态转为成功
-                const id = setTimeout((() => {
-                    setTimeout(console.log, 0, "delayed resolve");
-                    resolve();
-                }), delay);
+            // 定时器设置延时期约状态转为成功
+            const id = setTimeout((() => {
+                setTimeout(console.log, 0, "delayed resolve");
+                resolve();
+            }), delay);
 
-                // 
-                const cancelToken = new CancelToken((cancelCallback) =>
-                    cancelButton.addEventListener("click", cancelCallback)); // 需传一个 cancelCallback 回调函数
+            // 
+            const cancelToken = new CancelToken((cancelCallback) =>
+                cancelButton.addEventListener("click", cancelCallback)); // 需传一个 cancelCallback 回调函数
 
-                // 当点击取消按钮时,取消定时器id
-                cancelToken.promise.then(() => clearTimeout(id));
-            });
+            // 当点击取消按钮时，取消定时器 id
+            cancelToken.promise.then(() => clearTimeout(id));
+        });
+    }
+
+    startButton.addEventListener("click", () => cancellableDelayedResolve(2000));
+  ```
+
+  ```js
+  // axios 中 cancelToken 的原理
+
+  // 参数 executor(function) function
+  // 返回 null
+    function CancelToken(executor) {
+        // 若传入的参数不为函数,抛出错误
+        if (typeof executor !== 'function') {
+            throw new TypeError('executor must be a function.');
         }
 
-        startButton.addEventListener("click", () => cancellableDelayedResolve(2000));
+        var resolvePromise;
+        this.promise = new Promise(function promiseExecutor(resolve) {
+            resolvePromise = resolve; // 将改变期约的回调暴露
+        });
+
+        // 调用传入的执行器 executor ,传入的函数 cancel,到 CancelToken.source 中
+        var token = this; // token.reason 取消理由,为取消的文字说明,若存在,表示已取消
+        executor(function cancel(message) {
+            if (token.reason) { // 当响应已取消时,进行返回
+                return;
+            }
+            token.reason = new Cancel(message); // 将 message 作为取消信息传入
+            resolvePromise(token.reason);
+        });
+    }
+
+    // 参数 null
+    // 返回 对象:{token:Object,cancel:function} -- function 触发 Object.promise 的 resolve 
+    CancelToken.source = function source() {
+        var cancel;
+        // 使用 new 实例化 CancelToken,token 返回一个对象,且包含 this.promise 属性
+        var token = new CancelToken(function executor(c) {
+            cancel = c; // function cancel
+        });
+        return {
+            token: token,
+            cancel: cancel 
+        };
+    }
+
+    // axios 的 cancelToken 的用法
+  let cancelToken = axios.CancelToken;
+  let  source = cancelToken.source() // 返回一个对象,包含 token 和 cancel 属性
+  axios.post('',data,{cancelToken:source.token}) // 一个包含 promise 属性的对象
+  source.cancel('取消请求'); // 调用 cancel,执行 cancel 函数,promise 期约进入成功状态,返回 token.reason
+
   ```
 
 - 期约进度
-也不是获取Promise状态转为成功的进度,而是手动给期约设置延时装置,每触发一个定时器,进度条减少,直到减为0,触发resolve(),调用notify显示进度条
+也不是获取 Promise 状态调用 resolve()转为成功的进度，而是手动给期约设置延时装置，每触发一个定时器，进度条减少，直到减为 0，才触发 resolve()，调用 notify 显示进度条
 
 ```js
-// 期约进度
-        class TrackablePromise extends Promise {
-            constructor(executor) { //一个函数
-                const notifyHandlers = [];
-                super((resolve, reject) => {// 表示 new promise 的函数
-                    return executor(resolve, reject, (status) => {
-                        notifyHandlers.map((handler) => handler(status)); // (status)=>{} 是函数
-                    }); // 调用了executor函数
-                });
-                this.notifyHandlers = notifyHandlers;
-            }
-            notify(notifyHandler) {
-                this.notifyHandlers.push(notifyHandler);
-                return this;
+    // 继承 Promise 类,修改执行器函数,使其从 (resolve,reject)=>{} 变成(resolve,reject,(status)=>{})
+    class TrackablePromise extends Promise {
+        constructor(executor) { // 一个函数
+            const notifyHandlers = [];
+            super((resolve, reject) => {// 表示 new promise 的函数
+                return executor(resolve, reject, (status) => {
+                    notifyHandlers.map((handler) => handler(status)); // (status)=>{} 是函数
+                }); // 调用了 executor 函数
+            });
+            this.notifyHandlers = notifyHandlers;
+        }
+        notify(notifyHandler) {
+            this.notifyHandlers.push(notifyHandler);
+            return this;
+        }
+    }
+
+    // 
+    let p = new TrackablePromise((resolve, reject, notify) => { // 实例传了一个函数
+        function countdown(x) { // 函数
+            if (x > 0) {
+                notify(`${20 * x}% remaining`); // 调用参数 3 notify()  表示进度条 100% 80% 60% 40% 20% 0%
+                setTimeout(() => countdown(x - 1), 1000); // 不断减少进度条
+            } else {
+                resolve(); // 当进度条加载完毕后，期约的状态为成功，resolve 也是参数
             }
         }
-        let p = new TrackablePromise((resolve, reject, notify) => { // 实例传了一个函数
-            function countdown(x) { // 函数
-                if (x > 0) {
-                    notify(`${20 * x}% remaining`); // notify是参数 表示进度条 100% 80% 60% 40% 20% 0%
-                    setTimeout(() => countdown(x - 1), 1000); // 不断减少进度条
-                } else {
-                    resolve(); // 当进度条加载完毕后,期约的状态为成功,resolve也是参数
-                }
-            }
-            countdown(5);
-        });
-        // p.notify((x) => setTimeout(console.log, 0, 'progress:', x)); // 参数函数作为notifyHandlers的项
-        // p.notify((x) => setTimeout(console.log, 0, 'progress@:', x)); // 作为notifyHandlers项
-        // p.then(() => setTimeout(console.log, 0, 'completed')); // 完毕后跳出
-        // p.notify((x) => setTimeout(console.log, 0, 'a:', x))
-        //     .notify((x) => setTimeout(console.log, 0, 'b:', x));
-        // p.then(() => setTimeout(console.log, 0, 'completed'));
+        countdown(5);
+    });
+    // p.notify((x) => setTimeout(console.log, 0, 'progress:', x)); // 参数函数作为 notifyHandlers 的项
+    // p.notify((x) => setTimeout(console.log, 0, 'progress@:', x)); // 作为 notifyHandlers 项
+    // p.then(() => setTimeout(console.log, 0, 'completed')); // 完毕后跳出
+    // p.notify((x) => setTimeout(console.log, 0, 'a:', x))
+    //     .notify((x) => setTimeout(console.log, 0, 'b:', x));
+    // p.then(() => setTimeout(console.log, 0, 'completed'));
 ```
+
+### 异步函数
+
+即使用 async/await 声明的函数,称为异步函数.
+
+#### async
+
+在函数声明前加入关键字,函数内部的普通代码是同步的,按顺序执行,但无论有没有返回语句,皆返回一个 Promise 实例,且状态为 resolve.
+
+```js
+async function Test(){}
+let Test = async function(){}
+let Test = async ()=>{}
+
+async function Test(){
+    console.log(1)
+}
+let tt = Test()
+console.log(2)
+// 1 2 tt:Promise
+```
+
+#### await
+
+await 只能在异步函数中使用,遇到 await 时 async 函数暂停执行,await 后可以接一个表达式/变量,将其当做是 Promise.resolve(表达式/变量),等待函数外部同步代码执行完毕后,才执行 await,若 await 等来一个状态为成功的期约,继续执行异步函数剩余代码,因为 await 也可以接一个 Promise.reject(arg),此时停止执行剩余代码,并将失败状态的期约返回
+
+```js
+async function testAsync(){
+    console.log(1)
+   let a =  await 2
+   console.log(a)
+   let b = await Promise.resolve(3)
+   console.log(b)
+   let c = await Promise.reject(4)
+   console.log(c)
+   console.log(5)
+}
+testAsync().then(console.log).catch(console.log)// 在 let c 中抛出一个失败状态的期约,若 testAsync 完整执行,触发 then,参数为 return 的变量,若无则为 undefined
+console.log(6)
+// 1 6 2 3 4
+
+
+async function foo() { 
+ console.log(await Promise.resolve('foo')); 
+} 
+async function bar() { 
+ console.log(await 'bar'); 
+}
+foo()
+bar()
+// 'bar' 'foo'
+```
+
+- 平行执行 await
+  必须等到表达式完成才 await,期间堵塞后续代码,若有多个异步的 await 时,等待时间是叠加的,即第一个 await 等待时间 1,第二个 await 等待时间为 1+2,可先执行异步,将结果放置在 await 中.
+
+  ```js
+  let a = await test(1) // 若等待时间为 3000ms,后续代码被阻塞
+  let  b = await test(2) // 自 3000ms 开始,执行自身的等待 2000ms
+
+  let a = test(1) // 3000ms 后得到答案
+  let b = test(2) // 2000ms 后得到答案,此时 b 比 a 快
+  let aa = await a
+  let bb = await b
+  ```
+
+- 栈追踪和内存
+在使用期约时,js 引擎会尽可能保留完整的调用栈,而异步函数则会完整返回当前的调用栈.
+
+## 十二、BOM(浏览器对象模型 Browser Object Model)
+
+介绍了几个浏览器对象,window中视口表示页面,窗口表示浏览器.
+
+### window 对象
+
+为浏览器实例,内部的全局方法调用时可以省略 window.,例如 window.parseInt == parseInt,作为 ECMAScript 的 Global 对象,使用 var 声明的变量,会被提升到 window 对象中.
+
+#### 窗口关系
+
+- top 对象
+  表示最上层窗口,即浏览器本身,故 top == window
+
+- parent 对象
+  表示当前窗口的父窗口,若当前窗口就是最上层窗口 top == parent
+
+- self 对象
+  指向 window 对象,即 self == window
+
+#### 窗口位置
+
+- window.screenLeft/screenTop
+  属性,返回当前浏览器离屏幕的距离
+
+- window.moveTo(x,y)/moveBy(x,y)
+  moveTo 表示窗口移动到坐标(x,y),但好像没有用.moveBy 表示相对于当前位置,窗口移动 xy 距离,正负代表上下左右
+
+- window.devicePixelRatio 像素比
+  物理像素(DP,设备像素,device pixels),屏幕是由一个个小的像素块组成的,控制像素块颜色可以出现图像和动画,但是每个小像素块的大小和个数都是物理固定的.css 像素是一个相对的长度单位,在同一个设备/不同的设备中,1px 所代表的物理像素是变化的,例如分辨率高的,一个物理像素小,需多占几个物理像素,分辨率低的,少占几个物理像素,最终显示的大小一样,但是清晰度会有所不同.控制像素比的属性为 window.devicePixelRatio,表示物理像素与逻辑像素之间的缩放系数.
+
+#### 窗口大小
+
+- screen.width/height
+  表示屏幕分辨率,不会变
+
+- innerWidth/innerHeight
+  当前可视窗口(即页面)的大小,若工具栏遮挡,也改变大小
+
+- outerWidth/outerHeight
+  返回浏览器窗口自身大小
+
+- document.documentElement.clientWidth
+  同样返回可视窗口的大小,若工具栏遮挡,也改变大小
+
+- window.resizeTo(x,y)/resizeBy(x,y)
+  前者表示将窗口缩放到 x-y 大小,后者表示基于当前宽高,调整x-y
+
+#### 视口位置
+
+- window.pageXoffset/pageYoffset和window.scrollX/scrollY
+  表示滚动距离,即现在显示的最顶端离页面最顶端的距离,二者相等
+
+| window属性 | 概念 |
+| - | - |
+| window.screenLeft/screenRight | 窗口距离屏幕左顶点的距离 |
+| screen.width/height | 屏幕分辨率 |
+| window.innerWidth/innerHeight | 视口大小 |
+| document.documentElement.clientWidth | 视口大小 |
+| window.outerWidth/outerHeight | 窗口大小 |
+| window.pageXOffset/pageYOffset | 视口滚动距离 |
+
+| window方法 | 概念 |
+| - | - |
+| window.moveTo(x,y) | 将窗口移动到离屏幕的x-y坐标 |
+| window.moveBy(x,y) | 基于现在坐标水平移动x,垂直移动y |
+| window.resizeTo(x,y) | 将窗口缩放到 x-y 大小 |
+| window.resizeBy(x,y) | 基于窗口大小,将窗口水平缩放 x,垂直缩放 y |
+
+### location 对象
+
+### navigator 对象
+
+### screen 对象
+
+### history 对象
