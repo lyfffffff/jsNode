@@ -1723,17 +1723,26 @@ my.showFarther() // false 原型模式 虽然可以访问函数内部的私有�
 ```
 
 ## 十一、期约（Promise）和异步函数
-异步有许多缺点，其中最为显著的是回调地狱，最常见的异步为setTimeout。期约表示Promise，介于同步和异步之间，使用new调用，且需传一个作为执行器的函数参数。期约有三种状态，分别是待定（pending）、成功（fulfilled）、拒绝（rejected），最初是待定状态，一旦从待定状态脱离，便是不可逆的，且不一定能脱离待定状态。new Promise((resolve,reject)=>{})状态转换通过调用函数参数的两个参数实现，惯例命名为resolve和reject，调用前者期约状态自动变为成功，调用后者为失败。
+
+最常见的异步为setTimeout,但异步有许多缺点，其中最为显著的是**回调地狱**。期约表示Promise，介于直接同步和异步之间，使用new调用，且需传一个作为**执行器**的函数参数。期约有三种状态，分别是待定（pending）、成功（fulfilled）、拒绝（rejected），最初是待定状态，一旦从待定状态脱离，便是不可逆的，且不一定能脱离待定状态。new Promise((resolve,reject)=>{}) 期约状态转换通过调用**参数函数**的两个参数(resolve/reject)实现，惯例命名为resolve和reject，**调用**前者期约状态自动变为成功，调用后者为失败。
+
 ```js
 // setTimeout的参数
 setTimeout(function,delay,...arguments) // arguments 为传给function的参数
 // promide的参数
-new Promise(()=>{})
+new Promise((resolve,reject)=>{}) // 参数为一个函数,函数参数为 resolve和reject
 ```
-### Promise.resolve(arg)
-不一定非要待定，可以直接创建一个状态为成功的期约，与 new Promise((resolve)=>{resolve(arg)})等价，参数arg不论传几个，只有第一个有效，作为期约的值。同理还有 Promise.reject()，但是reject会抛出错误。
+
+- 回调地狱
+  即函数调用嵌套多层,在函数回调中嵌套多层异步更是致命的,原因:嵌套有一定的局限性,即虽然有多个函数,但后者函数就是为前者服务的,无法复原或独立,且一旦前者函数失败,则后者函数永远不会被使用.
+  异步回调本身是非线性的、非顺序的，加上某环节可能会失败,导致致命问题。
+
+#### Promise.resolve(arg)
+
+期望的初始状态不一定非是待定(pending)，可以直接创建一个状态为成功(fulfilled)的期约，与 new Promise((resolve)=>{resolve(arg)}) 等价，参数arg不论传几个，只有第一个有效，作为期约的值。同理还有 Promise.reject()，但是reject会抛出错误。
 
 #### 期约的实例方法
+
 - Promise.prototype.then(onResolved,onRejected)
 返回一个新的期约实例。参数为函数，表示进入成功和拒绝状态时执行，即在resolve和reject被调用时，立即执行then上的参数，且resolve返回的值，会作为onResolved和onRejected的参数，且因为状态是互斥的，所有两函数最终必然只会执行一个。
 
@@ -1741,4 +1750,116 @@ new Promise(()=>{})
 返回一个新的期约实例。参数为期约的状态为失败时执行，是Promise.prototype.then(null,onRejected)的语法糖。
 
 - Promise.prototype.finally()
+返回一个期约实例.参数为函数,不论期约进入何种状态(失败/成功)都会实现,
 
+#### 非重入期约
+
+期约在改变完状态后,回调函数并不会立即执行,而是排期,在同步程序执行完后执行,称为'非重入'.
+
+#### 期约连锁
+
+因为实例方法返回新的期约实例,故可以将多个期约组合(catch/then/finally)
+
+```js
+let p = Promise.resolve().then() // 也是一个期约实例
+p.then()
+Promise.resolve().then().then() // 结合一式和二式
+```
+
+#### 期约合成
+
+- Promise.all(arr)
+  也是一个Promise.resolve(),待参数arr中的所有期约状态变为成功后(即调用resolve)才执行,arr可为空数组,但不可以不传(报错),一般也是结合then调用.
+- Promise.race(arr)
+  参数arr中哪一个期约最先改变状态,race就返回该状态,变成Promise.resolve 或 Promise.reject,arr可为空数组,但不可以不传(报错),一般也是结合then调用.
+
+```js
+let p = Promise.race([ 
+ Promise.reject(4), 
+ new Promise((resolve, reject) => setTimeout(resolve, 1000)) 
+]); 
+setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.reject(4)
+```
+
+### 期约拓展
+
+非ES6自带的,而是其他库中实现的:期约取消和进度追踪.
+
+- 期约取消
+  并不是内部取消Promise转为成功的过程,而是不让它转为成功状态,即在resolve()之前操作,达到不到达resolve()的目的.例如设置定时器延迟返回resolve,在想取消时,移除定时器
+
+  ```js
+  Promise(let id = setTimeout(resolve,time);if()clearTimeout(id)) // 不能在Promise外,会污染
+  class CancelToken {
+            constructor(cancelFn) {
+                this.promise = new Promise((resolve, reject) => {
+                    cancelFn(() => {
+                        setTimeout(console.log, 0, "delay cancelled");
+                        resolve();
+                    }); // 为cancelToken点击事件绑定回调函数
+                });
+            }
+        }
+        const startButton = document.querySelector('#start');
+        const cancelButton = document.querySelector('#cancel');
+
+        function cancellableDelayedResolve(delay) {
+            setTimeout(console.log, 0, "set delay");
+            return new Promise((resolve, reject) => {
+
+                // 定时器设置延时期约状态转为成功
+                const id = setTimeout((() => {
+                    setTimeout(console.log, 0, "delayed resolve");
+                    resolve();
+                }), delay);
+
+                // 
+                const cancelToken = new CancelToken((cancelCallback) =>
+                    cancelButton.addEventListener("click", cancelCallback)); // 需传一个 cancelCallback 回调函数
+
+                // 当点击取消按钮时,取消定时器id
+                cancelToken.promise.then(() => clearTimeout(id));
+            });
+        }
+
+        startButton.addEventListener("click", () => cancellableDelayedResolve(2000));
+  ```
+
+- 期约进度
+也不是获取Promise状态转为成功的进度,而是手动给期约设置延时装置,每触发一个定时器,进度条减少,直到减为0,触发resolve(),调用notify显示进度条
+
+```js
+// 期约进度
+        class TrackablePromise extends Promise {
+            constructor(executor) { //一个函数
+                const notifyHandlers = [];
+                super((resolve, reject) => {// 表示 new promise 的函数
+                    return executor(resolve, reject, (status) => {
+                        notifyHandlers.map((handler) => handler(status)); // (status)=>{} 是函数
+                    }); // 调用了executor函数
+                });
+                this.notifyHandlers = notifyHandlers;
+            }
+            notify(notifyHandler) {
+                this.notifyHandlers.push(notifyHandler);
+                return this;
+            }
+        }
+        let p = new TrackablePromise((resolve, reject, notify) => { // 实例传了一个函数
+            function countdown(x) { // 函数
+                if (x > 0) {
+                    notify(`${20 * x}% remaining`); // notify是参数 表示进度条 100% 80% 60% 40% 20% 0%
+                    setTimeout(() => countdown(x - 1), 1000); // 不断减少进度条
+                } else {
+                    resolve(); // 当进度条加载完毕后,期约的状态为成功,resolve也是参数
+                }
+            }
+            countdown(5);
+        });
+        // p.notify((x) => setTimeout(console.log, 0, 'progress:', x)); // 参数函数作为notifyHandlers的项
+        // p.notify((x) => setTimeout(console.log, 0, 'progress@:', x)); // 作为notifyHandlers项
+        // p.then(() => setTimeout(console.log, 0, 'completed')); // 完毕后跳出
+        // p.notify((x) => setTimeout(console.log, 0, 'a:', x))
+        //     .notify((x) => setTimeout(console.log, 0, 'b:', x));
+        // p.then(() => setTimeout(console.log, 0, 'completed'));
+```
