@@ -1989,9 +1989,9 @@ bar()
 
 ### window 对象
 
-为浏览器实例,内部的全局方法调用时可以省略 window.,例如 window.parseInt == parseInt,作为 ECMAScript 的 Global 对象,使用 var 声明的变量,会被提升到 window 对象中.
+为浏览器实例,内部的全局方法调用时可以省略 window. 前缀,例如 window.parseInt == parseInt,作为 ECMAScript 的 Global 对象,使用 var 声明的变量,会被提升到 window 对象中.window常用来操作浏览器窗口,还有一些工具属性/方法(定时器),还有弹出对话框
 
-#### 窗口关系
+#### 窗口关系(窗口与窗口)
 
 - top 对象
   表示最上层窗口,即浏览器本身,故 top == window
@@ -2002,7 +2002,7 @@ bar()
 - self 对象
   指向 window 对象,即 self == window
 
-#### 窗口位置
+#### 窗口位置(窗口与屏幕)
 
 - window.screenLeft/screenTop
   属性,返回当前浏览器离屏幕的距离
@@ -2028,12 +2028,23 @@ bar()
   同样返回可视窗口的大小,若工具栏遮挡,也改变大小
 
 - window.resizeTo(x,y)/resizeBy(x,y)
-  前者表示将窗口缩放到 x-y 大小,后者表示基于当前宽高,调整x-y
+  方法,前者表示将窗口缩放到 x-y 大小,后者表示基于当前宽高,调整x-y
 
-#### 视口位置
+#### 视口位置(页面与窗口)
 
 - window.pageXoffset/pageYoffset和window.scrollX/scrollY
   表示滚动距离,即现在显示的最顶端离页面最顶端的距离,二者相等
+
+- window.scrollBy(x,y)/scrollTo(x,y)/scroll(x,y)
+  方法,前者表示基于当前坐标滚动x-y距离,后两者表示滚动到某坐标.三个方法参数可替换为一个对象,属性为left/top/behavior,其中behavior表示移动效果,值为auto(自动)/smooth(匀速)
+
+```js
+window.scroll({
+    left:100, // 离左端 100px
+    top:100, // 离顶端100px
+    behavior:smooth // 匀速
+})
+```
 
 | window属性 | 概念 |
 | - | - |
@@ -2050,11 +2061,110 @@ bar()
 | window.moveBy(x,y) | 基于现在坐标水平移动x,垂直移动y |
 | window.resizeTo(x,y) | 将窗口缩放到 x-y 大小 |
 | window.resizeBy(x,y) | 基于窗口大小,将窗口水平缩放 x,垂直缩放 y |
+| window.scroll(x.y)/scroll({left:,right:,behavior:}) | 滚动到left/right坐标 |
+| window.scrollTo(x.y)/scrollTo({left:,top:,behavior:}) | 滚动到left/top坐标 |
+| window.scrollBy(x.y)/scrollBy({left:,top:,behavior:}) | 向下滚动top位置,向左滚动到left位置 |
+
+#### 导航与打开新窗口
+
+- window.open(url,targetWindow,data,isReplaceNowPage)
+  返回一个window对象,这个window指向被打开的浏览器,所有方法也通用.可以使用window.close()关闭
+  - url url地址,为地址字符串
+  - targetWindow 为窗口名字字符串,所指向的url将会在此窗口打开(等同于a标签的target,可为frame标签,可选项也相同,比如_self、_parent、_top 或_blank。),若不存在这样的窗口,则新打开一个窗口,并将窗口命名为targetWindow
+  - data 字符串,形如'attributes_1=xxx,attributes_2=xxx,attributes_3=xxx',当url在新窗口打开时有效,常用属性值如下表
+  | 属性 | 值 | 说明 |
+  | height/width | 数值 | 新窗高度/宽度 |
+  | left/top | 数值 | 窗口距离屏幕的x-y坐标,非负 |
+  | resizeable | yes/no | 是否可以改变窗口大小,接下来都好像没啥用 |
+  | Menubar | yes/no | 是否显示菜单栏 |
+  | scrollbars | yes/no | 是否显示滚动栏 |
+  | status | yes/no | 是否显示状态栏 |
+  | toolbar | yes/no | 是否显示工具栏 |
+
+```js
+<a href="http://www.baidu.com" target="myFrame"/>  == window.open('http://www.baidu.com','myFrame')
+```
+
+#### 系统对话框
+
+无关视口和html,是浏览器自带的,常用的有alert(mes)、confirm(mes)、prompt(mes).
+alert(mes)只接收一个参数,在警告框中显示,只有一个确认按钮.
+confirm(mes)为确认框,有取消和确认两个选项,根据选择返回true/false.
+prompt(mes,input)为提示框,mes为文字提示,参数2 input表示在输入框中的默认值,可不传,为空字符串,点击确认时将文本框内的值返回,点击取消时返回null
 
 ### location 对象
 
+即是window对象的属性,也是document对象的属性,即window.location == document.location。location 对象保存了当前文档的信息，也保存了当前页面URL的信息。
+
+- 解析URL字符串
+  协议://用户名:密码@域名:端口/路径?查询参数#锚点
+  protocol://username:password@host:port/path?query#hash
+  对于例子:'http://foouser:barpassword@www.wrox.com:80/WileyCDA/?q=javascript#contents'，location可以找出所有信息。
+
+| location的url属性 | 作用 |
+| - | - |
+| location.hash | 锚点，用于定位页面，'#contents' |
+| location.host | 服务器和端口名, 'www.wrox.com:80' |
+| location.hostname | 服务器名, 'www.wrox.com' |
+| location.href | 完整url |
+| location.pathname | 路径名称,'/WileyCDA/' |
+| location.port | 端口名,'80' |
+| location.protocol | 协议名,'http:' |
+| location.search | 查询参数,'?q=javascript'|
+| location.username | 域名钱的用户名,'foouser' |
+| location.password | 域名前的密码,'barpassword' |
+| location.origin | 源地址,'http://www.wrox.com' |
+
+#### 查询字符串解析
+
+  使用location.search获取的字符串形如:qs = '?name=value&name=value',可以使用URLSearchParams(qs)方法解析查询字符串,返回一个实例,有toString/get/set/delete等方法
+
+  ```js
+  let qs = '?name=lyf&age=18&height=165'  
+  let search = URLSearchParams(qs)
+  search.toString() // '?name=lyf&age=18&height=165'  
+  serach.get('name') // 'name'
+  search.set('grade','2') 
+  search.toString() // '?name=lyf&age=18&height=165&grade=2'  
+  search.delete('age') // '?name=lyf&height=165&grade=2'  
+  ```
+
+#### 操作地址
+
+设置window.location、location.href和调用location.assign(url),都可以修改当前浏览器的地址,并可在历史记录中回退
+
 ### navigator 对象
+
+用来了解当前浏览器,不是window位置向,而是硬件数值上.
 
 ### screen 对象
 
+屏幕数据
+
 ### history 对象
+
+查询导航历史,并进行前进后退.
+
+- history.go(num)
+  表示基于当前页面,前进/后退num页,前进后退取决于num的正负
+- history.back(num)
+  表示回退num页
+- history.forward(num)
+  表示前进num页
+
+#### 历史状态管理
+
+改变url地址，默认去到新页面，触发hashchange事件，修改页面信息。执行pushState()方法后，新的状态信息会被加入到历史状态栈中，浏览器地址栏也会改变，但浏览器并不会真的向服务器发送请求，除了location相关属性依赖于url，故会修改。
+
+- history.pushState(stateObj,title,url)
+  - stateObj  状态对象
+  - title 新页面的标题，现在也无法实现
+  - url 修改端口后的路径
+
+## 十三、客户端检测
+
+检测当前页面所处在什么类型的浏览器中，因为不同浏览器的能力不同。能力检测使用函数差异检测，例如判断是否有函数 XMLHttpRequest，就能知道是不是IE8以下。用户代理检测为，用户代理字符串在请求url的http中，可通过navigator.userAgent获取.服务器判断用户代理字段确认浏览器,但有可能被浏览器欺骗.
+
+## 十四、DOM(文档对象模型)
+
+DOM是节点构成的层级结构,类似于一颗树,通常为HTML和XML文档.document节点表示文档的根节点,在html中为标签<html>,称为文档元素.
