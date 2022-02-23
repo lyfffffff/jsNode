@@ -1724,7 +1724,7 @@ my.showFarther() // false 原型模式 虽然可以访问函数内部的私有�
 
 ## 十一、期约（Promise）和异步函数
 
-最常见的异步为 setTimeout，但异步有许多缺点，其中最为显著的是**回调地狱**。期约表示 Promise，介于直接同步和异步之间，使用 new 调用，且需传一个作为**执行器**的函数参数。期约有三种状态，分别是待定（pending）、成功（fulfilled）、拒绝（rejected），最初是待定状态，一旦从待定状态脱离，便是不可逆的，且不一定能脱离待定状态。new Promise((resolve,reject)=>{}) 期约状态转换通过调用**参数函数**的两个参数(resolve/reject)实现，惯例命名为 resolve 和 reject，**调用**前者期约状态自动变为成功，调用后者为失败。
+同步(sync)和异步(async),最常见的异步为 setTimeout，但异步有许多缺点，其中最为显著的是**回调地狱**。期约表示 Promise，介于直接同步和异步之间，使用 new 调用，且需传一个作为**执行器**的函数参数。期约有三种状态，分别是待定（pending）、成功（fulfilled）、拒绝（rejected），最初是待定状态，一旦从待定状态脱离，便是不可逆的，且不一定能脱离待定状态。new Promise((resolve,reject)=>{}) 期约状态转换通过调用**参数函数**的两个参数(resolve/reject)实现，惯例命名为 resolve 和 reject，**调用**前者期约状态自动变为成功，调用后者为失败。
 
 ```js
 // setTimeout 的参数
@@ -1831,7 +1831,7 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
   // 参数 executor(function) function
   // 返回 null
     function CancelToken(executor) {
-        // 若传入的参数不为函数,抛出错误
+        // 若传入的参数不为函数，抛出错误
         if (typeof executor !== 'function') {
             throw new TypeError('executor must be a function.');
         }
@@ -1842,9 +1842,9 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
         });
 
         // 调用传入的执行器 executor ,传入的函数 cancel,到 CancelToken.source 中
-        var token = this; // token.reason 取消理由,为取消的文字说明,若存在,表示已取消
+        var token = this; // token.reason 取消理由，为取消的文字说明，若存在，表示已取消
         executor(function cancel(message) {
-            if (token.reason) { // 当响应已取消时,进行返回
+            if (token.reason) { // 当响应已取消时，进行返回
                 return;
             }
             token.reason = new Cancel(message); // 将 message 作为取消信息传入
@@ -1856,7 +1856,7 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
     // 返回 对象:{token:Object,cancel:function} -- function 触发 Object.promise 的 resolve 
     CancelToken.source = function source() {
         var cancel;
-        // 使用 new 实例化 CancelToken,token 返回一个对象,且包含 this.promise 属性
+        // 使用 new 实例化 CancelToken,token 返回一个对象，且包含 this.promise 属性
         var token = new CancelToken(function executor(c) {
             cancel = c; // function cancel
         });
@@ -1868,9 +1868,9 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
 
     // axios 的 cancelToken 的用法
   let cancelToken = axios.CancelToken;
-  let  source = cancelToken.source() // 返回一个对象,包含 token 和 cancel 属性
+  let  source = cancelToken.source() // 返回一个对象，包含 token 和 cancel 属性
   axios.post('',data,{cancelToken:source.token}) // 一个包含 promise 属性的对象
-  source.cancel('取消请求'); // 调用 cancel,执行 cancel 函数,promise 期约进入成功状态,返回 token.reason
+  source.cancel('取消请求'); // 调用 cancel,执行 cancel 函数，promise 期约进入成功状态，返回 token.reason
 
   ```
 
@@ -1878,7 +1878,7 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
 也不是获取 Promise 状态调用 resolve()转为成功的进度，而是手动给期约设置延时装置，每触发一个定时器，进度条减少，直到减为 0，才触发 resolve()，调用 notify 显示进度条
 
 ```js
-    // 继承 Promise 类,修改执行器函数,使其从 (resolve,reject)=>{} 变成(resolve,reject,(status)=>{})
+    // 继承 Promise 类，修改执行器函数，使其从 (resolve,reject)=>{} 变成(resolve,reject,(status)=>{})
     class TrackablePromise extends Promise {
         constructor(executor) { // 一个函数
             const notifyHandlers = [];
@@ -1917,11 +1917,11 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
 
 ### 异步函数
 
-即使用 async/await 声明的函数,称为异步函数.
+即使用 async/await 声明的函数，称为异步函数。
 
 #### async
 
-在函数声明前加入关键字,函数内部的普通代码是同步的,按顺序执行,但无论有没有返回语句,皆返回一个 Promise 实例,且状态为 resolve.
+在函数声明前加入关键字，函数内部的普通代码是同步的，按顺序执行，但无论有没有返回语句，皆返回一个 Promise 实例，且状态为 resolve.
 
 ```js
 async function Test(){}
@@ -1938,7 +1938,7 @@ console.log(2)
 
 #### await
 
-await 只能在异步函数中使用,遇到 await 时 async 函数暂停执行,await 后可以接一个表达式/变量,将其当做是 Promise.resolve(表达式/变量),等待函数外部同步代码执行完毕后,才执行 await,若 await 等来一个状态为成功的期约,继续执行异步函数剩余代码,因为 await 也可以接一个 Promise.reject(arg),此时停止执行剩余代码,并将失败状态的期约返回
+await 只能在异步函数中使用，遇到 await 时 async 函数暂停执行，await 后可以接一个表达式/变量，将其当做是 Promise.resolve(表达式/变量),等待函数外部同步代码执行完毕后，才执行 await,若 await 等来一个状态为成功的期约，继续执行异步函数剩余代码，因为 await 也可以接一个 Promise.reject(arg),此时停止执行剩余代码，并将失败状态的期约返回
 
 ```js
 async function testAsync(){
@@ -1951,7 +1951,7 @@ async function testAsync(){
    console.log(c)
    console.log(5)
 }
-testAsync().then(console.log).catch(console.log)// 在 let c 中抛出一个失败状态的期约,若 testAsync 完整执行,触发 then,参数为 return 的变量,若无则为 undefined
+testAsync().then(console.log).catch(console.log)// 在 let c 中抛出一个失败状态的期约，若 testAsync 完整执行，触发 then,参数为 return 的变量，若无则为 undefined
 console.log(6)
 // 1 6 2 3 4
 
@@ -1968,85 +1968,85 @@ bar()
 ```
 
 - 平行执行 await
-  必须等到表达式完成才 await,期间堵塞后续代码,若有多个异步的 await 时,等待时间是叠加的,即第一个 await 等待时间 1,第二个 await 等待时间为 1+2,可先执行异步,将结果放置在 await 中.
+  必须等到表达式完成才 await,期间堵塞后续代码，若有多个异步的 await 时，等待时间是叠加的，即第一个 await 等待时间 1,第二个 await 等待时间为 1+2,可先执行异步，将结果放置在 await 中。
 
   ```js
   let a = await test(1) // 若等待时间为 3000ms,后续代码被阻塞
-  let  b = await test(2) // 自 3000ms 开始,执行自身的等待 2000ms
+  let  b = await test(2) // 自 3000ms 开始，执行自身的等待 2000ms
 
   let a = test(1) // 3000ms 后得到答案
-  let b = test(2) // 2000ms 后得到答案,此时 b 比 a 快
+  let b = test(2) // 2000ms 后得到答案，此时 b 比 a 快
   let aa = await a
   let bb = await b
   ```
 
 - 栈追踪和内存
-在使用期约时,js 引擎会尽可能保留完整的调用栈,而异步函数则会完整返回当前的调用栈.
+在使用期约时，js 引擎会尽可能保留完整的调用栈，而异步函数则会完整返回当前的调用栈。
 
 ## 十二、BOM(浏览器对象模型 Browser Object Model)
 
-介绍了几个浏览器对象,window中视口表示页面,窗口表示浏览器.
+介绍了几个浏览器对象，window 中视口表示页面，窗口表示浏览器。
 
 ### window 对象
 
-为浏览器实例,内部的全局方法调用时可以省略 window. 前缀,例如 window.parseInt == parseInt,作为 ECMAScript 的 Global 对象,使用 var 声明的变量,会被提升到 window 对象中.window常用来操作浏览器窗口,还有一些工具属性/方法(定时器),还有弹出对话框
+为浏览器实例，内部的全局方法调用时可以省略 window. 前缀，例如 window.parseInt == parseInt,作为 ECMAScript 的 Global 对象，使用 var 声明的变量，会被提升到 window 对象中。window 常用来操作浏览器窗口，还有一些工具属性/方法(定时器),还有弹出对话框
 
 #### 窗口关系(窗口与窗口)
 
 - top 对象
-  表示最上层窗口,即浏览器本身,故 top == window
+  表示最上层窗口，即浏览器本身，故 top == window
 
 - parent 对象
-  表示当前窗口的父窗口,若当前窗口就是最上层窗口 top == parent
+  表示当前窗口的父窗口，若当前窗口就是最上层窗口 top == parent
 
 - self 对象
-  指向 window 对象,即 self == window
+  指向 window 对象，即 self == window
 
 #### 窗口位置(窗口与屏幕)
 
 - window.screenLeft/screenTop
-  属性,返回当前浏览器离屏幕的距离
+  属性，返回当前浏览器离屏幕的距离
 
 - window.moveTo(x,y)/moveBy(x,y)
-  moveTo 表示窗口移动到坐标(x,y),但好像没有用.moveBy 表示相对于当前位置,窗口移动 xy 距离,正负代表上下左右
+  moveTo 表示窗口移动到坐标(x,y),但好像没有用。moveBy 表示相对于当前位置，窗口移动 xy 距离，正负代表上下左右
 
 - window.devicePixelRatio 像素比
-  物理像素(DP,设备像素,device pixels),屏幕是由一个个小的像素块组成的,控制像素块颜色可以出现图像和动画,但是每个小像素块的大小和个数都是物理固定的.css 像素是一个相对的长度单位,在同一个设备/不同的设备中,1px 所代表的物理像素是变化的,例如分辨率高的,一个物理像素小,需多占几个物理像素,分辨率低的,少占几个物理像素,最终显示的大小一样,但是清晰度会有所不同.控制像素比的属性为 window.devicePixelRatio,表示物理像素与逻辑像素之间的缩放系数.
+  物理像素(DP,设备像素，device pixels),屏幕是由一个个小的像素块组成的，控制像素块颜色可以出现图像和动画，但是每个小像素块的大小和个数都是物理固定的。css 像素是一个相对的长度单位，在同一个设备/不同的设备中，1px 所代表的物理像素是变化的，例如分辨率高的，一个物理像素小，需多占几个物理像素，分辨率低的，少占几个物理像素，最终显示的大小一样，但是清晰度会有所不同。控制像素比的属性为 window.devicePixelRatio,表示物理像素与逻辑像素之间的缩放系数。
 
 #### 窗口大小
 
 - screen.width/height
-  表示屏幕分辨率,不会变
+  表示屏幕分辨率，不会变
 
 - innerWidth/innerHeight
-  当前可视窗口(即页面)的大小,若工具栏遮挡,也改变大小
+  当前可视窗口(即页面)的大小，若工具栏遮挡，也改变大小
 
 - outerWidth/outerHeight
   返回浏览器窗口自身大小
 
 - document.documentElement.clientWidth
-  同样返回可视窗口的大小,若工具栏遮挡,也改变大小
+  同样返回可视窗口的大小，若工具栏遮挡，也改变大小
 
 - window.resizeTo(x,y)/resizeBy(x,y)
-  方法,前者表示将窗口缩放到 x-y 大小,后者表示基于当前宽高,调整x-y
+  方法，前者表示将窗口缩放到 x-y 大小，后者表示基于当前宽高，调整 x-y
 
 #### 视口位置(页面与窗口)
 
-- window.pageXoffset/pageYoffset和window.scrollX/scrollY
-  表示滚动距离,即现在显示的最顶端离页面最顶端的距离,二者相等
+- window.pageXoffset/pageYoffset 和 window.scrollX/scrollY
+  表示滚动距离，即现在显示的最顶端离页面最顶端的距离，二者相等
 
 - window.scrollBy(x,y)/scrollTo(x,y)/scroll(x,y)
-  方法,前者表示基于当前坐标滚动x-y距离,后两者表示滚动到某坐标.三个方法参数可替换为一个对象,属性为left/top/behavior,其中behavior表示移动效果,值为auto(自动)/smooth(匀速)
+  方法，前者表示基于当前坐标滚动 x-y 距离，后两者表示滚动到某坐标。三个方法参数可替换为一个对象，属性为 left/top/behavior,其中 behavior 表示移动效果，值为 auto(自动)/smooth(匀速)
 
 ```js
 window.scroll({
     left:100, // 离左端 100px
-    top:100, // 离顶端100px
+    top:100, // 离顶端 100px
     behavior:smooth // 匀速
 })
 ```
 
-| window属性 | 概念 |
+| window 属性 | 概念 |
 | - | - |
 | window.screenLeft/screenRight | 窗口距离屏幕左顶点的距离 |
 | screen.width/height | 屏幕分辨率 |
@@ -2055,27 +2055,27 @@ window.scroll({
 | window.outerWidth/outerHeight | 窗口大小 |
 | window.pageXOffset/pageYOffset | 视口滚动距离 |
 
-| window方法 | 概念 |
+| window 方法 | 概念 |
 | - | - |
-| window.moveTo(x,y) | 将窗口移动到离屏幕的x-y坐标 |
-| window.moveBy(x,y) | 基于现在坐标水平移动x,垂直移动y |
+| window.moveTo(x,y) | 将窗口移动到离屏幕的 x-y 坐标 |
+| window.moveBy(x,y) | 基于现在坐标水平移动 x,垂直移动 y |
 | window.resizeTo(x,y) | 将窗口缩放到 x-y 大小 |
-| window.resizeBy(x,y) | 基于窗口大小,将窗口水平缩放 x,垂直缩放 y |
-| window.scroll(x.y)/scroll({left:,right:,behavior:}) | 滚动到left/right坐标 |
-| window.scrollTo(x.y)/scrollTo({left:,top:,behavior:}) | 滚动到left/top坐标 |
-| window.scrollBy(x.y)/scrollBy({left:,top:,behavior:}) | 向下滚动top位置,向左滚动到left位置 |
+| window.resizeBy(x,y) | 基于窗口大小，将窗口水平缩放 x,垂直缩放 y |
+| window.scroll(x.y)/scroll({left:,right:,behavior:}) | 滚动到 left/right 坐标 |
+| window.scrollTo(x.y)/scrollTo({left:,top:,behavior:}) | 滚动到 left/top 坐标 |
+| window.scrollBy(x.y)/scrollBy({left:,top:,behavior:}) | 向下滚动 top 位置，向左滚动到 left 位置 |
 
 #### 导航与打开新窗口
 
 - window.open(url,targetWindow,data,isReplaceNowPage)
-  返回一个window对象,这个window指向被打开的浏览器,所有方法也通用.可以使用window.close()关闭
-  - url url地址,为地址字符串
-  - targetWindow 为窗口名字字符串,所指向的url将会在此窗口打开(等同于a标签的target,可为frame标签,可选项也相同,比如_self、_parent、_top 或_blank。),若不存在这样的窗口,则新打开一个窗口,并将窗口命名为targetWindow
-  - data 字符串,形如'attributes_1=xxx,attributes_2=xxx,attributes_3=xxx',当url在新窗口打开时有效,常用属性值如下表
+  返回一个 window 对象，这个 window 指向被打开的浏览器，所有方法也通用。可以使用 window.close()关闭
+  - url url 地址，为地址字符串
+  - targetWindow 为窗口名字字符串，所指向的 url 将会在此窗口打开(等同于 a 标签的 target,可为 frame 标签，可选项也相同，比如_self、_parent、_top 或_blank。),若不存在这样的窗口，则新打开一个窗口，并将窗口命名为 targetWindow
+  - data 字符串，形如'attributes_1=xxx,attributes_2=xxx,attributes_3=xxx',当 url 在新窗口打开时有效，常用属性值如下表
   | 属性 | 值 | 说明 |
   | height/width | 数值 | 新窗高度/宽度 |
-  | left/top | 数值 | 窗口距离屏幕的x-y坐标,非负 |
-  | resizeable | yes/no | 是否可以改变窗口大小,接下来都好像没啥用 |
+  | left/top | 数值 | 窗口距离屏幕的 x-y 坐标，非负 |
+  | resizeable | yes/no | 是否可以改变窗口大小，接下来都好像没啥用 |
   | Menubar | yes/no | 是否显示菜单栏 |
   | scrollbars | yes/no | 是否显示滚动栏 |
   | status | yes/no | 是否显示状态栏 |
@@ -2087,37 +2087,37 @@ window.scroll({
 
 #### 系统对话框
 
-无关视口和html,是浏览器自带的,常用的有alert(mes)、confirm(mes)、prompt(mes).
-alert(mes)只接收一个参数,在警告框中显示,只有一个确认按钮.
-confirm(mes)为确认框,有取消和确认两个选项,根据选择返回true/false.
-prompt(mes,input)为提示框,mes为文字提示,参数2 input表示在输入框中的默认值,可不传,为空字符串,点击确认时将文本框内的值返回,点击取消时返回null
+无关视口和 html,是浏览器自带的，常用的有 alert(mes)、confirm(mes)、prompt(mes).
+alert(mes)只接收一个参数，在警告框中显示，只有一个确认按钮。
+confirm(mes)为确认框，有取消和确认两个选项，根据选择返回 true/false.
+prompt(mes,input)为提示框，mes 为文字提示，参数 2 input 表示在输入框中的默认值，可不传，为空字符串，点击确认时将文本框内的值返回，点击取消时返回 null
 
 ### location 对象
 
-即是window对象的属性,也是document对象的属性,即window.location == document.location。location 对象保存了当前文档的信息，也保存了当前页面URL的信息。
+即是 window 对象的属性，也是 document 对象的属性，即 window.location == document.location。location 对象保存了当前文档的信息，也保存了当前页面 URL 的信息。
 
-- 解析URL字符串
+- 解析 URL 字符串
   协议://用户名:密码@域名:端口/路径?查询参数#锚点
   protocol://username:password@host:port/path?query#hash
-  对于例子:'http://foouser:barpassword@www.wrox.com:80/WileyCDA/?q=javascript#contents'，location可以找出所有信息。
+  对于例子:'http://foouser:barpassword@www.wrox.com:80/WileyCDA/?q=javascript#contents'，location 可以找出所有信息。
 
-| location的url属性 | 作用 |
+| location 的 url 属性 | 作用 |
 | - | - |
 | location.hash | 锚点，用于定位页面，'#contents' |
-| location.host | 服务器和端口名, 'www.wrox.com:80' |
-| location.hostname | 服务器名, 'www.wrox.com' |
-| location.href | 完整url |
-| location.pathname | 路径名称,'/WileyCDA/' |
-| location.port | 端口名,'80' |
-| location.protocol | 协议名,'http:' |
-| location.search | 查询参数,'?q=javascript'|
-| location.username | 域名钱的用户名,'foouser' |
-| location.password | 域名前的密码,'barpassword' |
-| location.origin | 源地址,'http://www.wrox.com' |
+| location.host | 服务器和端口名， 'www.wrox.com:80' |
+| location.hostname | 服务器名， 'www.wrox.com' |
+| location.href | 完整 url |
+| location.pathname | 路径名称，'/WileyCDA/' |
+| location.port | 端口名，'80' |
+| location.protocol | 协议名，'http:' |
+| location.search | 查询参数，'?q=javascript'|
+| location.username | 域名钱的用户名，'foouser' |
+| location.password | 域名前的密码，'barpassword' |
+| location.origin | 源地址，'http://www.wrox.com' |
 
 #### 查询字符串解析
 
-  使用location.search获取的字符串形如:qs = '?name=value&name=value',可以使用URLSearchParams(qs)方法解析查询字符串,返回一个实例,有toString/get/set/delete等方法
+  使用 location.search 获取的字符串形如:qs = '?name=value&name=value',可以使用 URLSearchParams(qs)方法解析查询字符串，返回一个实例，有 toString/get/set/delete 等方法
 
   ```js
   let qs = '?name=lyf&age=18&height=165'  
@@ -2131,11 +2131,11 @@ prompt(mes,input)为提示框,mes为文字提示,参数2 input表示在输入框
 
 #### 操作地址
 
-设置window.location、location.href和调用location.assign(url),都可以修改当前浏览器的地址,并可在历史记录中回退
+设置 window.location、location.href 和调用 location.assign(url),都可以修改当前浏览器的地址，并可在历史记录中回退
 
 ### navigator 对象
 
-用来了解当前浏览器,不是window位置向,而是硬件数值上.
+用来了解当前浏览器，不是 window 位置向，而是硬件数值上。
 
 ### screen 对象
 
@@ -2143,18 +2143,18 @@ prompt(mes,input)为提示框,mes为文字提示,参数2 input表示在输入框
 
 ### history 对象
 
-查询导航历史,并进行前进后退.
+查询导航历史，并进行前进后退。
 
 - history.go(num)
-  表示基于当前页面,前进/后退num页,前进后退取决于num的正负
+  表示基于当前页面，前进/后退 num 页，前进后退取决于 num 的正负
 - history.back(num)
-  表示回退num页
+  表示回退 num 页
 - history.forward(num)
-  表示前进num页
+  表示前进 num 页
 
 #### 历史状态管理
 
-改变url地址，默认去到新页面，触发hashchange事件，修改页面信息。执行pushState()方法后，新的状态信息会被加入到历史状态栈中，浏览器地址栏也会改变，但浏览器并不会真的向服务器发送请求，除了location相关属性依赖于url，故会修改。
+改变 url 地址，默认去到新页面，触发 hashchange 事件，修改页面信息。执行 pushState()方法后，新的状态信息会被加入到历史状态栈中，浏览器地址栏也会改变，但浏览器并不会真的向服务器发送请求，除了 location 相关属性依赖于 url，故会修改。
 
 - history.pushState(stateObj,title,url)
   - stateObj  状态对象
@@ -2163,8 +2163,8 @@ prompt(mes,input)为提示框,mes为文字提示,参数2 input表示在输入框
 
 ## 十三、客户端检测
 
-检测当前页面所处在什么类型的浏览器中，因为不同浏览器的能力不同。能力检测使用函数差异检测，例如判断是否有函数 XMLHttpRequest，就能知道是不是IE8以下。用户代理检测为，用户代理字符串在请求url的http中，可通过navigator.userAgent获取.服务器判断用户代理字段确认浏览器,但有可能被浏览器欺骗.
+检测当前页面所处在什么类型的浏览器中，因为不同浏览器的能力不同。能力检测使用函数差异检测，例如判断是否有函数 XMLHttpRequest，就能知道是不是 IE8 以下。用户代理检测为，用户代理字符串在请求 url 的 http 中，可通过 navigator.userAgent 获取。服务器判断用户代理字段确认浏览器，但有可能被浏览器欺骗。
 
 ## 十四、DOM(文档对象模型)
 
-DOM是节点构成的层级结构,类似于一颗树,通常为HTML和XML文档.document节点表示文档的根节点,在html中为标签<html>,称为文档元素.
+DOM 是节点构成的层级结构，类似于一颗树，通常为 HTML 和 XML 文档。document 节点表示文档的根节点，在 html 中为标签<html>,称为文档元素。
