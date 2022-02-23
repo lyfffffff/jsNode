@@ -2026,6 +2026,9 @@ bar()
 
 - document.documentElement.clientWidth
   同样返回可视窗口的大小，若工具栏遮挡，也改变大小
+  - document.documentElement.clientWidth 和 innerWidth 的区别
+  - 前者属于DOM,后者属于BOM
+  - 前者不包括滚动条宽度,后者包括滚动条宽度,故后者 = 前者 || 前者+17px(滚动条宽度)
 
 - window.resizeTo(x,y)/resizeBy(x,y)
   方法，前者表示将窗口缩放到 x-y 大小，后者表示基于当前宽高，调整 x-y
@@ -2117,11 +2120,11 @@ prompt(mes,input)为提示框，mes 为文字提示，参数 2 input 表示在�
 
 #### 查询字符串解析
 
-  使用 location.search 获取的字符串形如:qs = '?name=value&name=value',可以使用 URLSearchParams(qs)方法解析查询字符串，返回一个实例，有 toString/get/set/delete 等方法
+  使用 location.search 获取的字符串形如:qs = '?name=value&name=value',可以实例化 URLSearchParams(qs)方法解析查询字符串，返回一个实例，有 toString/get/set/delete 等方法
 
   ```js
   let qs = '?name=lyf&age=18&height=165'  
-  let search = URLSearchParams(qs)
+  let search = new URLSearchParams(qs)
   search.toString() // '?name=lyf&age=18&height=165'  
   serach.get('name') // 'name'
   search.set('grade','2') 
