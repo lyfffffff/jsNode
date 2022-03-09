@@ -1126,3 +1126,39 @@ Promise(4)
     test() // error，因为 null 不可做修饰符 
   ```
   
+#### Vuex
+
+  单一状态管理树，即只有一个仓库，但是所有实例共享仓库里的状态、方法。
+
+- 创建仓库
+  需引入 vuex,并挂载在Vue中
+
+  ```js
+  // store.js
+  import Vuex from 'vuex'
+  Vue.use(Vuex)
+  const store = new Vuex.Store({
+      state:{},
+      mutations:{},
+      actions:{},
+      modules:{}
+  })  
+  export default store
+
+  // index.js
+  import store from './store.js'
+  new Vue({
+      store,
+      render:h => h(App)
+  }).$mount('#app')
+  ```
+
+- 仓库属性
+  state
+  类似于Vue实例中的data
+  mutations
+  类似于Vue实例中的methods,但是是同步的,无法异步
+  actions
+  解决mutations无法异步,用于异步完 commit 到mutations
+  modules
+  因为是单一数,故store只有一个,但是又想模块化,故可以进行模块化
