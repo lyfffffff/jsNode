@@ -2172,7 +2172,7 @@ prompt(mes,input)为提示框，mes 为文字提示，参数 2 input 表示在�
 
 DOM 由节点构成的层级结构，类似于一颗树，通常为 HTML 和 XML 文档。document 表示文档的根节点，其包含一个子节点,在 html 中为标签 <html> ,称为文档元素,一个文档只有一个文档元素。
 
-#### Node类型
+### Node类型
 
 文档中任意节点都有Node类型的特性，即拥有Node属性.someNode.nodeType表示节点类型，为一个常数（1-12），与Node.ELEMENT_NODE等属性相对应、nodeName表示节点名称、nodeValue表示节点信息，一般来说元素节点该属性为null.
 
@@ -2194,4 +2194,10 @@ childs[0].parentNode == divNode
 
 #### 操纵节点
 
-也就是节点的增删改查,一般操作的是某个节点的子节点.appendChild、removeChild、
+即每个节点的属性方法，someNode.xxx()。也就是节点的增删改查,一般操作的是某个节点的子节点，将新节点作为参数传入方法中.appendChild(newNode)、removeChild(newNode)、replaceChild(newNode)、insertBefore(newNode)。还有两个较少使用的方法cloneNode()，传入一个Boolean值参数，表示是否深克隆节点。和normalize()，操作后代节点中的文本节点，文本节点为空时，进行移除。
+
+### Documnet类型
+指代整体页面，其中一个子节点表示html标签，使用document.documentElement获取。另一个虽不是子节点，但也可以直接获取，document.body表示body标签。
+#### 常见属性
+
+### Element类型
