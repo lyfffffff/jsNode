@@ -2028,7 +2028,7 @@ bar()
   同样返回可视窗口的大小，若工具栏遮挡，也改变大小
   - document.documentElement.clientWidth 和 innerWidth 的区别
   - 前者属于DOM,后者属于BOM
-  - 前者不包括滚动条宽度,后者包括滚动条宽度,故后者 = 前者 || 前者+17px(滚动条宽度)
+  - 前者不包括滚动条宽度，后者包括滚动条宽度，故后者 = 前者 || 前者+17px(滚动条宽度)
 
 - window.resizeTo(x,y)/resizeBy(x,y)
   方法，前者表示将窗口缩放到 x-y 大小，后者表示基于当前宽高，调整 x-y
@@ -2170,11 +2170,11 @@ prompt(mes,input)为提示框，mes 为文字提示，参数 2 input 表示在�
 
 ## 十四、DOM(文档对象模型)
 
-DOM 由节点构成的层级结构，类似于一颗树，通常为 HTML 和 XML 文档。document 表示文档的根节点，其包含一个子节点,在 html 中为标签 <html> ,称为文档元素,一个文档只有一个文档元素。
+DOM 由节点构成的层级结构，类似于一颗树，通常为 HTML 和 XML 文档。document 表示文档的根节点，其包含一个子节点，在 html 中为标签 <html> ,称为文档元素，一个文档只有一个文档元素。
 
 ### Node类型
 
-文档中任意节点都有Node类型的特性，即拥有Node属性.someNode.nodeType表示节点类型，为一个常数（1-12），与Node.ELEMENT_NODE等属性相对应、nodeName表示节点名称、nodeValue表示节点信息，一般来说元素节点该属性为null.
+文档中任意节点都有Node类型的特性，即拥有Node属性。someNode.nodeType表示节点类型，为一个常数（1-12），与Node.ELEMENT_NODE等属性相对应、nodeName表示节点名称、nodeValue表示节点信息，一般来说元素节点该属性为null.
 
 ```js
 divNode.nodeType == 1 == Node.ELEMENT_NODE
@@ -2183,7 +2183,7 @@ divNode.nodeName == 'DIV'
 
 #### 节点关系
 
-一般是父子、兄弟，获取一个节点的子节点集使用childNodes,返回一个有length属性的类数组,可以使用item(index)和[index]的形式访问子节点.获取一个节点的父节点使用 parentNode.获取兄弟节点使用 nextSibling 和 previousSibling,当自己作为兄长时,previousSibling 为 null,当自己作为幼弟时,nextSibling 为null.当父节点想要获取大儿子和小儿子时,使用firstChild和lastChild.
+一般是父子、兄弟，获取一个节点的子节点集使用childNodes,返回一个有length属性的类数组，可以使用item(index)和[index]的形式访问子节点。获取一个节点的父节点使用 parentNode.获取兄弟节点使用 nextSibling 和 previousSibling,当自己作为兄长时，previousSibling 为 null,当自己作为幼弟时，nextSibling 为null.当父节点想要获取大儿子和小儿子时，使用firstChild和lastChild.
 
 ```js
 let childs = divNode.childNodes
@@ -2194,7 +2194,7 @@ childs[0].parentNode == divNode
 
 #### 操纵节点
 
-即每个节点的属性方法，someNode.xxx()。也就是节点的增删改查,一般操作的是某个节点的子节点，将新节点作为参数传入方法中.appendChild(newNode)、removeChild(newNode)、replaceChild(newNode)、insertBefore(newNode)。还有两个较少使用的方法cloneNode()，传入一个Boolean值参数，表示是否深克隆节点。和normalize()，操作后代节点中的文本节点，文本节点为空时，进行移除。
+即每个节点的属性方法，someNode.xxx()。也就是节点的增删改查，一般操作的是某个节点的子节点，将新节点作为参数传入方法中。appendChild(newNode)、removeChild(newNode)、replaceChild(newNode)、insertBefore(newNode)。还有两个较少使用的方法cloneNode()，传入一个Boolean值参数，表示是否深克隆节点。和normalize()，操作后代节点中的文本节点，文本节点为空时，进行移除。
 
 ### Documnet类型
 

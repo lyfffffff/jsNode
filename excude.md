@@ -1064,7 +1064,7 @@ Promise(4)
 
 #### IIFE
 
-全称 Immediately Invoked Function Expression,即为立即调用的函数表达式.({})()
+全称 Immediately Invoked Function Expression,即为立即调用的函数表达式。({})()
 
 #### markdown 语法
 
@@ -1128,11 +1128,11 @@ Promise(4)
   
 #### Vuex
 
-可以调用Vuex.store({})生成一个单一状态管理树，即一个应用只有一个仓库 store，但是所有vue实例共享仓库里的状态、方法,包含三部分,state,view和actions。
+可以调用 Vuex.store({})生成一个单一状态管理树，即一个应用只有一个仓库 store，但是所有 vue 实例共享仓库里的状态、方法，包含三部分，state,view 和 actions。
   ![assing](./img/vuex_modules.png)
 
 - 创建仓库
-  需安装并引入 vuex,进行注册,并挂载在Vue中
+  需安装并引入 vuex,进行注册，并挂载在 Vue 中
 
   ```js
   // store.js
@@ -1156,29 +1156,63 @@ Promise(4)
 
 - 仓库属性
   state
-  类似于Vue实例中的data
+  类似于 Vue 实例中的 data,但是因为是外部响应式的，故需要在 computed 中使用
   getters
-  用于获取操作后的状态,类似于属性描述器的getter,默认参数1为state,操作后返回符合结果
+  用于获取操作后的状态，类似于属性描述器的 getter,默认参数 1 为 state,操作后返回符合结果，无法获取到模块化的 getters
 
   ```js
   getters:{
-      showName(state){ // 此处可以定义其他参数,但是都是本store中的数据,因为不能从外部调用
+      showName(state){ // 此处可以定义其他参数，但是都是本 store 中的数据，因为不能从外部调用
           return state.names.filter(item=>{item.age>10})
       }
   }
   computed:{
       showName(){
-          return this.$store.getters.showName // 并不调用,而是直接获取
+          return this.$store.getters.showName // 并不调用，而是直接获取
       }
   }
   ```
 
   mutations
-  类似于Vue实例中的methods,但是只能实现同步操作,无法异步
+  类似于 Vue 实例中的 methods,但不能和 methods 一样方法间相互调用，且只能实现同步操作，无法异步
   actions
-  解决mutations无法异步,用于异步完 commit 到mutations
+  解决 mutations 无法异步，用于异步完将 commit 到 mutations,虽然此处可以修改 state 的值，但是一般只在 mutations 修改
   modules
-  因为是单一树,故store只有一个,但是又想模块化,故可以进行模块化,各个模块之间数据是不共通的
+  因为是单一树，故 store 只有一个，但是又想模块化，故可以进行模块化，各个模块之间数据是不共通的。在有模块化的 vuex 实例中，获取模块内的状态操作需加模块名前缀
 
-- 在Vue实例中使用仓库
-因为vuex在Vue中挂载了,故使用this.$store可以访问.且vuex内部有mapXxxx方法帮助快速访问状态,操作
+- 在 Vue 实例中使用仓库
+因为 vuex 在 Vue 中挂载了，故使用 this.$store 可以访问。且 vuex 内部有 mapXxxx 方法帮助快速访问状态
+
+```js
+// App.vue
+computed:{
+    count(){
+        return this.$store.state.count // 单模块
+        return this.$store.state.app.count // 多模块，获取 app 模块数据
+    }
+}
+
+// 辅助函数 mapState
+import {mapState} from 'vuex'
+computed: mapState(['count'])
+computed:{
+    ...mapState(['count'])
+}
+
+// getters
+computed:{
+    count(){
+        return this.$store.getters.countCreamt // 单模块
+        return this.$store.state.app.count // 多模块，获取 app 模块数据
+    }
+}
+
+methods:{
+    clickHandle(){
+        this.$store.commit('showCount',10) // 单模块
+        this.$store.commit('app/showCount',10) // 多模块，调用 app 模块下的 mutations
+
+        this
+    }
+}
+```
