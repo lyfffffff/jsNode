@@ -1128,16 +1128,17 @@ Promise(4)
   
 #### Vuex
 
-  单一状态管理树，即只有一个仓库，但是所有实例共享仓库里的状态、方法。
+可以调用Vuex.store({})生成一个单一状态管理树，即一个应用只有一个仓库 store，但是所有vue实例共享仓库里的状态、方法,包含三部分,state,view和actions。
+  ![assing](./img/vuex_modules.png)
 
 - 创建仓库
-  需引入 vuex,并挂载在Vue中
+  需安装并引入 vuex,进行注册,并挂载在Vue中
 
   ```js
   // store.js
   import Vuex from 'vuex'
-  Vue.use(Vuex)
-  const store = new Vuex.Store({
+  Vue.use(Vuex) // 注册插件
+  const store = new Vuex.Store({ // 初始化仓库
       state:{},
       mutations:{},
       actions:{},
@@ -1156,9 +1157,28 @@ Promise(4)
 - 仓库属性
   state
   类似于Vue实例中的data
+  getters
+  用于获取操作后的状态,类似于属性描述器的getter,默认参数1为state,操作后返回符合结果
+
+  ```js
+  getters:{
+      showName(state){ // 此处可以定义其他参数,但是都是本store中的数据,因为不能从外部调用
+          return state.names.filter(item=>{item.age>10})
+      }
+  }
+  computed:{
+      showName(){
+          return this.$store.getters.showName // 并不调用,而是直接获取
+      }
+  }
+  ```
+
   mutations
-  类似于Vue实例中的methods,但是是同步的,无法异步
+  类似于Vue实例中的methods,但是只能实现同步操作,无法异步
   actions
   解决mutations无法异步,用于异步完 commit 到mutations
   modules
-  因为是单一数,故store只有一个,但是又想模块化,故可以进行模块化
+  因为是单一树,故store只有一个,但是又想模块化,故可以进行模块化,各个模块之间数据是不共通的
+
+- 在Vue实例中使用仓库
+因为vuex在Vue中挂载了,故使用this.$store可以访问.且vuex内部有mapXxxx方法帮助快速访问状态,操作

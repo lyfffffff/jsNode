@@ -2197,7 +2197,9 @@ childs[0].parentNode == divNode
 即每个节点的属性方法，someNode.xxx()。也就是节点的增删改查,一般操作的是某个节点的子节点，将新节点作为参数传入方法中.appendChild(newNode)、removeChild(newNode)、replaceChild(newNode)、insertBefore(newNode)。还有两个较少使用的方法cloneNode()，传入一个Boolean值参数，表示是否深克隆节点。和normalize()，操作后代节点中的文本节点，文本节点为空时，进行移除。
 
 ### Documnet类型
+
 指代整体页面，其中一个子节点表示html标签，使用document.documentElement获取。另一个虽不是子节点，但也可以直接获取，document.body表示body标签。
+
 #### 常见属性
 
 ### Element类型
