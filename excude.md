@@ -1043,7 +1043,159 @@ import axios from 'axios';
 | 500 | 服务器出错，无法完成请求 |
 | 503 | 服务器由于过载或维护，无法完成当前请求 |
 
-####
+### Vuex
+
+可以调用 Vuex.store({}) 生成一个单一状态管理树，即一个应用只有一个仓库 store，但是所有 vue 实例共享仓库里的状态、方法，状态管理包含三部分，state，view 和 actions。
+  ![assing](./img/vuex_modules.png)
+
+- 创建仓库
+  需安装并引入 vuex，进行注册，并挂载在 Vue 中
+
+  ```js
+  // store.js
+  import Vuex from 'vuex'
+  Vue.use(Vuex) // 注册插件
+  const store = new Vuex.Store({ // 初始化仓库
+      state:{},
+      mutations:{},
+      actions:{},
+      modules:{}
+  })  
+  export default store
+
+  // index.js
+  import store from './store.js'
+  new Vue({
+      store,
+      render:h => h(App)
+  }).$mount('#app')
+  ```
+
+- 仓库属性
+
+#### state
+
+类似于 Vue 实例中的 data，但是在vuex中响应式，故需要实时监听,常常在 computed 中监听,若单纯在data中引入,原始值不响应,引用值的属性修改时响应(因为指向一个地址)
+
+```js
+state:{
+    count:10
+}
+```
+
+#### getters
+
+类似于Vuex的计算属性,也是监听一个函数的返回值;默认参数 1 为 state，操作后返回符合结果，无法获取到模块化的 getters
+
+```js
+getters:{
+    showName(state){ // 此处可以定义其他参数，但是都是本 store 中的数据，因为不能从外部调用
+        return state.names.filter(item=>{item.age>10})
+    }
+}
+computed:{
+    showName(){
+        return this.$store.getters.showName // 并不调用，而是直接获取
+    }
+}
+```
+
+#### mutations
+
+类似于 Vue 实例中的 methods,但不能和 methods 一样方法间相互调用，且只能实现同步操作，无法异步.事件参数默认为(state.payload),故在提交事件时,只能提交一个参数,如需提交多个参数,使用对象.
+
+```js
+this.$store.commit("moduleA/increment", 10, "10"); // '10' 无效
+this.$store.commit("moduleA/increment", {num:10,str:"10"}); 
+```
+
+#### actions
+
+解决 mutations 无法异步，用于异步完将 commit 到 mutations,虽然此处可以修改 state 的值，但是一般只在 mutations 修改
+modules
+为一个对象,因为是vuex单一树，故 store 只有一个，但是可以进行分割,在定义了命名空间时,各个模块之间数据是不共通的。在有模块化的 vuex 实例中，获取模块内的状态操作需加模块名前缀
+
+```js
+let moduleA = {
+    state:{
+        count:10
+    },
+    mutations:{
+        increment(state){
+            state.count++
+        }
+    }
+} 
+
+let store = new Vuex.Store({
+    modules:{moduleA},
+    state:{
+        count:1
+    }
+}) 
+```
+
+- 在 Vue 实例中使用仓库
+因为 vuex 在 Vue 中挂载了，故使用 this.$store 可以访问。且 vuex 内部有 mapXxxx 方法帮助state和getters快速生成计算属性,帮助mapMutations和mapActions快速生成函数
+
+```js
+// App.vue
+computed:{
+    count(){
+        return this.$store.state.count // 单模块
+        return this.$store.state.app.count // 多模块，获取 app 模块数据
+    }
+}
+
+// 辅助函数 mapState
+import {mapState} from 'vuex'
+computed: mapState(['count'])
+computed:{
+    ...mapState(['count'])
+}
+
+// getters
+computed:{
+    count(){
+        return this.$store.getters.countCreamt // 单模块，modules下
+        }
+}
+
+// 辅助函数 mapGetters
+computed:mapGetters(['getCount'])
+computed:{
+    ...mapGetters(['getCount'])
+}
+
+// mutations
+methods:{
+    clickHandle(){
+        this.$store.commit('addCount',10) // 单模块
+        this.$store.commit('app/addCount',10) // 多模块，调用 app 模块下的 mutations
+    }
+}
+
+// mapMutations
+@click="addCount(5)" // 此时参数在绑定事件中携带
+methods:{
+    ...mapMutations(['addCount'])
+} 
+
+
+// actions
+methods:{
+    clickHandle(){
+        this.$store.dispatch('addCount',10) // 单模块
+        this.$store.dispatch('app/addCount',10) // 多模块，调用 app 模块下的 actions
+    }
+}
+
+@click="addCount(5)"
+methods:{ ...mapActions(['addCount'])}
+```
+
+- 命名空间
+  当模块没有添加 namespaced 属性时,action 和mutation 仍是全局的.添加 namespaced:true 表示该模块是命名空间,该模块的 getter、action 及 mutation 都会根据模块注册路径调整命名
 
 # 零碎
 
@@ -1126,93 +1278,7 @@ Promise(4)
     test() // error，因为 null 不可做修饰符 
   ```
   
-#### Vuex
+#### Vue.use(plugins,...args)
 
-可以调用 Vuex.store({})生成一个单一状态管理树，即一个应用只有一个仓库 store，但是所有 vue 实例共享仓库里的状态、方法，包含三部分，state,view 和 actions。
-  ![assing](./img/vuex_modules.png)
-
-- 创建仓库
-  需安装并引入 vuex,进行注册，并挂载在 Vue 中
-
-  ```js
-  // store.js
-  import Vuex from 'vuex'
-  Vue.use(Vuex) // 注册插件
-  const store = new Vuex.Store({ // 初始化仓库
-      state:{},
-      mutations:{},
-      actions:{},
-      modules:{}
-  })  
-  export default store
-
-  // index.js
-  import store from './store.js'
-  new Vue({
-      store,
-      render:h => h(App)
-  }).$mount('#app')
-  ```
-
-- 仓库属性
-  state
-  类似于 Vue 实例中的 data,但是因为是外部响应式的，故需要在 computed 中使用
-  getters
-  用于获取操作后的状态，类似于属性描述器的 getter,默认参数 1 为 state,操作后返回符合结果，无法获取到模块化的 getters
-
-  ```js
-  getters:{
-      showName(state){ // 此处可以定义其他参数，但是都是本 store 中的数据，因为不能从外部调用
-          return state.names.filter(item=>{item.age>10})
-      }
-  }
-  computed:{
-      showName(){
-          return this.$store.getters.showName // 并不调用，而是直接获取
-      }
-  }
-  ```
-
-  mutations
-  类似于 Vue 实例中的 methods,但不能和 methods 一样方法间相互调用，且只能实现同步操作，无法异步
-  actions
-  解决 mutations 无法异步，用于异步完将 commit 到 mutations,虽然此处可以修改 state 的值，但是一般只在 mutations 修改
-  modules
-  因为是单一树，故 store 只有一个，但是又想模块化，故可以进行模块化，各个模块之间数据是不共通的。在有模块化的 vuex 实例中，获取模块内的状态操作需加模块名前缀
-
-- 在 Vue 实例中使用仓库
-因为 vuex 在 Vue 中挂载了，故使用 this.$store 可以访问。且 vuex 内部有 mapXxxx 方法帮助快速访问状态
-
-```js
-// App.vue
-computed:{
-    count(){
-        return this.$store.state.count // 单模块
-        return this.$store.state.app.count // 多模块，获取 app 模块数据
-    }
-}
-
-// 辅助函数 mapState
-import {mapState} from 'vuex'
-computed: mapState(['count'])
-computed:{
-    ...mapState(['count'])
-}
-
-// getters
-computed:{
-    count(){
-        return this.$store.getters.countCreamt // 单模块
-        return this.$store.state.app.count // 多模块，获取 app 模块数据
-    }
-}
-
-methods:{
-    clickHandle(){
-        this.$store.commit('showCount',10) // 单模块
-        this.$store.commit('app/showCount',10) // 多模块，调用 app 模块下的 mutations
-
-        this
-    }
-}
-```
+这是Vue用于注册插件的方法.参数 1 plugins 为对象或函数,表示要注册的插件.判断是否注册过该插件,有则返回避免重复注册.参数2~n表示传入插件的数据,将其封装至数组中,且将Vue的this推入该数组头部.
+若该插件是对象,且有install函数属性,使用apply调用,且将数组作为参数数组传入;若该插件是函数,使用applay调用,并将参数数组传入.
