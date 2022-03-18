@@ -1166,6 +1166,17 @@ computed:mapGetters(['getCount'])
 computed:{
     ...mapGetters(['getCount'])
 }
+共有三种方式，如下：
+//1.
+commonGetter(){
+    this.$store.getters['moduleA/moduleAGetter']
+},
+//2.
+...mapGetters('moduleA',['moduleAGetter']),此处的moduleA，不是以前缀的形式出现！！！
+//3.别名状态下
+...mapGetters({
+    paramGetter:'moduleA/moduleAGetter'
+})
 
 // mutations
 methods:{
@@ -1179,7 +1190,13 @@ methods:{
 @click="addCount(5)" // 此时参数在绑定事件中携带
 methods:{
     ...mapMutations(['addCount'])
-} 
+}
+// 辅助函数
+...mapMutations('moduleA',['moduleAMutation']),
+// 辅助函数别名
+...mapMutations({
+    changeNameMutation:'moduleA/moduleAMutation'
+}),
 
 
 // actions
@@ -1192,6 +1209,8 @@ methods:{
 
 @click="addCount(5)"
 methods:{ ...mapActions(['addCount'])}
+
+
 ```
 
 - 命名空间

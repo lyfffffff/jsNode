@@ -8,6 +8,13 @@
     <title>Document</title>
     <script src="./index.js"></script>
     <style>
+        p {
+
+            margin: 0px;
+            display:inline;
+
+        }
+
         /* 1, 弹性布局
     .farther{
 		border:1px solid red;
@@ -87,30 +94,30 @@
         //     document.getElementById('increment').addEventListener('click', add);
         //     document.getElementById('decrement').addEventListener('click', splice);
         // }
-           
+
         // 使用缓存对象进行cache缓存
-    //     window.onload = function(){
-    //     let increment = document.getElementById('increment')
-    //     increment.onclick = function(){
-    //         caches.delete('c2');
-    //         Promise.all([
-    //         caches.open('c1').then(function(cache) {
-    //         return cache.put('http://182.254.171.126:9001/user_menu_list', new Response('aaa', { status: 200,statusText: "SuperSmashingGreat!" }));
-    //         }),
-    //         caches.open('c2').then(function(cache) {
-    //         return cache.put('http://182.254.171.126:9001/user_menu_list', new Response('bbb', { status: 200 }));
-    //         })
-    //         ]).then(function() {
-    //         return caches.match('http://182.254.171.126:9001/user_menu_list');
-    //         }).then(function(response) {
-    //         return response.text();
-    //         }).then(function(body) {
-    //         console.log(body);
-    //         });
-    //                 }
-    // }
+        //     window.onload = function(){
+        //     let increment = document.getElementById('increment')
+        //     increment.onclick = function(){
+        //         caches.delete('c2');
+        //         Promise.all([
+        //         caches.open('c1').then(function(cache) {
+        //         return cache.put('http://182.254.171.126:9001/user_menu_list', new Response('aaa', { status: 200,statusText: "SuperSmashingGreat!" }));
+        //         }),
+        //         caches.open('c2').then(function(cache) {
+        //         return cache.put('http://182.254.171.126:9001/user_menu_list', new Response('bbb', { status: 200 }));
+        //         })
+        //         ]).then(function() {
+        //         return caches.match('http://182.254.171.126:9001/user_menu_list');
+        //         }).then(function(response) {
+        //         return response.text();
+        //         }).then(function(body) {
+        //         console.log(body);
+        //         });
+        //                 }
+        // }
     </script>
-<script type="text/javascript" src="https://cn.vuejs.org/js/vue.js"></script>
+    <!-- <script type="text/javascript" src="https://cn.vuejs.org/js/vue.js"></script> -->
 </head>
 
 <body id="body">
@@ -164,33 +171,48 @@
     <div id="child_2">child_2</div> -->
     <!-- <div id="tree">s</div> -->
 
-  <div id="app">
+    <!-- <div id="app">
     <template>
       <div ref="list">{{name}}</div>
     </template>
-  </div>
-  <script type="text/javascript">
-    new Vue({
-      el: '#app',
-      data: {
-        name: 'kongzhi111'
-      },
-      mounted() {
-        this.updateData();
-      },
-      methods: {
-        updateData() {
-          this.name = 'kongzhi222';
-          // 此时data数据变了,但是还没有更新dom节点
-          console.log(this.$refs.list.textContent); // 打印 kongzhi111
-          this.$nextTick(() => {
-            // 数据改变,dom节点更新后,才会触发
-            console.log(this.$refs.list.textContent); // 打印 kongzhi222
-          });
-        }
-      }
-    })
-  </script>
+  </div> -->
+    <h1>p标签练习</h1>
+
+    <p style="display:inline;">
+        
+        四是文化分搜大家哦哦决斗盘搜平均第四季基督教好还是客户是计算机符号手机来说就傅雷家书介绍发泡剂。
+    </p>
+
+    <p>
+        解放军介绍哦哈博客还是客户i流口水考核是老客户，开户行数量肯定还会
+    </p>
+
+    <p>
+        建设计划的时刻深刻的时刻记得了圣诞节‘离开上扣扣了上单上单。
+    </p>
+    <script type="text/javascript">
+        // new Vue({
+        //     el: '#app',
+        //     data: {
+        //         name: 'kongzhi111'
+        //     },
+        //     mounted() {
+        //         this.updateData();
+        //     },
+        //     methods: {
+        //         updateData() {
+        //             this.name = 'kongzhi222';
+        //             // 此时data数据变了,但是还没有更新dom节点
+        //             console.log(this.$refs.list.textContent); // 打印 kongzhi111
+        //             this.$nextTick(() => {
+        //                 // 数据改变,dom节点更新后,才会触发
+        //                 console.log(this.$refs.list.textContent); // 打印 kongzhi222
+        //             });
+        //         }
+        //     }
+        // })
+    </script>
 
 </body>
+
 </html>
