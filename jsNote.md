@@ -5,7 +5,7 @@
 #### js 标签的属性
 
 - defer
-在外部文件中使用，推迟执行 js 脚本，虽然立即下载脚本，但是在页面加载完才执行，不影响页面加载，有顺序影响，若多个推迟执行脚本，会按照顺序执行
+在外部文件中使用，推迟执行 js 脚本，虽然立即下载脚本，但是在页面加载完才执行，不影响页面加载，有顺序影响，若多个推迟执行脚本，会按照**顺序**执行
 - async
 在外部文件中使用，异步执行脚本，虽然立即下载脚本，但是在页面加载完才执行，不影响页面加载，没有顺序影响，若有多个异步执行，不能确保执行顺序
 - type
@@ -22,7 +22,7 @@
 #### 动态加载脚本
 
 - 浏览器预加载器
-  浏览器在加载资源时分为五个优先级:Highest、High、Medium、Low、Lowest。其中 css 和 html 优先级最高；font 字体资源，优先级分别为 Highest/High；图片资源，如果出现在视口中，则优先级为 High，否则为 Low；而 script 脚本优先级不一：
+  浏览器在加载资源时分为五个优先级:Highest、High、Medium、Low、Lowest。其中 css 和 html 优先级最高；font 字体资源，优先级分别为 Highest/High；图片资源，如果出现在**视口**中，则优先级为 High，否则为 Low；而 script 脚本优先级不一：
   - 网络在**第一个图片资源**之前阻塞的脚本在网络优先级中是 High
   - 网络在第一个图片资源之后阻塞的脚本在网络优先级中是 Medium
   - 异步/延迟/插入的脚本（无论在什么位置）在网络优先级中是 Low
@@ -45,7 +45,7 @@ document.head.appendChild(script)
 
 #### js 补充
 
-- 行内脚本(即在本文件内使用 script 标签)的缺点
+- 行内脚本（即在本文件内使用 script 标签）的缺点
 1，不能使用'</script>'字符串，当做脚本结束标签，需要使用转义字符变成'<\/script>'
 2，在 XTML 标签中，将 < (小于号)当做标签
 3，多个页面使用同一段代码时，造成资源浪费
@@ -71,7 +71,7 @@ document.head.appendChild(script)
 | 000->对象 | 1->整数 | 010->浮点数 | 100->字符串 | 110->布尔
 
 - 构造函数与对象
-对于七种数据类型，使用构造函数创建实例和直接调用函数构造实例的区别，虽然 log 打印相同，但是一个是 Number 型，一个是 Object 型，二者本质不相同。Number、Boolean、String 皆是，但是 Symbol 没有 new 构造函数
+对于七种数据类型，使用构造函数创建实例和直接调用函数返回实例的区别，虽然 log 打印相同，但是一个是 Number 型，一个是 Object 型，二者本质不相同。Number、Boolean、String 皆是，但是 Symbol 没有 new 构造函数
 
 ```js
 // Number 
@@ -83,7 +83,7 @@ typeof num // 'object'
 
 ##### Number 数据类型
 
-支持十进制、十六进制（0x 开头）、八进制（0 开头，后面数字不大于 7）、浮点值。拥有最大值（Number.MAX_VALUE）和最小值（Number.MIN_VALUE），超过则为+-infinity，对于本该是数字但不是数字的表示为 NaN，例如：分母为+-0，式子包含 NaN 等，但是每个 NaN 都互不相等
+支持十进制、十六进制（0x 开头 0-9 | a-f ）、八进制（0 开头，后面数字不大于 7）、浮点值。拥有最大值（Number.MAX_VALUE）和最小值（Number.MIN_VALUE），超过则为+-infinity，对于本该是数字但不是数字的表示为 NaN，例如：分母为+-0，式子包含 NaN 等，但是每个 NaN 都互不相等
 
 ```js
 NaN == NaN // false
@@ -95,17 +95,29 @@ NaN == NaN // false
   常用。参数二表示进制，可以选择二、八、十六进制。若不定义，则按照字符串命名显示，即长得像什么（x0、07），就当做什么。自动忽略空字符串，从第一个非空开始检测，若其为非数字，返回 NAN（纯空字符串也为 NaN），若为数字，截取到非数值字符串之前，并作为结果返回，自然‘.’也当做非数值字符串，遇到也返回。
   - parseFloat(param)
 - Null 和 undefined
-Null 表示空指针对象，undefined 则是声明但未定义，但是 null == undefined
+Null 表示空指针对象，undefined 则是声明但未定义，但是 null == undefined，例如数组Array(4),就是生成空数组,遍历时啥也不返回,若定义为Array(4).fill(undefined),遍历时还是会返回undefined的
 
 ##### String 数据类型
 
-使用单、双、反引号（模板字面量，可换行，可使用${}插值）包裹的都是字符串，可以解析类似于‘\n’的转义字符，若不想解析，使用 String.row(string)
+使用 单、双 引号包裹的都是字符串，可以解析类似于 \n \t 的转义字符，若不想解析，使用 String.row(string).字符串的缺点是不能换行,但是反引号 ` 所定义的字符串可以换行,称为模板字面量,在模板字面量中还可以使用 ${} 进行在字符串中进行插值
 
 - 非字符串转为字符串
   - xxx.toString()
   但是 null 和 undefined 没有此方法，对于数值，toString 还有参数，Number.toString(log)，表示将数值先转为几进制，再转为字符串
   - String(param)
   null 和 undefined 时，使用此函数，返回'null'和'undefined'
+
+```js
+// 模板字面量
+let html_code = `
+<a>我是链接</a>
+`
+var variable = '我是链接'
+let html_code_1 = `
+<a>${variable}</a>
+`
+// html_code == html_code_1
+```
 
 ##### Symbol
 
@@ -234,27 +246,50 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的 Ob
 #### 三种声明方式
 
 - var
-  使用 var 声明的变量，都会提升到顶部，赋值不提升。使用**声明式**声明的函数（function xxx）也会提升至顶部，若在未声明就使用，此时函数优先级更高，若在声明且赋值后使用，此时 var 优先级更高。只有函数作用域，作用域内声明的变量都为局部变量，跟随函数结束而销毁。
+  使用 var 声明的变量，都会提升到作用域顶部，全局变量提升至DOM最顶部,局部变量提升到作用域顶部,赋值不提升,即便是按逻辑无法抵达的位置,例如if为false时,return后的语句,也会提升。使用**声明式**声明的函数（function xxx）也会提升至顶部,且是最顶部,比var要早。变量不能未定义就使用,但是可以未定义就赋值,当做隐式的var.
+
+  ```js
+  // 定义与赋值
+  age = 10 // 等同于 var age = 10
+  console.log(age) // 10
+  console.log(name) // error
+
+  // 变量提升
+  console.log(age) // ƒ test(){} 因为变量提升优先级 函数 > var
+  function age(){}
+  var age
+
+  var age = 10
+  function age(){}
+  console.log(age) // 10 因为变量提升,先函数后var，最后赋值 age = 10
+
+  // 无法抵达仍提升
+  if( 1 != 1 ){
+      var a
+  }
+  console.log(a) // undefined
+
+  function test(){
+      console.log(a) // undefined
+      return 
+      var a
+  }
+  ```
+
 - let
   拥有块级作用域，即存在 {} 就存在作用域。不会变量提升，所以在**未声明前**就使用会造成暂时性死区（即未声明就使用）。
 
 ```js
+// 暂时性死区
 var temp
 function testDead(){
-    temp = 1;
+    temp = 1; // 此时局部有temp,优先级比全局temp高,但是因为let不提升,所以出现暂时性死区
     let temp
 }
-console.log(test) // function 因为变量提升优先级 函数>var
-function test(){}
-var test
-
-
-var test = 10
-function test(){}
-console.log(test) // 10 因为变量提升，故赋值 test = 10 在最后一句
 ```
 
--- var 和 let 的对比
+##### var 和 let 的对比
+
 for 循环定义的变量是局部还是全局，影响到渲染
 
 ```js
@@ -264,6 +299,75 @@ for(var i = 0;i<5;i++){} // i 是全局变量，不会销毁，最后以 i = 5 �
 
 - const
 与 let 相同，但是声明即需初始化，之后不能修改，常量则使用 const，或只修改对象的属性，可以使用 const
+
+#### 函数参数
+
+函数作用域内声明的变量都为局部变量，跟随函数结束而销毁。在函数中使用声明式函数/var声明的变量也会进行变量提升.传入函数的参数也是局部变量,传入函数的参数称为实参,函数获取到的称为形参,等同于在函数中复制了实参的值并保存在局部变量中.当传入引用值时,传的是指向原对象的地址,故会影响.
+
+```js
+// 形参的本质
+function concactName(f,e){
+    return f+e
+}
+function concactName(f,e){
+    var f = f
+    var e = e
+    return f+e
+}
+
+// 函数与变量提升
+var a = 1;
+function foo() {
+    a = 10;
+    console.log(a); // 10
+    return;
+    function a() {};
+}
+foo();
+console.log(a); // 1
+// foo函数等同于
+function foo() {
+    function a() {}; // 故根本没有影响全局的a
+    a = 10;
+    console.log(a); // 10
+    return;
+}
+
+```
+
+- 局部变量和形参同名
+首先是局部变量不能使用 let 声明,因为等同于var和let重复声明.若重复声明一个变量,称为重复宣告,是无效的,以最近的赋值为替换,类似于声明语句无效.函数参数,形参复制所传的实参,对于原始值变量来说,形参和实参没有联系,对于引入值来说,因为传入一样的地址,故会响应对方的修改.
+
+```js
+// 重复宣告
+var a = 1;
+var a; // 以最近的赋值为替换
+console.log(a) // 1 
+
+// 形参与局部变量同名
+foo = {n:1}
+(function (foo) {
+    console.log(foo.n);
+    foo.n = 3;
+    var foo = {n:2};
+    console.log(foo.n);
+})(foo) // 输出 1 2 3 
+// 以上等同为
+(function (foo) {
+    var foo // 重复宣告,foo仍指向所传入的对象的地址
+    console.log(foo.n); // 1
+    foo.n = 3; // 修改全局foo
+    foo = {n:2}; // 修改地址了,此时与外界的foo失去联系
+    console.log(foo.n); // 2
+})(foo)
+// 亦等同为
+(function (foo) {
+    console.log(foo.n); // 1
+    foo.n = 3; // 修改全局foo
+    foo = {n:2}; // 修改地址了,此时与外界的foo失去联系
+    console.log(foo.n); // 2
+})(foo)
+```
 
 ##### for 与 continue 和 break
 
