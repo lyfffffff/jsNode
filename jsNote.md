@@ -374,10 +374,18 @@ foo = {n:1}
 - for(初始表达式;条件表达式;末尾循环体){中间循环体} ---- 条件表达式->中间循环体->末尾循环体
 - continue 只是跳过这一次循环
 - break 是跳出这**一层**循环
+- return 立即返回,但是只能在**函数**中使用,若在函数的for中使用,因函数销毁,for循环也终止
 
 #### for/of 和 for/in
 
-- for/of 是**可迭代(iterator)**对象遍历元素的，for/in 是枚举对象的可枚举属性
+for-in遍历key  for-of遍历value。for/of 是**可迭代(iterator)**对象遍历元素的,即是value，for/in 是枚举对象的可枚举属性,即是key。
+因for-of只能在有迭代器的结构中使用,故不确定是对象还是数组时,使用for-in稳妥.
+确定操作对象是数组时,因为不常操作index,故使用for-of,但是要改变数组原始值(num，string)选项item时,for of 不能做到,只能修改数组引用值(对象属性)选项的属性
+
+```js
+for(let key in obj){} 
+for(let item of arr){}
+```
 
 #### with(obj){}
 
@@ -1027,10 +1035,15 @@ function *f(){
 }
 function *f1(){
     yield 'hello'
-    yield* f()// 调用生成器，并遍历迭代
-    yield f() // 只是调用返回迭代器
+    yield* f() // 调用生成器，并遍历迭代 类似于 for(let key of f()){ yield key}
+    yield f() // 只是调用, 返回迭代器 {value: f, done: false}
 }
-yield* f() 类似于 for(let key of f()){ yield key}
+let iterator = f1()
+iterator.next() // {value:'hello'}
+iterator.next() // {value:'xxx'}
+iterator.next() // {value:'test'}
+iterator.next() // {value:f}
+iterator.next() // {value:undefined,done:true}
 ```
 
 #### 对象属性
@@ -1280,7 +1293,7 @@ Son.prototype.constructor = Son
 
 #### 原型式继承
 
-在函数内部临时定义一个函数，函数的原型对象指向参数 obj，返回构造实例，目的是**将传入参数 obj 作为原型对象**。效果等同于 Object.create(obj)，但为浅拷贝。即传入同样的 obj 参数时，实例数据互通。
+决定原型链的对象,不再拘泥于Farther,在函数内部定义一个工具函数，工具函数的原型对象prototype指向参数 obj，返回构造工具函数实例，目的是**将传入参数 obj 作为原型对象**。效果等同于 Object.create(obj)，但为浅拷贝。即传入同样的 obj 参数时，实例数据互通。
 适用情况:对原有的 obj 进行统一操作
 
 ```js
