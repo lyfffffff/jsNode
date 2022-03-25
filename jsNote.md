@@ -29,7 +29,7 @@
   因为浏览器有严格的加载优先级，使用动态脚本时，会影响加载优先级，需设置浏览器预加载器，即 preload，提前加载所需要的资源。link 标签有一个 rel 属性，赋值为 preload 时表示为预加载器，可以加载任意资源，此外还有 as 属性，表示此类资源是什么类型，以便分优先级。此外还有一个 prefetch
 
   ```js
-  <link rel='preload' href='index.js' as="script"> // 预加载 index.js,且此资源是 script 脚本
+  <link rel='preload' href='index.js' as="script"> // 预加载 index.js，且此资源是 script 脚本
   ```
 
 动态加载脚本即需要时才加载此脚本，但是**浏览器预加载器**不知道，需要设置 '<link rel='pereload' href='index.js'>',表示将来会加载该地址(href)的资源，让浏览器有所准备，提前下载
@@ -91,15 +91,15 @@ NaN == NaN // false
 
 - 非数值转为数值的方法
   - Number(param)
-  - parseInt(param,scale)
+  - parseInt(param，scale)
   常用。参数二表示进制，可以选择二、八、十六进制。若不定义，则按照字符串命名显示，即长得像什么（x0、07），就当做什么。自动忽略空字符串，从第一个非空开始检测，若其为非数字，返回 NAN（纯空字符串也为 NaN），若为数字，截取到非数值字符串之前，并作为结果返回，自然‘.’也当做非数值字符串，遇到也返回。
   - parseFloat(param)
 - Null 和 undefined
-Null 表示空指针对象，undefined 则是声明但未定义，但是 null == undefined，例如数组Array(4),就是生成空数组,遍历时啥也不返回,若定义为Array(4).fill(undefined),遍历时还是会返回undefined的
+Null 表示空指针对象，undefined 则是声明但未定义，但是 null == undefined，例如数组 Array(4)，若定义为 Array(4).fill(undefined)，遍历时还是会返回 undefined 的
 
 ##### String 数据类型
 
-使用 单、双 引号包裹的都是字符串，可以解析类似于 \n \t 的转义字符，若不想解析，使用 String.row(string).字符串的缺点是不能换行,但是反引号 ` 所定义的字符串可以换行,称为模板字面量,在模板字面量中还可以使用 ${} 进行在字符串中进行插值
+使用 单、双 引号包裹的都是字符串，可以解析类似于 \n \t 的转义字符，若不想解析，使用 String.row(string).$，但是反引号 ` $，$，在模板字面量中还可以使用 ${} 进行在字符串中进行插值
 
 - 非字符串转为字符串
   - xxx.toString()
@@ -154,7 +154,7 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的 Ob
   symbol = Symbol('xxx')
   symbol_1 = Symbol('xxx')
   obj[symbol] = 1 // 直接赋值
-  Object.defineProperty(obj,symbol_1,{value:1}) // 使用 defineProperty 定义
+  Object.defineProperty(obj，symbol_1,{value:1}) // 使用 defineProperty 定义
   obj === {
     Symbol(xxx): 1
     Symbol(xxx): 1
@@ -162,7 +162,7 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的 Ob
   obj[symbol] // 唯一访问标识
   obj[Symbol('xxx')] // 报错
   Object.getOwnPropertyNames(obj) // [] 获取所有属性值，但是不包括 Symbol 属性
-  Object.getOwnPropertySymbols(obj) // [Symbol(xxx), Symbol(xxx)]
+  Object.getOwnPropertySymbols(obj) // [Symbol(xxx)， Symbol(xxx)]
   ```
 
 - Symbol 属性
@@ -198,7 +198,7 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的 Ob
   let test = 'test i am what'
   let str = /test/
   str[Symbol.match] = false // 设置 str 不为表达式，而是字符串
-  test.match(str) // error,因为禁止作为表达式  
+  test.match(str) // error，因为禁止作为表达式  
   ```
 
   - isConcatSpreadable
@@ -207,15 +207,15 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的 Ob
   ```js
   let arr = ['name','age']
   let arr_1 = ['height']
-  arr.concat(arr_1) // 正常展开，为[...arr,...arr_1]
+  arr.concat(arr_1) // 正常展开，为[...arr，...arr_1]
   arr_1[Symbol.isConcatSpreadable] = false // 设置为不可展开
-  arr.concat(arr_1) // 不展开，为[...arr,arr]
+  arr.concat(arr_1) // 不展开，为[...arr，arr]
   let fakeArray = {
     length: 1,
     0: "hello",
   }
   fakeArray[Symbol.isConcatSpreadable] = true // 设置为展开
-  arr.concat(fakeArray) // 展开，为[...arr,'hello']
+  arr.concat(fakeArray) // 展开，为[...arr，'hello']
   ```
 
   - toPrimitive
@@ -246,7 +246,7 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的 Ob
 #### 三种声明方式
 
 - var
-  使用 var 声明的变量，都会提升到作用域顶部，全局变量提升至DOM最顶部,局部变量提升到作用域顶部,赋值不提升,即便是按逻辑无法抵达的位置,例如if为false时,return后的语句,也会提升。使用**声明式**声明的函数（function xxx）也会提升至顶部,且是最顶部,比var要早。变量不能未定义就使用,但是可以未定义就赋值,当做隐式的var.
+  使用 var 声明的变量，都会提升到作用域顶部，全局变量提升至 DOM$，$，$，$，例如 if 为 false$，return$，也会提升。使用**声明式**声明的函数（function xxx）$，$，比 var 要早。$，$，当做隐式的 var.
 
   ```js
   // 定义与赋值
@@ -261,7 +261,7 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的 Ob
 
   var age = 10
   function age(){}
-  console.log(age) // 10 因为变量提升,先函数后var，最后赋值 age = 10
+  console.log(age) // 10 $，先函数后 var，最后赋值 age = 10
 
   // 无法抵达仍提升
   if( 1 != 1 ){
@@ -283,7 +283,7 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的 Ob
 // 暂时性死区
 var temp
 function testDead(){
-    temp = 1; // 此时局部有temp,优先级比全局temp高,但是因为let不提升,所以出现暂时性死区
+    temp = 1; // 此时局部有 temp，优先级比全局 temp$，但是因为 let$，所以出现暂时性死区
     let temp
 }
 ```
@@ -302,14 +302,14 @@ for(var i = 0;i<5;i++){} // i 是全局变量，不会销毁，最后以 i = 5 �
 
 #### 函数参数
 
-函数作用域内声明的变量都为局部变量，跟随函数结束而销毁。在函数中使用声明式函数/var声明的变量也会进行变量提升.传入函数的参数也是局部变量,传入函数的参数称为实参,函数获取到的称为形参,等同于在函数中复制了实参的值并保存在局部变量中.当传入引用值时,传的是指向原对象的地址,故会影响.
+函数作用域内声明的变量都为局部变量，跟随函数结束而销毁。在函数中使用声明式函数/var 声明的变量也会进行变量提升。$，$，$，等同于在函数中复制了实参的值并保存在局部变量中。$，$，故会影响。
 
 ```js
 // 形参的本质
-function concactName(f,e){
+function concactName(f，e){
     return f+e
 }
-function concactName(f,e){
+function concactName(f，e){
     var f = f
     var e = e
     return f+e
@@ -325,9 +325,9 @@ function foo() {
 }
 foo();
 console.log(a); // 1
-// foo函数等同于
+// foo 函数等同于
 function foo() {
-    function a() {}; // 故根本没有影响全局的a
+    function a() {}; // 故根本没有影响全局的 a
     a = 10;
     console.log(a); // 10
     return;
@@ -336,7 +336,7 @@ function foo() {
 ```
 
 - 局部变量和形参同名
-首先是局部变量不能使用 let 声明,因为等同于var和let重复声明.若重复声明一个变量,称为重复宣告,是无效的,以最近的赋值为替换,类似于声明语句无效.函数参数,形参复制所传的实参,对于原始值变量来说,形参和实参没有联系,对于引入值来说,因为传入一样的地址,故会响应对方的修改.
+首先是局部变量不能使用 let $，因为等同于 var 和 let 重复声明。$，$，$，$，类似于声明语句无效。$，$，$，$，$，$，故会响应对方的修改。
 
 ```js
 // 重复宣告
@@ -354,17 +354,17 @@ foo = {n:1}
 })(foo) // 输出 1 2 3 
 // 以上等同为
 (function (foo) {
-    var foo // 重复宣告,foo仍指向所传入的对象的地址
+    var foo // $，foo 仍指向所传入的对象的地址
     console.log(foo.n); // 1
-    foo.n = 3; // 修改全局foo
-    foo = {n:2}; // 修改地址了,此时与外界的foo失去联系
+    foo.n = 3; // 修改全局 foo
+    foo = {n:2}; // $，此时与外界的 foo 失去联系
     console.log(foo.n); // 2
 })(foo)
 // 亦等同为
 (function (foo) {
     console.log(foo.n); // 1
-    foo.n = 3; // 修改全局foo
-    foo = {n:2}; // 修改地址了,此时与外界的foo失去联系
+    foo.n = 3; // 修改全局 foo
+    foo = {n:2}; // $，此时与外界的 foo 失去联系
     console.log(foo.n); // 2
 })(foo)
 ```
@@ -374,13 +374,13 @@ foo = {n:1}
 - for(初始表达式;条件表达式;末尾循环体){中间循环体} ---- 条件表达式->中间循环体->末尾循环体
 - continue 只是跳过这一次循环
 - break 是跳出这**一层**循环
-- return 立即返回,但是只能在**函数**中使用,若在函数的for中使用,因函数销毁,for循环也终止
+- return $，但是只能在**函数**$，若在函数的 for$，$，for 循环也终止
 
 #### for/of 和 for/in
 
-for-in遍历key  for-of遍历value。for/of 是**可迭代(iterator)**对象遍历元素的,即是value，for/in 是枚举对象的可枚举属性,即是key。
-因for-of只能在有迭代器的结构中使用,故不确定是对象还是数组时,使用for-in稳妥.
-确定操作对象是数组时,因为不常操作index,故使用for-of,但是要改变数组原始值(num，string)选项item时,for of 不能做到,只能修改数组引用值(对象属性)选项的属性
+for-in 遍历 key  for-of 遍历 value。for/of 是**可迭代(iterator)**$，即是 value，for/in $，即是 key。
+因 for-of$，$，使用 for-in 稳妥。
+$，因为不常操作 index，故使用 for-of，但是要改变数组原始值(num，string)选项 item$，for of $，只能修改数组引用值(对象属性)选项的属性
 
 ```js
 for(let key in obj){} 
@@ -427,20 +427,20 @@ test = null // 计数减 1 为 0 0x1000 被回收
 ```
 
 内存泄漏
-对象引用一直无法达到 0,也就一直无法回收。检查内存，可以使用终端 process.memoryUsage(),或者控制台 Memory,打印快照前要 GC
+对象引用一直无法达到 0,也就一直无法回收。检查内存，可以使用终端 process.memoryUsage()，或者控制台 Memory，打印快照前要 GC
 
 ## 五、基本引用类型
 
 #### Date 对象
 
-创建日期对象，返回标准日期格式(Mon Jan 31 2022 00:00:00 GMT+0800 (中国标准时间)),当传一个参数时，可以传字符串和数字，数字代表时间戳，即 1970 年 1 月 1 日午夜至某日期所经过的毫秒数，字符串有多种格式，较常使用的是 'yyyy/MM/dd 00:00:00' ，另一种较为相似的 'yyyy-MM-dd 00:00:00' 在火狐和 IE 中不兼容。Date 函数中有许多方法，常用的是将 Date 转为形如 'xxxx-xx-xx xx:xx:xx' 的格式，其中获取日期月份、周几的方法也从 0 开始的，需 + 1。
+创建日期对象，返回标准日期格式(Mon Jan 31 2022 00:00:00 GMT+0800 (中国标准时间))，当传一个参数时，可以传字符串和数字，数字代表时间戳，即 1970 年 1 月 1 日午夜至某日期所经过的毫秒数，字符串有多种格式，较常使用的是 'yyyy/MM/dd 00:00:00' ，另一种较为相似的 'yyyy-MM-dd 00:00:00' 在火狐和 IE 中不兼容。Date 函数中有许多方法，常用的是将 Date 转为形如 'xxxx-xx-xx xx:xx:xx' 的格式，其中获取日期月份、周几的方法也从 0 开始的，需 + 1。
 
 ```js
 // new Date 的参数
 let d = new Date(); // 后台默认调用 Date.parse()
 let d = new Date(milliseconds); // 数字，毫秒数
 let d = new Date(dateString); // '月/日/年'、'年/月/日 时间'、'年-月-日 时间'、'标椎日期格式'、'月(英) 日，年'
-let d = new Date(year, month, day, hours, minutes, seconds, milliseconds);
+let d = new Date(year， month， day， hours， minutes， seconds， milliseconds);
 
 // Date 实例的方法
 time = d.getTime() // 获取总毫秒数
@@ -457,9 +457,9 @@ let d = new Date()
 year = d.getFullYear()
 let obj = {
     month : d.getMonth()+1,
-    date : d.getDate(),
-    hour : d.getHours(),
-    minutes : d.getMinutes(),
+    date : d.getDate()，
+    hour : d.getHours()，
+    minutes : d.getMinutes()，
     seconds : d.getSeconds()
 }
 for(let key in obj) {
@@ -484,7 +484,7 @@ pattern.lastIndex // 实例有一个 lastIndex 属性，表示上次匹配的结
   用于检查匹配属性，例如 pattern.global 返回一个 Boolean 值，检查正则表达式是否设置全局匹配。此外还有 ingoreCase（忽略大小写）、lastIndex（上一个匹配的结尾下标）等
 - 实例方法
   检查参数字符串是否满足 RegExp 匹配条件。
-  - pattern.exec(str) 返回一个 Array 对象或 null（无匹配时），Array 对象有额外属性：input（参数字符串）、index（匹配初始下标） 和 groups（不知道啥用，undefined），Array 的数组项为**捕获组**，一个括号表示一个捕获组，例如 /a(b)?/，参数包含 ab 或 a 即为可匹配，若能够匹配 ab, exec 为 ['ab','b'],若只匹配到 a,exec 为['a',undefined].若是全局匹配（//g），则下一次调用 exec 方法，从 lastIndex 开始匹配；
+  - pattern.exec(str) 返回一个 Array 对象或 null（无匹配时），Array 对象有额外属性：input（参数字符串）、index（匹配初始下标） 和 groups（不知道啥用，undefined），Array 的数组项为**捕获组**，一个括号表示一个捕获组，例如 /a(b)?/，参数包含 ab 或 a 即为可匹配，若能够匹配 ab， exec 为 ['ab','b'],若只匹配到 a，exec 为['a',undefined].若是全局匹配（//g），则下一次调用 exec 方法，从 lastIndex 开始匹配；
   - pattern.test(str) 返回 true、false，表示是否可匹配。
 
 ```js
@@ -583,7 +583,7 @@ str.substr(-1,-2) // 等价于 str.subsr(4,0) == ''
 str.substring(-1,-2) // 等价于 str.substring(0,0) == ''
 ```
 
-- str.indexOf(str,index) 和 str.lastIndexOf(str,index)
+- str.indexOf(str，index) 和 str.lastIndexOf(str，index)
   返回字符串匹配的索引，indexOf 返回首次匹配的索引，lastIndx 返回最后一次匹配的索引。参数 1 表示需匹配的字符串，从 0 开始。参数 2 表示开始搜索位置
 - 判断是否包含字符串
   常使用 str.indexOf 判断是否包含某字符串，但其主要功能是返回匹配索引值，该使用的是 str.includes。
@@ -601,7 +601,7 @@ str.substring(-1,-2) // 等价于 str.substring(0,0) == ''
 - str.trim()、str.repeat(num)
 trim 删除字符串前后所有空格，repeat 的参数 num 表示重复次数，将重复的字符串拼接，并返回。
 
-- str.padStart(length,concatStr) 和 str.padEnd(length,concatStr)
+- str.padStart(length，concatStr) 和 str.padEnd(length，concatStr)
 即将参数 2 拼接在字符串前/后，使其扩展至参数 1 长度，参数 1 表示最终字符串长度，若小于原本长度，则返回原字符串，若大于原本长度，padStart/padEnd 决定在字符串前后填充，参数 2 默认为空格，可以传一个字符串，循环填充。
 
 - 改变字符串大小写
@@ -609,10 +609,10 @@ toLowerCase、toLocaleLowerCase、toUpperCase、toLocaleUpperCase。前两个将
 
 - 字符串匹配正则表达式
 除了 RegExp.exec(str) 和 RegExp.test(str)，字符串本身也有匹配正则的方法
-str.match(str),参数表示匹配，功能与 RegExp.exec 类似，但是没有 lastIndex 的概念(故没有下次匹配从 lastIndex 开始),若直接匹配，返回一个包含 index、input 属性的数组，包含所有匹配项;若给正则表达式添加全局(g),则没有属性 index 和 input
-str.search(str),参数表示匹配，返回匹配到的索引值，不匹配返回 -1
-str.replace(str,str) 匹配替换字符串，参数 1 表示匹配项，参数 2 表示将匹配项替换成该项;若有多处匹配，只修改第一次匹配到的项，但是若参数 1 是正则表达式，且有全局标识 g，就会修改整个字符串。
-str.split(str,length)，匹配字符串切割数组，参数 1 是需匹配项，参数 2 为数组长度，若切割超过，也只保留这么多。
+str.match(str)，参数表示匹配，功能与 RegExp.exec 类似，但是没有 lastIndex 的概念(故没有下次匹配从 lastIndex 开始)，若直接匹配，返回一个包含 index、input 属性的数组，包含所有匹配项;若给正则表达式添加全局(g)，则没有属性 index 和 input
+str.search(str)，参数表示匹配，返回匹配到的索引值，不匹配返回 -1
+str.replace(str，str) 匹配替换字符串，参数 1 表示匹配项，参数 2 表示将匹配项替换成该项;若有多处匹配，只修改第一次匹配到的项，但是若参数 1 是正则表达式，且有全局标识 g，就会修改整个字符串。
+str.split(str，length)，匹配字符串切割数组，参数 1 是需匹配项，参数 2 为数组长度，若切割超过，也只保留这么多。
 
 ```js
 let str = 'test one test two' 
@@ -625,12 +625,12 @@ str.match(p1) // ['te'] 当添加全局时，没有额外属性
 str.match(p2) // ['te', index: 0, input: 'test', groups: undefined] 
 str.search(p1) // 0
 str.replace('t','l') // 'lest one test two'
-str.replace(/t/g,'h') // 'lesl one lesl two' 修改整个字符串
+str.replace(/t/g，'h') // 'lesl one lesl two' 修改整个字符串
 str.split(' ',2) // ['test','one'] 保留前两个
 ```
 
 - 比较两个字符串大小
-str.localeCompare(str),根据字符串在字符表的排序，决定大小，若比参数字符串大，返回-1,比参数字符串小，返回 1,一样大返回 0
+str.localeCompare(str)，根据字符串在字符表的排序，决定大小，若比参数字符串大，返回-1 ,比参数字符串小，返回 1,一样大返回 0
 
 ```js
 let str = 'apple'
@@ -647,7 +647,7 @@ str.localeCompare('apple') // 0
 - Math.min(num...)/max(num....)
 - Math.floor(num)
 - Math.round(num)
-- Math.random() // 若要找到范围 [n,m) ,使用 n + Math.rondom()*(m-n)
+- Math.random() // 若要找到范围 [n，m) ,使用 n + Math.rondom()*(m-n)
 - Math.ceil(num) // 向上取整
 - Math.abs(num) // 绝对值
 
@@ -673,7 +673,7 @@ let obj = {
 
 创建也有两种方式，实例化和数组字面量，使用数组字面量创建数组不会调用 Array 构造函数。
 new Array 实例化可以传参数，传不同的参数，实例化的数组也不同。可以使用 Array.of(item...) 方法（ES6），of 创建数组，且不论参数类型，都当做数组项。
-Array.from(likeArray,callback,this),将类数组转为数组，参数 1 表示类数组;参数 2 表示**将参数 1 转为数组后**进行操作的回调函数，类似 Array.map()；参数 3 为参数 2 中的 this 指向，当参数 2 不是箭头函数时起作用。
+Array.from(likeArray，callback，this)，将类数组转为数组，参数 1 表示类数组;参数 2 表示**将参数 1 转为数组后**进行操作的回调函数，类似 Array.map()；参数 3 为参数 2 中的 this 指向，当参数 2 不是箭头函数时起作用。
 
 - 类数组
   拥有 length 属性，且 length 属性为数值且有限，且属性为索引值（'0',0）,常见的类数组有字符串
@@ -700,8 +700,8 @@ let likeArray = {
     1:3,
     length:2
 }
-Array.from(likeArray,function(item){return item*this.attribute},{attribute:2}) // {length:2,0:1,1:3} -(from)> [1,3] -(function)> [2,6]
-Array.from(likeArray,item => item*this.attribute,{attribute:2}) // 参数 2 是箭头函数，则 this 指向 window {length:2,0:1,1:3} -(from)> [1,3] -(function)> [NaN,NaN]
+Array.from(likeArray，function(item){return item*this.attribute},{attribute:2}) // {length:2,0:1,1:3} -(from)> [1,3] -(function)> [2,6]
+Array.from(likeArray，item => item*this.attribute，{attribute:2}) // 参数 2 是箭头函数，则 this 指向 window {length:2,0:1,1:3} -(from)> [1,3] -(function)> [NaN，NaN]
 ```
 
 #### 数组的迭代器
@@ -717,9 +717,9 @@ Array.from(arr.entries()) // [[0,1],[1,2],[2,3]]
 
 #### 复制和填充
 
-arr.copyWith(startIndex,startCutIndex,[endCutIndex]) ES6 新增，类似于基因重组，将数组的某段变成数组的另一段，会改变原数组，但是数组大小不会变。
+arr.copyWith(startIndex，startCutIndex，[endCutIndex]) ES6 新增，类似于基因重组，将数组的某段变成数组的另一段，会改变原数组，但是数组大小不会变。
 参数 1 表示开始被覆盖的索引;参数 2 表示剪下的数组起始位置，不填则默认为索引 0;参数 3 表示结束剪下的数组位置，只改变[参数 1~参数 1+(参数 3-参数 2)]
-arr.fill(str,[startIndex],[endIndex]) 指定填充内容，参数 1 表示填充内容，参数 2 表示开始填充位置，若不填则表示从索引值 0 开始填充所有，参数 3 表示结束填充位置，不包含。
+arr.fill(str，[startIndex],[endIndex]) 指定填充内容，参数 1 表示填充内容，参数 2 表示开始填充位置，若不填则表示从索引值 0 开始填充所有，参数 3 表示结束填充位置，不包含。
 
 ```js
 [0,1,2,3,4,5].copyWith(0,3) // [3,4,5,3,4,5]
@@ -742,13 +742,13 @@ every、filter、forEach、map、some。
 #### 归并方法
 
 即每次操作的都是前面项的结果，例如数组项相加，最终返回一个结果。
-arr.reduce(function,) 参数 1 为归并回调函数，function(prveRes,now,index,arr) 回调函数参数 1 表示上一次归并的结果，参数 2 表示本次的数组 item，参数 3 表示 item 索引，参数 4 表示本数组。参数 2 表示第一次迭代时的 prev，若不填则默认 arr[0] 为 prev,归并函数从第二项开始。
+arr.reduce(function，) 参数 1 为归并回调函数，function(prveRes，now，index，arr) 回调函数参数 1 表示上一次归并的结果，参数 2 表示本次的数组 item，参数 3 表示 item 索引，参数 4 表示本数组。参数 2 表示第一次迭代时的 prev，若不填则默认 arr[0] 为 prev，归并函数从第二项开始。
 arr.reduceRight() 功能与 reduce 相同，但从数组最后一位遍历至第一位。
 
 ```js
 let arr = [1,2,3]
-arr.reduce((prev,now,index,arr) => { return prev + now}) // 1 + 2 + 3 = 6
-arr.reduceRight((prev,now,index,arr) => {return prev - now}) // 3 - 2 - 1 = 0
+arr.reduce((prev，now，index，arr) => { return prev + now}) // 1 + 2 + 3 = 6
+arr.reduceRight((prev，now，index，arr) => {return prev - now}) // 3 - 2 - 1 = 0
 ```
 
 #### 所有归类
@@ -780,7 +780,7 @@ arr.reduceRight((prev,now,index,arr) => {return prev - now}) // 3 - 2 - 1 = 0
 ### Map
 
 俗称字典，以**键值对**形式存储数据，实例化 new Map(arr) 可传一个数组参数，数组格式为 [[key1,value1],[key2,value2]]。
-常用方法皆在实例上， map.set(key,value)、map.get(key)、map.has(key)、map.delete(key)、map.clear() 属性方法操作字典，map.size 属性表示字典的长度。
+常用方法皆在实例上， map.set(key，value)、map.get(key)、map.has(key)、map.delete(key)、map.clear() 属性方法操作字典，map.size 属性表示字典的长度。
 字典的键是不限类型的，即函数、对象也能作为键，修改函数和对象时，键值和键同等改变。
 
 ```js
@@ -800,7 +800,7 @@ map.size // 0
 let fn = function(){
     console.log('xxx')
 }
-map.set(fn,'fn') // 函数作为键
+map.set(fn，'fn') // 函数作为键
 ```
 
 #### 迭代器
@@ -811,8 +811,8 @@ map.set(fn,'fn') // 函数作为键
 
 弱字典，拥有的功能和字典稍有不同
 没有迭代器（entries、values、keys）、size 属性和 clear 方法，且只接受**对象**作为键名，即**只有存取键和 delete**功能。
-null 虽然是对象，但是作为特殊对象，也不可以作为键滴，因为 WeakMap.set(key, val) 是通过 Object.definePoperty 给 key 加了一个新属性 this.name，key 必需是个 Object 才能使用 defineProperty。
-弱的概念是对**对象的引用**是偏弱的，对象回收机制中，只有该对象及该对象的引用都移除(计数为 0),才会进行垃圾回收，但弱字典的引用不计入引用。
+null 虽然是对象，但是作为特殊对象，也不可以作为键滴，因为 WeakMap.set(key， val) 是通过 Object.definePoperty 给 key 加了一个新属性 this.name，key 必需是个 Object 才能使用 defineProperty。
+弱的概念是对**对象的引用**是偏弱的，对象回收机制中，只有该对象及该对象的引用都移除(计数为 0)，才会进行垃圾回收，但弱字典的引用不计入引用。
 在 Map 中，被当做键名/键值的对象，即使在外部进行清除，Map 仍保持对其的引用，故不会被回收
 当被当做**键值**的对象被清除后，WeakMap 仍保持对其的引用，即不会回收
 当被当做**键名**的对象被清除后，WeakMap 会对键名和键值对象进行回收
@@ -849,7 +849,7 @@ weak // WeakMap {0: {key: {name: 'zzz'},value: {age: 20}} // 仍在内部
 // 这时，key 数组实际被引用了两次，
 // 变量 key 引用一次，WeakMap 的键名引用了第二次
 // 但是，WeakMap 是弱引用，对于引擎来说，引用计数还是 1
-> wm.set(key, 1);
+> wm.set(key， 1);
 > global.gc();
 // 这时内存占用 heapUsed 增加到 45M 了
 > process.memoryUsage();
@@ -892,7 +892,7 @@ let iter = arr[Symbol.iterator](); // 执行迭代器属性函数，返回迭代
 iter.next() // 调用迭代器的 next 返回迭代器结果 {value:'a',done:false}
 iter.next() // {value: 'b',done:false}
 iter.next() // {value:'c',done:false}
-iter.next() // {value:undefined,done:true} 接下来调用 next()都返回此
+iter.next() // {value:undefined，done:true} 接下来调用 next()都返回此
 
 // 修改迭代器
 class newArray{
@@ -905,9 +905,9 @@ class newArray{
     next(){ // 在调用迭代器时使用
             if(this.stop > 0){
                 this.stop--
-                return {done : false,value : 'xxx'}
+                return {done : false，value : 'xxx'}
             }
-            return {done : true,value : 'xxx'}
+            return {done : true，value : 'xxx'}
     }
 }
 for (var value of new newArray(3)) { // [Symbol.iterator] -> next
@@ -920,7 +920,7 @@ for (var value of new newArray(3)) { // [Symbol.iterator] -> next
 生成器 Generator 是函数，为了区分生成器和普通函数，生成器函数名一般带星号 function *test(){}.
 生成器不可以使用 new 实例化，调用生成器函数返回**迭代器**，每次调用产生的实例相互不影响，且继承生成器的原型属性，但是没有 this 的概念。
 调用生成器函数时，并不执行函数内部代码，而是返回迭代器对象，指向函数内部。
-当调用生成的迭代器 next() 时，才执行函数内部代码，并返回对象 { done:true, value:undefined }，value 是生成器函数的**返回值**，默认是 undefined，可以在生成器中修改。
+当调用生成的迭代器 next() 时，才执行函数内部代码，并返回对象 { done:true， value:undefined }，value 是生成器函数的**返回值**，默认是 undefined，可以在生成器中修改。
 生成器执行返回一个迭代器，迭代器本身也有 Symbol.iterator 属性，执行后返回自身。
 在需要添加迭代器的 js 结构，将生成器添加到 js 结构的 Symbol.iterator 属性上。
 
@@ -928,7 +928,7 @@ for (var value of new newArray(3)) { // [Symbol.iterator] -> next
 function *generatorFn(){
 }
 const g = generatorFn()
-g.next() // {value:undefined,done:true}
+g.next() // {value:undefined，done:true}
 g[Symbol.iterator]() === g // 本身就是一个迭代器
 
 // 自定义 return 
@@ -942,7 +942,7 @@ let obj = {name:'',age:18}
 obj[Symbol.iterator] = function* test() {
     let keys = Object.keys(this)
     for(let key of keys){
-        yield [key,this[propKey]]
+        yield [key，this[propKey]]
     }
 }
 ```
@@ -989,7 +989,7 @@ function * f(x){
 }
 let g = f(2)
 g.next() // {value : 3, done: false}
-g.next() // {value : undefined, done: true}，因为 yield 为 undefined，表达式 yield  (2 + 1) == undefined
+g.next() // {value : undefined， done: true}，因为 yield 为 undefined，表达式 yield  (2 + 1) == undefined
 ```
 
 #### Generator.prototype.throw()、Generator.prototype.return()
@@ -1036,14 +1036,14 @@ function *f(){
 function *f1(){
     yield 'hello'
     yield* f() // 调用生成器，并遍历迭代 类似于 for(let key of f()){ yield key}
-    yield f() // 只是调用, 返回迭代器 {value: f, done: false}
+    yield f() // $， 返回迭代器 {value: f， done: false}
 }
 let iterator = f1()
 iterator.next() // {value:'hello'}
 iterator.next() // {value:'xxx'}
 iterator.next() // {value:'test'}
 iterator.next() // {value:f}
-iterator.next() // {value:undefined,done:true}
+iterator.next() // {value:undefined，done:true}
 ```
 
 #### 对象属性
@@ -1069,31 +1069,31 @@ let obj = {
 
 #### 数据属性
 
-有 Configurable（可否删除 delete、修改）、Enumerable（可否枚举）、Writable（可否修改）、Value，前三个默认为 true，value 默认为 undefined。数据属性存储在属性描述符对象中，需使用 Object.defineProperty 修改，使用 Object.getOwnPropertyDescriptor 查看。若使用 Object.defineProperty() **定义属性**，会将 configurable、enumerable、writable 的值设置为 false，若将 Configurable 设置为 false，不能再使用 Object.defineProperty 修改数据属性。可以使用 Object.defineProperties(obj,{property1:{},property2:{}}) 定义对象的多个属性的描述符对象。可以使用 Object.getOwnPropertyDescriptors(obj) 获取一个对象的所有属性的属性描述符，该方法会遍历对象的所有属性。
+有 Configurable（可否删除 delete、修改）、Enumerable（可否枚举）、Writable（可否修改）、Value，前三个默认为 true，value 默认为 undefined。数据属性存储在属性描述符对象中，需使用 Object.defineProperty 修改，使用 Object.getOwnPropertyDescriptor 查看。若使用 Object.defineProperty() **定义属性**，会将 configurable、enumerable、writable 的值设置为 false，若将 Configurable 设置为 false，不能再使用 Object.defineProperty 修改数据属性。可以使用 Object.defineProperties(obj，{property1:{},property2:{}}) 定义对象的多个属性的描述符对象。可以使用 Object.getOwnPropertyDescriptors(obj) 获取一个对象的所有属性的属性描述符，该方法会遍历对象的所有属性。
 
 ```js
 let obj = {name:'lyf'}
-Object.defineProperty(obj,'name',{configurable:false}) // 修改数据属性
-Object.getOwnPropertyDescriptor(obj,'name') // 获取数据属性
-Object.defineProperty(obj,'show',{writable:true})// 使用 defineProperty 生成的，默认将数据属性设为 false -> {value: undefined, writable: true, enumerable: false, configurable: false}
+Object.defineProperty(obj，'name',{configurable:false}) // 修改数据属性
+Object.getOwnPropertyDescriptor(obj，'name') // 获取数据属性
+Object.defineProperty(obj，'show',{writable:true})// 使用 defineProperty 生成的，默认将数据属性设为 false -> {value: undefined， writable: true， enumerable: false， configurable: false}
 ```
 
 #### 访问器属性
 
 有 Configurable（可否删除、修改、变为数据属性）、Enumerable（可否枚举）、Get（获取函数）、Set（设置函数）。属性是拥有数据属性还是访问器属性是根据 Object.defineProperty 设置的，默认是数据属性，若设置了 set、get 函数，则变为访问器，失去数据功能即 value 和 Writable，若设置了 writable 和 value，则变成数据属性。
 
-#### 合并对象 Object.assign(mainObj,otherObj...)
+#### 合并对象 Object.assign(mainObj，otherObj...)
 
-将资源对象的属性混入目标对象，Object.assign(mainObj,otherObj...)，将其余对象中可枚举、自有属性（使用 Object.propertyIsEnumerable() 和 Object.hasOwnProperty() 检测皆返回 true）复制到目标对象。但是是浅拷贝
+将资源对象的属性混入目标对象，Object.assign(mainObj，otherObj...)，将其余对象中可枚举、自有属性（使用 Object.propertyIsEnumerable() 和 Object.hasOwnProperty() 检测皆返回 true）复制到目标对象。但是是浅拷贝
 
 ```js
 let mainObj = {}
 let otherObj = {name:''}
-Object.assign(mainObj,otherObj)
+Object.assign(mainObj，otherObj)
 // 真实步骤
 // 1. otherObj.propertyIsEnumerable('name') // true
 // 2. otherObj.hasOwnProperty('name') // true
-// 3. Object.getOwnPropertyDescriptor(other,'name').set = Object.getOwnPropertyDescriptor(other,'name').get
+// 3. Object.getOwnPropertyDescriptor(other，'name').set = Object.getOwnPropertyDescriptor(other，'name').get
 ```
 
 #### 相等判定 Object.is()
@@ -1101,7 +1101,7 @@ Object.assign(mainObj,otherObj)
 用于判断两个数是否全等，接收两个参数，但参数不限制类型。若全等返回 true，不全等返回 false，可以判断边界情况，如 +-0 和 0 ，NaN 与 NaN 的全等性。
 
 ```js
-Object.is(true,1) //false
+Object.is(true，1) //false
 Object.is(+0 ,-0) // false
 Object.is(NaN ,NaN) // true
 +0 === -0 // true
@@ -1115,7 +1115,7 @@ NaN === NaN // false
 即调用一个函数返回一个对象，根据传入的参数不同，返回不同值的对象，缺点是创建出来的对象拥有一毛一样的属性，优点是整齐。
 
 ```js
-function createObj(name,age){
+function createObj(name，age){
     let obj = new Object()
     obj.name = name
     obj.age = age 
@@ -1129,7 +1129,7 @@ let obj2 = createObj('zzz',10) // {name:'zzz',age:10}
 构造函数的本质也是创建拥有一毛一样的属性的系列对象，但是使用 new 关键词实例化函数，且函数内部不用使用 new Object 创建 obj，而是使用 this 关键词赋值，也不需要 return 一个对象，因为 new 关键词帮助我们做了这些。使用 new 创建的实例拥有__proto__属性，指向原型对象，原型对象有 constructor 属性指向构造其的构造函数，可以直接简写为 obj.constructor。
 
 ```js
-function CreateObj(name,age){
+function CreateObj(name，age){
   this.name = name
   this.age = age  
 }
@@ -1152,7 +1152,7 @@ function newFun(createFun){
     return function(){
         let obj = new Object()
         obj.__proto__ = createFun.prototype // 指向构造函数的原型对象，故构造函数原型上的属性，new 实例也可以继承
-        createFun.call(obj,...arguments)
+        createFun.call(obj，...arguments)
         return obj
     }
 }
@@ -1163,7 +1163,7 @@ newFun(app)('name',10)
 #### 原型
 
 实例拥有 **proto** 指向构造函数的 prototype。在 625 页有详情
-若自定义构造函数的 prototype 对象，设为 B,会修改实例的 constructor 指向，指向 B 的构造函数，若想指回原本的构造函数，直接设置 prototype.constructor 属性
+若自定义构造函数的 prototype 对象，设为 B，会修改实例的 constructor 指向，指向 B 的构造函数，若想指回原本的构造函数，直接设置 prototype.constructor 属性
 若在构造实例后重新定义 prototype 对象，即改变 prototype 指向地址，此前的实例依然指向原本地址，会造成错误
 
 ```js
@@ -1183,13 +1183,13 @@ prototype 原型对象里的 constructor 指向构造函数本身
 ![关系](./img/proto_prototype.png)
 
 - 属性遍历 (?)
-若想默认为不可枚举的属性，需使用 Object.defineProperty 定义 constructor 属性，对于**遍历**对象方法（keys、getOwnPropertyNames、for-in 等），遍历是**有序**的，按照属性名： 数值排序 - 字符串插入顺序（b,1,0,a -> 0,1,b,a）
+若想默认为不可枚举的属性，需使用 Object.defineProperty 定义 constructor 属性，对于**遍历**对象方法（keys、getOwnPropertyNames、for-in 等），遍历是**有序**的，按照属性名： 数值排序 - 字符串插入顺序（b，1,0,a -> 0,1,b，a）
 
 - 原型相关方法与属性
 | 调用对象 | 方法 | 作用|
 | - | - | - |
 | Object | Object.create(obj)| 创建一个对象，将参数 obj 作为对象所指向的原型对象 |
-| Object | Object.setPrototypeOf(obj,prototypeObj) | 传入两个对象，将参数 2 对象作为参数 1 的原型对象 |
+| Object | Object.setPrototypeOf(obj，prototypeObj) | 传入两个对象，将参数 2 对象作为参数 1 的原型对象 |
 | Object | Object.getPrototypeOf(obj) | 获取参数 obj 所指向的原型对象 |
 | Object | Object.keys(obj) | 返回参数 obj**自身**不包括原型对象上的可枚举属性 |
 | Object | Object.getOwnPropertyNames(obj) | 返回参数 obj 不包括原型上的所有属性，**包括不可枚举**,但是不包括 Symbol 命名的属性 |
@@ -1201,7 +1201,7 @@ prototype 原型对象里的 constructor 指向构造函数本身
 
 ```js
 // 手写一个 L instanceof R 判断
-function Instanceof(L,R){
+function Instanceof(L，R){
     // 当检测对象是基本类型时，返回 false
     if((typeof L != 'Object' && typeof L != 'Function')|| L === null){
         return false
@@ -1254,7 +1254,7 @@ Son.prototype.sayHi = function(){ // 覆盖所继承的 sayHi 方法，但是不
 Son.prototype = new Farther() // 修改子类的原型对象指向父类实例
 // 右式为父类实例，因为实例会继承原型上的属性，即子类实例继承了父类实例
 // 实例有属性 constructor 指向构造其的构造函数 Farther，也有__proto__属性，指向父类原型对象，
-// Son.prototype.constructor == Farther ，故 son.__proto__.constructor == Farther,即 son.constructor = Farther
+// Son.prototype.constructor == Farther ，故 son.__proto__.constructor == Farther，即 son.constructor = Farther
 // Son.prototype.__proto__ == Farther.prototype ，故 son.__proto__.__proto__ == Farther.prototype
 // 故严格来说， 虽然是 Son 构造 son 实例， 但 son 的 构造属性 constructor 指向 Farther ,son 的__proto__指向父类实例对象，且 Farther 的原型被添加在子类原型链中
 
@@ -1285,7 +1285,7 @@ function Farther(name){
     this.name = name 
 }
 function Son(){
-    Farther.call(this,'lyf') // 继承父类的实例属性，可以传参数实例化
+    Farther.call(this，'lyf') // 继承父类的实例属性，可以传参数实例化
 }
 Son.prototype = new Farther() // 原型链继承
 Son.prototype.constructor = Son
@@ -1293,7 +1293,7 @@ Son.prototype.constructor = Son
 
 #### 原型式继承
 
-决定原型链的对象,不再拘泥于Farther,在函数内部定义一个工具函数，工具函数的原型对象prototype指向参数 obj，返回构造工具函数实例，目的是**将传入参数 obj 作为原型对象**。效果等同于 Object.create(obj)，但为浅拷贝。即传入同样的 obj 参数时，实例数据互通。
+$，不再拘泥于 Farther，在函数内部定义一个工具函数，工具函数的原型对象 prototype 指向参数 obj，返回构造工具函数实例，目的是**将传入参数 obj 作为原型对象**。效果等同于 Object.create(obj)，但为浅拷贝。即传入同样的 obj 参数时，实例数据互通。
 适用情况:对原有的 obj 进行统一操作
 
 ```js
@@ -1346,7 +1346,7 @@ function Fun(obj){
     return new fun()
 }
 // 利用原型式继承父类原型
-function inherit(Son,Farther){ 
+function inherit(Son，Farther){ 
     let prototype = Fun(Farther.prototype) // 调用原型继承函数，将父类原型拷贝(just copy)放置在结果的__proto__属性上 -- prototype === fun.__proto__ === Farther.prototype
     Son.prototype = prototype // Son.prototype = fun ---> son.__proto__ = fun ---> son.__proto__.__proto__ = Farther.prototype
     prototype.constructor = Son // 解决由于重写原型导致默认 constructor 丢失的问题 --- Farther.prototype.constructor = Son
@@ -1357,7 +1357,7 @@ function son(){
 }
 function Farther(){this.name = ['a man']}
 Farther.prototype.show = ['show me flowers']
-inherit(Son,Farther)
+inherit(Son，Farther)
 let ccc = new son() 
 ccc.show.push('xxxx') // ['show me flowers','xxx']
 let ddd = new son()
@@ -1550,12 +1550,12 @@ son instanceof Farther // true
 
 ## 九、代理和反射
 
-类似于秘书，若想操作目标对象，必须通过一层代理，将操作放置在代理对象，由代理对象传达给目标函数，创建代理的关键字是 Proxy。new Proxy(target,handler) 参数 1 表示需要被代理的目标对象，对象类型不限制。参数 2 表示一个属性为函数的对象，函数表示执行操作时代理的行为，通常有 get、set 等。Proxy.prototype 是 undefined ,不能使用 instanceof 检测是否是代理实例
+类似于秘书，若想操作目标对象，必须通过一层代理，将操作放置在代理对象，由代理对象传达给目标函数，创建代理的关键字是 Proxy。new Proxy(target，handler) 参数 1 表示需要被代理的目标对象，对象类型不限制。参数 2 表示一个属性为函数的对象，函数表示执行操作时代理的行为，通常有 get、set 等。Proxy.prototype 是 undefined ,不能使用 instanceof 检测是否是代理实例
 
 ```js
 let obj = {} // 目标对象
-let p = new Proxy(obj,{
-    get:function(obj,prop){// 获取对象属性时调用
+let p = new Proxy(obj，{
+    get:function(obj，prop){// 获取对象属性时调用
         return obj.hasOwnProperty(prop) ? obj[prop] : 22
     }})
     p.a // 22
@@ -1568,12 +1568,12 @@ let p = new Proxy(obj,{
 
 ### 代理捕获器
 
-代理捕获器以函数形式存储在构造代理实例的参数 2 中，在处理操作时触发， get() 捕获器在实例 proxy[xxx] 和 object.create[proxy](xxx) 中触发，可以传入三个参数 get(target,property,proxy),分别是目标对象，获取的对象属性名，代理对象。在捕获器中使用 Reflect 反射，每一个捕获器都有同名称的反射 API,例如 Reflect.get(target,property,proxy).
+代理捕获器以函数形式存储在构造代理实例的参数 2 中，在处理操作时触发， get() 捕获器在实例 proxy[xxx] 和 object.create[proxy](xxx) 中触发，可以传入三个参数 get(target，property，proxy)，分别是目标对象，获取的对象属性名，代理对象。在捕获器中使用 Reflect 反射，每一个捕获器都有同名称的反射 API，例如 Reflect.get(target，property，proxy).
 
 ```js
 let obj = {}
-let p = new Proxy(obj,{
-    get(obj,prop,proxy){
+let p = new Proxy(obj，{
+    get(obj，prop，proxy){
         console.log(obj == obj)
         console.log(p == proxy)
     }
@@ -1587,12 +1587,12 @@ p.name // true true
 
 ```js
 let obj = {} // 目标对象
-Object.defineProperty(obj,'name',{
-    configurable:false,
-    writable:false,
+Object.defineProperty(obj，'name',{
+    configurable:false，
+    writable:false，
     value:'zzz'
 })
-let p = new Proxy(obj,{get(){
+let p = new Proxy(obj，{get(){
     return 'lyf' // 获取参数时，将其赋值为'lyf'
 }})
 p.name // throw error
@@ -1600,11 +1600,11 @@ p.name // throw error
 
 #### 撤销代理
 
-即中断代理和目标函数的联系，使用 Proxy.revocable() 创建代理，会返回一个对象，有属性 proxy 和 revoke,表示代理对象和撤销代理函数，撤销是不可逆的操作，不论撤销几次，都是一样会抛出错误。
+即中断代理和目标函数的联系，使用 Proxy.revocable() 创建代理，会返回一个对象，有属性 proxy 和 revoke，表示代理对象和撤销代理函数，撤销是不可逆的操作，不论撤销几次，都是一样会抛出错误。
 
 ```js
 let obj = {name:'lyf'}
-let { proxy,revoke } = new Proxy.revocable(obj,{
+let { proxy，revoke } = new Proxy.revocable(obj，{
     get(){
         return 'xxx'
     }
@@ -1631,16 +1631,16 @@ proxy.name // throw error
 
 ```js
 let obj = {money:100} // 老板给了 100 块
-let fproxy = new Proxy(obj,{
-    get(obj,prop){
+let fproxy = new Proxy(obj，{
+    get(obj，prop){
         if(prop.includes('money')){
             console.log('一层代理吃了 90%回扣')
             return obj[prop]/10 // 一层代理吃了 90%回扣
         }
     }
 })
-let sproxy = new Proxy(fproxy,{
-    get(obj,prop){
+let sproxy = new Proxy(fproxy，{
+    get(obj，prop){
         if(prop.includes('money')){
             console.log('二层代理吃了 90%回扣')
             return obj[prop]/10 // 二层代理吃了 90%回扣
@@ -1658,12 +1658,12 @@ sproxy.money // '二层代理吃了 90%回扣' '一层代理吃了 90%回扣' 1
 
 基本上就是改写 Object 的方法
 
-- get(target,property,proxy)
+- get(target，property，proxy)
   对应的反射为 Reflect.get.
-- set(target,property,value,proxy)
-  对应的反射为 Reflect.set,返回一个布尔值，表示设置成功与否。
-- has(target,property)
-  对应的反射为 Relect.has(),必须返回一个布尔值
+- set(target，property，value，proxy)
+  对应的反射为 Reflect.set，返回一个布尔值，表示设置成功与否。
+- has(target，property)
+  对应的反射为 Relect.has()，必须返回一个布尔值
 - defineProperty()
   对应的反射为 Relect.defineProperty()
 - getOwnPropertyDescritor()
@@ -1714,23 +1714,23 @@ arguments.callee.caller == Function.caller
 
 #### 函数方法
 
-Function.call(thisObj,...arguments)
+Function.call(thisObj，...arguments)
 参数 1 为 this 指向的上下文，参数 2 ~ n 表示传给函数的参数，调用返回函数执行结果 return
-Function.apply(thisObj,arguments)
+Function.apply(thisObj，arguments)
 参数 1 为 this 指向的上下文，参数 2 表示传给函数的参数，为一个数组，调用返回函数执行结果 return
-Function.bind(thisObj,...arguments)
-参数 1 为 this 指向的上下文，参数 2 ~ n 表示传给函数的参数，调用时返回一个上下文为 thisObj 的函数 B,需调用此返回值 B,且 B 仍可以传参数，排在 ...arguments 后面
+Function.bind(thisObj，...arguments)
+参数 1 为 this 指向的上下文，参数 2 ~ n 表示传给函数的参数，调用时返回一个上下文为 thisObj 的函数 B，需调用此返回值 B，且 B 仍可以传参数，排在 ...arguments 后面
 
 ```js
 let obj = {name:'lfy'}
 let name = 'zzz'
-function testName(a,b){
-    console.log(this.name,a,b)
+function testName(a，b){
+    console.log(this.name，a，b)
 }
-testName.call(obj,10) // 'lfy' 10 undefined
-testName.apply(obj,[10,20]) // 'lfy' 10 20
-let testBind = testName.bind(obj,10)
-testBind(20) // 等于 testName.call(obj,10,20) // 'lfy' 10 20
+testName.call(obj，10) // 'lfy' 10 undefined
+testName.apply(obj，[10,20]) // 'lfy' 10 20
+let testBind = testName.bind(obj，10)
+testBind(20) // 等于 testName.call(obj，10,20) // 'lfy' 10 20
 ```
 
 #### 尾调用
@@ -1770,7 +1770,7 @@ son = null // 释放内存
 
 - 闭包中的 this 指向
 this 对象会在运行时绑定到执行函数的上下文。若在全局函数中调用，则 this 为 window。如果作为某个对象的方法调用，则 this 等于这个对象。
-但嵌套函数 B 无法访问到函数 A 的 this,故若在嵌套函数中使用 this,仍访问 window,故需要将 this 赋值给 that
+但嵌套函数 B 无法访问到函数 A 的 this，故若在嵌套函数中使用 this，仍访问 window，故需要将 this 赋值给 that
 
 ```js
 var name = 'lyf' // 使用 let 的不会变成 window
@@ -1841,13 +1841,13 @@ my.showFarther() // false 原型模式 虽然可以访问函数内部的私有�
 
 ## 十一、期约（Promise）和异步函数
 
-同步(sync)和异步(async),最常见的异步为 setTimeout，但异步有许多缺点，其中最为显著的是**回调地狱**。期约表示 Promise，介于直接同步和异步之间，使用 new 调用，且需传一个作为**执行器**的函数参数。期约有三种状态，分别是待定（pending）、成功（fulfilled）、拒绝（rejected），最初是待定状态，一旦从待定状态脱离，便是不可逆的，且不一定能脱离待定状态。new Promise((resolve,reject)=>{}) 期约状态转换通过调用**参数函数**的两个参数(resolve/reject)实现，惯例命名为 resolve 和 reject，**调用**前者期约状态自动变为成功，调用后者为失败。
+同步(sync)和异步(async)，最常见的异步为 setTimeout，但异步有许多缺点，其中最为显著的是**回调地狱**。期约表示 Promise，介于直接同步和异步之间，使用 new 调用，且需传一个作为**执行器**的函数参数。期约有三种状态，分别是待定（pending）、成功（fulfilled）、拒绝（rejected），最初是待定状态，一旦从待定状态脱离，便是不可逆的，且不一定能脱离待定状态。new Promise((resolve，reject)=>{}) 期约状态转换通过调用**参数函数**的两个参数(resolve/reject)实现，惯例命名为 resolve 和 reject，**调用**前者期约状态自动变为成功，调用后者为失败。
 
 ```js
 // setTimeout 的参数
-setTimeout(function,delay,...arguments) // arguments 为传给 function 的参数
+setTimeout(function，delay，...arguments) // arguments 为传给 function 的参数
 // promise 的参数
-new Promise((resolve,reject)=>{}) // 参数为一个函数，函数参数为 resolve 和 reject
+new Promise((resolve，reject)=>{}) // 参数为一个函数，函数参数为 resolve 和 reject
 ```
 
 - 回调地狱
@@ -1860,11 +1860,11 @@ new Promise((resolve,reject)=>{}) // 参数为一个函数，函数参数为 res
 
 #### 期约的实例方法
 
-- Promise.prototype.then(onResolved,onRejected)
+- Promise.prototype.then(onResolved，onRejected)
 返回一个新的期约实例。参数为函数，表示进入成功和拒绝状态时执行，即在 resolve 和 reject 被调用时，立即执行 then 上的参数，且 resolve 返回的值，会作为 onResolved 和 onRejected 的参数，且因为状态是互斥的，所有两函数最终必然只会执行一个。
 
 - Promise.prototype.catch(onRejected)
-返回一个新的期约实例。参数为期约的状态为失败时执行，是 Promise.prototype.then(null,onRejected) 的语法糖。
+返回一个新的期约实例。参数为期约的状态为失败时执行，是 Promise.prototype.then(null，onRejected) 的语法糖。
 
 - Promise.prototype.finally()
 返回一个期约实例。参数为函数，不论期约进入何种状态(失败/成功)都会调用
@@ -1886,16 +1886,16 @@ Promise.resolve().then().then() // 结合一式和二式
 #### 期约合成
 
 - Promise.all(arr)
-  也是一个 Promise.resolve()，待参数 arr 中的所有期约状态变为成功后(即调用 resolve)才执行，arr 可为空数组，但不可以不传(报错),一般也是结合 then 调用。
+  也是一个 Promise.resolve()，待参数 arr 中的所有期约状态变为成功后(即调用 resolve)才执行，arr 可为空数组，但不可以不传(报错)，一般也是结合 then 调用。
 - Promise.race(arr)
   参数 arr 中哪一个期约最先改变状态，race 就返回该状态，变成 Promise.resolve 或 Promise.reject，arr 可为空数组，但不可以不传(报错)，一般也是结合 then 调用。
 
 ```js
 let p = Promise.race([ 
- Promise.reject(4), 
- new Promise((resolve, reject) => setTimeout(resolve, 1000)) 
+ Promise.reject(4)， 
+ new Promise((resolve， reject) => setTimeout(resolve， 1000)) 
 ]); 
-setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.reject(4)
+setTimeout(console.log， 0, p); // Promise <rejected>: 4  返回一个 Promise.reject(4)
 ```
 
 ### 期约拓展
@@ -1909,9 +1909,9 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
   // 期约取消实例
   class CancelToken {
             constructor(cancelFn) {
-                this.promise = new Promise((resolve, reject) => {
+                this.promise = new Promise((resolve， reject) => {
                     cancelFn(() => {
-                        setTimeout(console.log, 0, "delay cancelled");
+                        setTimeout(console.log， 0, "delay cancelled");
                         resolve();
                     }); // 为 cancelToken 点击事件绑定回调函数
                 });
@@ -1921,14 +1921,14 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
     const cancelButton = document.querySelector('#cancel');
 
     function cancellableDelayedResolve(delay) {
-        setTimeout(console.log, 0, "set delay");
-        return new Promise((resolve, reject) => {
+        setTimeout(console.log， 0, "set delay");
+        return new Promise((resolve， reject) => {
 
             // 定时器设置延时期约状态转为成功
             const id = setTimeout((() => {
-                setTimeout(console.log, 0, "delayed resolve");
+                setTimeout(console.log， 0, "delayed resolve");
                 resolve();
-            }), delay);
+            })， delay);
 
             // 
             const cancelToken = new CancelToken((cancelCallback) =>
@@ -1958,7 +1958,7 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
             resolvePromise = resolve; // 将改变期约的回调暴露
         });
 
-        // 调用传入的执行器 executor ,传入的函数 cancel,到 CancelToken.source 中
+        // 调用传入的执行器 executor ,传入的函数 cancel，到 CancelToken.source 中
         var token = this; // token.reason 取消理由，为取消的文字说明，若存在，表示已取消
         executor(function cancel(message) {
             if (token.reason) { // 当响应已取消时，进行返回
@@ -1970,15 +1970,15 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
     }
 
     // 参数 null
-    // 返回 对象:{token:Object,cancel:function} -- function 触发 Object.promise 的 resolve 
+    // 返回 对象:{token:Object，cancel:function} -- function 触发 Object.promise 的 resolve 
     CancelToken.source = function source() {
         var cancel;
-        // 使用 new 实例化 CancelToken,token 返回一个对象，且包含 this.promise 属性
+        // 使用 new 实例化 CancelToken，token 返回一个对象，且包含 this.promise 属性
         var token = new CancelToken(function executor(c) {
             cancel = c; // function cancel
         });
         return {
-            token: token,
+            token: token，
             cancel: cancel 
         };
     }
@@ -1986,8 +1986,8 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
     // axios 的 cancelToken 的用法
   let cancelToken = axios.CancelToken;
   let  source = cancelToken.source() // 返回一个对象，包含 token 和 cancel 属性
-  axios.post('',data,{cancelToken:source.token}) // 一个包含 promise 属性的对象
-  source.cancel('取消请求'); // 调用 cancel,执行 cancel 函数，promise 期约进入成功状态，返回 token.reason
+  axios.post('',data，{cancelToken:source.token}) // 一个包含 promise 属性的对象
+  source.cancel('取消请求'); // 调用 cancel，执行 cancel 函数，promise 期约进入成功状态，返回 token.reason
 
   ```
 
@@ -1995,12 +1995,12 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
 也不是获取 Promise 状态调用 resolve()转为成功的进度，而是手动给期约设置延时装置，每触发一个定时器，进度条减少，直到减为 0，才触发 resolve()，调用 notify 显示进度条
 
 ```js
-    // 继承 Promise 类，修改执行器函数，使其从 (resolve,reject)=>{} 变成(resolve,reject,(status)=>{})
+    // 继承 Promise 类，修改执行器函数，使其从 (resolve，reject)=>{} 变成(resolve，reject，(status)=>{})
     class TrackablePromise extends Promise {
         constructor(executor) { // 一个函数
             const notifyHandlers = [];
-            super((resolve, reject) => {// 表示 new promise 的函数
-                return executor(resolve, reject, (status) => {
+            super((resolve， reject) => {// 表示 new promise 的函数
+                return executor(resolve， reject， (status) => {
                     notifyHandlers.map((handler) => handler(status)); // (status)=>{} 是函数
                 }); // 调用了 executor 函数
             });
@@ -2013,23 +2013,23 @@ setTimeout(console.log, 0, p); // Promise <rejected>: 4  返回一个 Promise.re
     }
 
     // 
-    let p = new TrackablePromise((resolve, reject, notify) => { // 实例传了一个函数
+    let p = new TrackablePromise((resolve， reject， notify) => { // 实例传了一个函数
         function countdown(x) { // 函数
             if (x > 0) {
                 notify(`${20 * x}% remaining`); // 调用参数 3 notify()  表示进度条 100% 80% 60% 40% 20% 0%
-                setTimeout(() => countdown(x - 1), 1000); // 不断减少进度条
+                setTimeout(() => countdown(x - 1)， 1000); // 不断减少进度条
             } else {
                 resolve(); // 当进度条加载完毕后，期约的状态为成功，resolve 也是参数
             }
         }
         countdown(5);
     });
-    // p.notify((x) => setTimeout(console.log, 0, 'progress:', x)); // 参数函数作为 notifyHandlers 的项
-    // p.notify((x) => setTimeout(console.log, 0, 'progress@:', x)); // 作为 notifyHandlers 项
-    // p.then(() => setTimeout(console.log, 0, 'completed')); // 完毕后跳出
-    // p.notify((x) => setTimeout(console.log, 0, 'a:', x))
-    //     .notify((x) => setTimeout(console.log, 0, 'b:', x));
-    // p.then(() => setTimeout(console.log, 0, 'completed'));
+    // p.notify((x) => setTimeout(console.log， 0, 'progress:', x)); // 参数函数作为 notifyHandlers 的项
+    // p.notify((x) => setTimeout(console.log， 0, 'progress@:', x)); // 作为 notifyHandlers 项
+    // p.then(() => setTimeout(console.log， 0, 'completed')); // 完毕后跳出
+    // p.notify((x) => setTimeout(console.log， 0, 'a:', x))
+    //     .notify((x) => setTimeout(console.log， 0, 'b:', x));
+    // p.then(() => setTimeout(console.log， 0, 'completed'));
 ```
 
 ### 异步函数
@@ -2055,7 +2055,7 @@ console.log(2)
 
 #### await
 
-await 只能在异步函数中使用，遇到 await 时 async 函数暂停执行，await 后可以接一个表达式/变量，将其当做是 Promise.resolve(表达式/变量),等待函数外部同步代码执行完毕后，才执行 await,若 await 等来一个状态为成功的期约，继续执行异步函数剩余代码，因为 await 也可以接一个 Promise.reject(arg),此时停止执行剩余代码，并将失败状态的期约返回
+await 只能在异步函数中使用，遇到 await 时 async 函数暂停执行，await 后可以接一个表达式/变量，将其当做是 Promise.resolve(表达式/变量)，等待函数外部同步代码执行完毕后，才执行 await，若 await 等来一个状态为成功的期约，继续执行异步函数剩余代码，因为 await 也可以接一个 Promise.reject(arg)，此时停止执行剩余代码，并将失败状态的期约返回
 
 ```js
 async function testAsync(){
@@ -2068,7 +2068,7 @@ async function testAsync(){
    console.log(c)
    console.log(5)
 }
-testAsync().then(console.log).catch(console.log)// 在 let c 中抛出一个失败状态的期约，若 testAsync 完整执行，触发 then,参数为 return 的变量，若无则为 undefined
+testAsync().then(console.log).catch(console.log)// 在 let c 中抛出一个失败状态的期约，若 testAsync 完整执行，触发 then，参数为 return 的变量，若无则为 undefined
 console.log(6)
 // 1 6 2 3 4
 
@@ -2085,10 +2085,10 @@ bar()
 ```
 
 - 平行执行 await
-  必须等到表达式完成才 await,期间堵塞后续代码，若有多个异步的 await 时，等待时间是叠加的，即第一个 await 等待时间 1,第二个 await 等待时间为 1+2,可先执行异步，将结果放置在 await 中。
+  必须等到表达式完成才 await，期间堵塞后续代码，若有多个异步的 await 时，等待时间是叠加的，即第一个 await 等待时间 1,第二个 await 等待时间为 1+2,可先执行异步，将结果放置在 await 中。
 
   ```js
-  let a = await test(1) // 若等待时间为 3000ms,后续代码被阻塞
+  let a = await test(1) // 若等待时间为 3000ms，后续代码被阻塞
   let  b = await test(2) // 自 3000ms 开始，执行自身的等待 2000ms
 
   let a = test(1) // 3000ms 后得到答案
@@ -2106,7 +2106,7 @@ bar()
 
 ### window 对象
 
-为浏览器实例，内部的全局方法调用时可以省略 window. 前缀，例如 window.parseInt == parseInt,作为 ECMAScript 的 Global 对象，使用 var 声明的变量，会被提升到 window 对象中。window 常用来操作浏览器窗口，还有一些工具属性/方法(定时器),还有弹出对话框
+为浏览器实例，内部的全局方法调用时可以省略 window. 前缀，例如 window.parseInt == parseInt，作为 ECMAScript 的 Global 对象，使用 var 声明的变量，会被提升到 window 对象中。window 常用来操作浏览器窗口，还有一些工具属性/方法(定时器)，还有弹出对话框
 
 #### 窗口关系(窗口与窗口)
 
@@ -2124,11 +2124,11 @@ bar()
 - window.screenLeft/screenTop
   属性，返回当前浏览器离屏幕的距离
 
-- window.moveTo(x,y)/moveBy(x,y)
-  moveTo 表示窗口移动到坐标(x,y),但好像没有用。moveBy 表示相对于当前位置，窗口移动 xy 距离，正负代表上下左右
+- window.moveTo(x，y)/moveBy(x，y)
+  moveTo 表示窗口移动到坐标(x，y)，但好像没有用。moveBy 表示相对于当前位置，窗口移动 xy 距离，正负代表上下左右
 
 - window.devicePixelRatio 像素比
-  物理像素(DP,设备像素，device pixels),屏幕是由一个个小的像素块组成的，控制像素块颜色可以出现图像和动画，但是每个小像素块的大小和个数都是物理固定的。css 像素是一个相对的长度单位，在同一个设备/不同的设备中，1px 所代表的物理像素是变化的，例如分辨率高的，一个物理像素小，需多占几个物理像素，分辨率低的，少占几个物理像素，最终显示的大小一样，但是清晰度会有所不同。控制像素比的属性为 window.devicePixelRatio,表示物理像素与逻辑像素之间的缩放系数。
+  物理像素(DP，设备像素，device pixels)，屏幕是由一个个小的像素块组成的，控制像素块颜色可以出现图像和动画，但是每个小像素块的大小和个数都是物理固定的。css 像素是一个相对的长度单位，在同一个设备/不同的设备中，1px 所代表的物理像素是变化的，例如分辨率高的，一个物理像素小，需多占几个物理像素，分辨率低的，少占几个物理像素，最终显示的大小一样，但是清晰度会有所不同。控制像素比的属性为 window.devicePixelRatio，表示物理像素与逻辑像素之间的缩放系数。
 
 #### 窗口大小
 
@@ -2144,10 +2144,10 @@ bar()
 - document.documentElement.clientWidth
   同样返回可视窗口的大小，若工具栏遮挡，也改变大小
   - document.documentElement.clientWidth 和 innerWidth 的区别
-  - 前者属于DOM,后者属于BOM
+  - 前者属于 DOM，后者属于 BOM
   - 前者不包括滚动条宽度，后者包括滚动条宽度，故后者 = 前者 || 前者+17px(滚动条宽度)
 
-- window.resizeTo(x,y)/resizeBy(x,y)
+- window.resizeTo(x，y)/resizeBy(x，y)
   方法，前者表示将窗口缩放到 x-y 大小，后者表示基于当前宽高，调整 x-y
 
 #### 视口位置(页面与窗口)
@@ -2155,8 +2155,8 @@ bar()
 - window.pageXoffset/pageYoffset 和 window.scrollX/scrollY
   表示滚动距离，即现在显示的最顶端离页面最顶端的距离，二者相等
 
-- window.scrollBy(x,y)/scrollTo(x,y)/scroll(x,y)
-  方法，前者表示基于当前坐标滚动 x-y 距离，后两者表示滚动到某坐标。三个方法参数可替换为一个对象，属性为 left/top/behavior,其中 behavior 表示移动效果，值为 auto(自动)/smooth(匀速)
+- window.scrollBy(x，y)/scrollTo(x，y)/scroll(x，y)
+  方法，前者表示基于当前坐标滚动 x-y 距离，后两者表示滚动到某坐标。三个方法参数可替换为一个对象，属性为 left/top/behavior，其中 behavior 表示移动效果，值为 auto(自动)/smooth(匀速)
 
 ```js
 window.scroll({
@@ -2177,21 +2177,21 @@ window.scroll({
 
 | window 方法 | 概念 |
 | - | - |
-| window.moveTo(x,y) | 将窗口移动到离屏幕的 x-y 坐标 |
-| window.moveBy(x,y) | 基于现在坐标水平移动 x,垂直移动 y |
-| window.resizeTo(x,y) | 将窗口缩放到 x-y 大小 |
-| window.resizeBy(x,y) | 基于窗口大小，将窗口水平缩放 x,垂直缩放 y |
+| window.moveTo(x，y) | 将窗口移动到离屏幕的 x-y 坐标 |
+| window.moveBy(x，y) | 基于现在坐标水平移动 x，垂直移动 y |
+| window.resizeTo(x，y) | 将窗口缩放到 x-y 大小 |
+| window.resizeBy(x，y) | 基于窗口大小，将窗口水平缩放 x，垂直缩放 y |
 | window.scroll(x.y)/scroll({left:,right:,behavior:}) | 滚动到 left/right 坐标 |
 | window.scrollTo(x.y)/scrollTo({left:,top:,behavior:}) | 滚动到 left/top 坐标 |
 | window.scrollBy(x.y)/scrollBy({left:,top:,behavior:}) | 向下滚动 top 位置，向左滚动到 left 位置 |
 
 #### 导航与打开新窗口
 
-- window.open(url,targetWindow,data,isReplaceNowPage)
+- window.open(url，targetWindow，data，isReplaceNowPage)
   返回一个 window 对象，这个 window 指向被打开的浏览器，所有方法也通用。可以使用 window.close()关闭
   - url url 地址，为地址字符串
-  - targetWindow 为窗口名字字符串，所指向的 url 将会在此窗口打开(等同于 a 标签的 target,可为 frame 标签，可选项也相同，比如_self、_parent、_top 或_blank。),若不存在这样的窗口，则新打开一个窗口，并将窗口命名为 targetWindow
-  - data 字符串，形如'attributes_1=xxx,attributes_2=xxx,attributes_3=xxx',当 url 在新窗口打开时有效，常用属性值如下表
+  - targetWindow 为窗口名字字符串，所指向的 url 将会在此窗口打开(等同于 a 标签的 target，可为 frame 标签，可选项也相同，比如_self、_parent、_top 或_blank。)，若不存在这样的窗口，则新打开一个窗口，并将窗口命名为 targetWindow
+  - data 字符串，形如'attributes_1=xxx，attributes_2=xxx，attributes_3=xxx',当 url 在新窗口打开时有效，常用属性值如下表
   | 属性 | 值 | 说明 |
   | height/width | 数值 | 新窗高度/宽度 |
   | left/top | 数值 | 窗口距离屏幕的 x-y 坐标，非负 |
@@ -2207,10 +2207,10 @@ window.scroll({
 
 #### 系统对话框
 
-无关视口和 html,是浏览器自带的，常用的有 alert(mes)、confirm(mes)、prompt(mes).
+无关视口和 html，是浏览器自带的，常用的有 alert(mes)、confirm(mes)、prompt(mes).
 alert(mes)只接收一个参数，在警告框中显示，只有一个确认按钮。
 confirm(mes)为确认框，有取消和确认两个选项，根据选择返回 true/false.
-prompt(mes,input)为提示框，mes 为文字提示，参数 2 input 表示在输入框中的默认值，可不传，为空字符串，点击确认时将文本框内的值返回，点击取消时返回 null
+prompt(mes，input)为提示框，mes 为文字提示，参数 2 input 表示在输入框中的默认值，可不传，为空字符串，点击确认时将文本框内的值返回，点击取消时返回 null
 
 ### location 对象
 
@@ -2251,7 +2251,7 @@ prompt(mes,input)为提示框，mes 为文字提示，参数 2 input 表示在�
 
 #### 操作地址
 
-设置 window.location、location.href 和调用 location.assign(url),都可以修改当前浏览器的地址，并可在历史记录中回退
+设置 window.location、location.href 和调用 location.assign(url)，都可以修改当前浏览器的地址，并可在历史记录中回退
 
 ### navigator 对象
 
@@ -2276,7 +2276,7 @@ prompt(mes,input)为提示框，mes 为文字提示，参数 2 input 表示在�
 
 改变 url 地址，默认去到新页面，触发 hashchange 事件，修改页面信息。执行 pushState()方法后，新的状态信息会被加入到历史状态栈中，浏览器地址栏也会改变，但浏览器并不会真的向服务器发送请求，除了 location 相关属性依赖于 url，故会修改。
 
-- history.pushState(stateObj,title,url)
+- history.pushState(stateObj，title，url)
   - stateObj  状态对象
   - title 新页面的标题，现在也无法实现
   - url 修改端口后的路径
@@ -2289,9 +2289,9 @@ prompt(mes,input)为提示框，mes 为文字提示，参数 2 input 表示在�
 
 DOM 由节点构成的层级结构，类似于一颗树，通常为 HTML 和 XML 文档。document 表示文档的根节点，其包含一个子节点，在 html 中为标签 <html> ,称为文档元素，一个文档只有一个文档元素。
 
-### Node类型
+### Node 类型
 
-文档中任意节点都有Node类型的特性，即拥有Node属性。someNode.nodeType表示节点类型，为一个常数（1-12），与Node.ELEMENT_NODE等属性相对应、nodeName表示节点名称、nodeValue表示节点信息，一般来说元素节点该属性为null.
+文档中任意节点都有 Node 类型的特性，即拥有 Node 属性。someNode.nodeType 表示节点类型，为一个常数（1-12），与 Node.ELEMENT_NODE 等属性相对应、nodeName 表示节点名称、nodeValue 表示节点信息，一般来说元素节点该属性为 null.
 
 ```js
 divNode.nodeType == 1 == Node.ELEMENT_NODE
@@ -2300,7 +2300,7 @@ divNode.nodeName == 'DIV'
 
 #### 节点关系
 
-一般是父子、兄弟，获取一个节点的子节点集使用childNodes,返回一个有length属性的类数组，可以使用item(index)和[index]的形式访问子节点。获取一个节点的父节点使用 parentNode.获取兄弟节点使用 nextSibling 和 previousSibling,当自己作为兄长时，previousSibling 为 null,当自己作为幼弟时，nextSibling 为null.当父节点想要获取大儿子和小儿子时，使用firstChild和lastChild.
+一般是父子、兄弟，获取一个节点的子节点集使用 childNodes，返回一个有 length 属性的类数组，可以使用 item(index)和[index]的形式访问子节点。获取一个节点的父节点使用 parentNode.获取兄弟节点使用 nextSibling 和 previousSibling，当自己作为兄长时，previousSibling 为 null，当自己作为幼弟时，nextSibling 为 null.当父节点想要获取大儿子和小儿子时，使用 firstChild 和 lastChild.
 
 ```js
 let childs = divNode.childNodes
@@ -2311,12 +2311,12 @@ childs[0].parentNode == divNode
 
 #### 操纵节点
 
-即每个节点的属性方法，someNode.xxx()。也就是节点的增删改查，一般操作的是某个节点的子节点，将新节点作为参数传入方法中。appendChild(newNode)、removeChild(newNode)、replaceChild(newNode)、insertBefore(newNode)。还有两个较少使用的方法cloneNode()，传入一个Boolean值参数，表示是否深克隆节点。和normalize()，操作后代节点中的文本节点，文本节点为空时，进行移除。
+即每个节点的属性方法，someNode.xxx()。也就是节点的增删改查，一般操作的是某个节点的子节点，将新节点作为参数传入方法中。appendChild(newNode)、removeChild(newNode)、replaceChild(newNode)、insertBefore(newNode)。还有两个较少使用的方法 cloneNode()，传入一个 Boolean 值参数，表示是否深克隆节点。和 normalize()，操作后代节点中的文本节点，文本节点为空时，进行移除。
 
-### Documnet类型
+### Documnet 类型
 
-指代整体页面，其中一个子节点表示html标签，使用document.documentElement获取。另一个虽不是子节点，但也可以直接获取，document.body表示body标签。
+指代整体页面，其中一个子节点表示 html 标签，使用 document.documentElement 获取。另一个虽不是子节点，但也可以直接获取，document.body 表示 body 标签。
 
 #### 常见属性
 
-### Element类型
+### Element 类型

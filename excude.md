@@ -22,7 +22,7 @@
 - ``left/right/top/bottom``
   基于父元素。对于一些左右布局，可以使用 ``position：left:50%`` 加 ``margin-left`` 偏移
 - ``transform: translateX(-50%)``
-  transform 表示移动，translate(x,y) 表示 X，Y 轴移动距离，translateX，translateY 分别表示 X，Y 轴移动距离，百分比基于自身宽高
+  transform 表示移动，translate(x，y) 表示 X，Y 轴移动距离，translateX，translateY 分别表示 X，Y 轴移动距离，百分比基于自身宽高
 
   ```less
     // 实现水平垂直居中
@@ -442,7 +442,7 @@ justify-content: center，若盒子移位了，表示溢出
   }
   ```  
 
-#### Object.assign(mainObject,...)
+#### Object.assign(mainObject，...)
 
   参数一是目标对象，接收后面参数对象**可枚举**的属性（一般对象的属性都是可枚举的，除非对象的 enumerable 属性为 false），目标对象有该属性则覆盖，无则添加，有一些拷贝的性质，但若参数的属性值为对象，则单凭赋值还是指向同一个地址，实现的是只有一层的拷贝
   ![assing](./img/assign.png)
@@ -464,28 +464,28 @@ justify-content: center，若盒子移位了，表示溢出
   操作对象的属性，有则修改，无则添加，参数三为一个对象，控制**属性描述符**对象，属性描述符对象有六个属性，不止控制属性的 value（属性值），还有 writable（是否可改），enumerable（是否可枚举）等，通过 defineProperty 定义的属性，与普通定义的属性不同，因为它是默认不可枚举、不可修改的、不可删除的。
 
   ```js
-  Object.defineProperty(obj,'name',{
+  Object.defineProperty(obj，'name',{
       value:'',
-      writable:true,// 是否可修改
-      enumerable:true,// 是否可枚举
+      writable:true，// 是否可修改
+      enumerable:true，// 是否可枚举
       configurable:true// 是否可修改
   })
-  Object.defineProperty(obj,'name',{})// 定义并传空，默认描述符如下
+  Object.defineProperty(obj，'name',{})// 定义并传空，默认描述符如下
   obj.descriptor === {
-      value:undefined,// 默认未定义
-      writable:false,// 不可修改
-      enumerable:false,// 不可枚举
+      value:undefined，// 默认未定义
+      writable:false，// 不可修改
+      enumerable:false，// 不可枚举
       configurable:false// 不可修改
-      set:undefined,// 默认未定义
-      get:undefined,// 默认未定义
+      set:undefined，// 默认未定义
+      get:undefined，// 默认未定义
   }
   ```
 
-- Object.defineProperties(obj, properties)
+- Object.defineProperties(obj， properties)
   批量操作对象的属性，参数二对象每一个属性都操作一个对象属性，属性名为对象属性名，属性值为对象的属性描述符
 
   ```js
-  Object.defineProperties(obj,{
+  Object.defineProperties(obj，{
       'name':{
           vaule:,
           writable:
@@ -497,11 +497,11 @@ justify-content: center，若盒子移位了，表示溢出
   })
   ```
 
-- Object.getOwnPropertyDescriptor(obj,property)
+- Object.getOwnPropertyDescriptor(obj，property)
   获取对象对于属性的属性描述符对象，返回一个对象
 
   ```js
-  let descriptor = Object.getOwnPropertyDescriptor(obj,'name')
+  let descriptor = Object.getOwnPropertyDescriptor(obj，'name')
   descriptor// 包含六个属性的 name 属性描述符对象
   ```
 
@@ -538,26 +538,26 @@ justify-content: center，若盒子移位了，表示溢出
 
 #### reflect 对象
 
-ES6 提供的一个将常见 js 对象内部方法（Object.xxx(obj) or Object.prototype.xxx(obj)）封装并反射出来的对象（reflect.xxx(obj)），原因是：1，内部的方法不希望被暴露；2，reflect 返回值更合理，使用 defineProperty 方法 Object 报错而 reflect 只是返回 false；3，Object 存在命令式，例如：delete obj.name，不符合面向对象的思想，reflect 是对象，纯函数式调用方法，变成 reflect.deleteProperty(obj,name)。reflect 对象拥有 13 个方法，且对第一个参数严格控制，若不传对象/函数，报错。
+ES6 提供的一个将常见 js 对象内部方法（Object.xxx(obj) or Object.prototype.xxx(obj)）封装并反射出来的对象（reflect.xxx(obj)），原因是：1，内部的方法不希望被暴露；2，reflect 返回值更合理，使用 defineProperty 方法 Object 报错而 reflect 只是返回 false；3，Object 存在命令式，例如：delete obj.name，不符合面向对象的思想，reflect 是对象，纯函数式调用方法，变成 reflect.deleteProperty(obj，name)。reflect 对象拥有 13 个方法，且对第一个参数严格控制，若不传对象/函数，报错。
 
-- get(obj,attribute,receiver)
+- get(obj，attribute，receiver)
   get 和 set 的最后一个参数都是用来绑定 this 的，当属性部署了读取函数(get name(){})/赋值函数(set name(){})时起作用
-- set(obj,attribute,value,receiver)
-- has(obj,attribute)
+- set(obj，attribute，value，receiver)
+- has(obj，attribute)
   返回一个 boolean 值，和 attribute in obj 效果相同
-- deleteProperty(obj,attribute)
+- deleteProperty(obj，attribute)
   删除对象的某个属性
-- construct(obj,args)
-  参数一必须是函数，等同于 new 实例化。reflect.construct(Fun,'lyf') 等价于 new Fun('lyf')，不常用
-- apply(fun,receiver,args)
+- construct(obj，args)
+  参数一必须是函数，等同于 new 实例化。reflect.construct(Fun，'lyf') 等价于 new Fun('lyf')，不常用
+- apply(fun，receiver，args)
   参数一是函数，参数二表示绑定的 this，参数三表示传入函数的实参，与 fun.apply 一致，实参传入一个数组
 - getPrototypeOf(obj)
   获取对象的原型对象，返回 boolean 值
-- setPrototypeof(obj,newProto)
+- setPrototypeof(obj，newProto)
   设置对象的原型对象，返回一个 boolean 值
-- defineProperty(obj,attribute,descriptor)
+- defineProperty(obj，attribute，descriptor)
   设置对象的标识属性
-- getOwnPropertyDescriptor(obj,)
+- getOwnPropertyDescriptor(obj，)
 - isExtensible(obj)
   检查对象是否可扩展
 - preventExtensions(obj)
@@ -570,18 +570,18 @@ ES6 提供的一个将常见 js 对象内部方法（Object.xxx(obj) or Object.p
 |  reflect   | Object  | 功能 |
 |  ----  | ----  | ---- |
 | reflect.has(attribute)  | attribute in obj | 检查属性是否在对象中 |
-| reflect.set(obj,attribute,value,receiver)  | obj[attribute] = value | 设置对象属性，常用后者 |
-| reflect.get(obj,attribute,reciver) | obj[attribute] | 获取对象属性，常用后者 |
-| reflect.deleteProperty(obj,attribute) | delete obj[attribute]  | 删除对象的属性，使用前者* |
+| reflect.set(obj，attribute，value，receiver)  | obj[attribute] = value | 设置对象属性，常用后者 |
+| reflect.get(obj，attribute，reciver) | obj[attribute] | 获取对象属性，常用后者 |
+| reflect.deleteProperty(obj，attribute) | delete obj[attribute]  | 删除对象的属性，使用前者* |
 | reflect.ownKeys(obj) | Object.keys(obj) | 皆返回一个属性组成的数组，前者返回所有属性，后者只返回可枚举属性 |
-| reflect.defineProperty(obj,attribute,descriptor) | Object.defineProperty(obj,attribute,descriptor) | 全面地**描述**属性，前者返回 Boolean 值，后者返回设置好的对象 |
-| reflect.getOwnPropertyDescriptor(obj,attribute) | Object.getOwnPropertyDescriptor(obj,attribute) | 返回对象某属性的属性描述符对象，二者几乎一致，无该属性则返回 undefined |
+| reflect.defineProperty(obj，attribute，descriptor) | Object.defineProperty(obj，attribute，descriptor) | 全面地**描述**属性，前者返回 Boolean 值，后者返回设置好的对象 |
+| reflect.getOwnPropertyDescriptor(obj，attribute) | Object.getOwnPropertyDescriptor(obj，attribute) | 返回对象某属性的属性描述符对象，二者几乎一致，无该属性则返回 undefined |
 | reflect.getPrototyOf(obj) | Object.getPrototyOf(obj) | 返回原型对象，如无返回 null，二者几乎一致 |
-| reflect.setPrototyOf(obj,prototype) | Object.setPrototyOf(obj,prototype) | 设置对象的原型对象，前者返回 Boolean 值，后者返回新对象 |
+| reflect.setPrototyOf(obj，prototype) | Object.setPrototyOf(obj，prototype) | 设置对象的原型对象，前者返回 Boolean 值，后者返回新对象 |
 | reflect.isExtensible(obj) | Object.isExtensible(obj) | 检查对象是否可扩展，二者几乎一致 |
 | reflect.preventExtensions(obj) | Object.preventExtensions(obj) | 将对象设置为不可扩展的，前者返回 Boolean 值，后者返回设置好的对象 |
-| reflect.apply(fun,receiver,args) | Function.prototype.apply(receivers,args) | 二者功能几乎一致，常使用后者 |
-| reflect.construct(Fun,args) | new Fun(args) | 构造函数实例，常使用后者 |
+| reflect.apply(fun，receiver，args) | Function.prototype.apply(receivers，args) | 二者功能几乎一致，常使用后者 |
+| reflect.construct(Fun，args) | new Fun(args) | 构造函数实例，常使用后者 |
 
 #### js 中的事件
 
@@ -609,7 +609,7 @@ ES6 提供的一个将常见 js 对象内部方法（Object.xxx(obj) or Object.p
 
   3，标准 dom
   在 dom 中获取元素并在事件属性中绑定函数，需确保 dom 中有此元素，故在 window.onload 中执行，可以绑定多个事件函数，顺序是先绑定先执行
-  element.addEventListener(event,callback,isCapture)
+  element.addEventListener(event，callback，isCapture)
   参数 1 event 事件名的字符串，只能绑定确切存在事件，例如 click，不能自创事件，啥'show'
   参数 2 callback 事件触发时绑定的回调函数，内有一个参数，代表触发事件的元素
   参数 3 isCapture 表示事件是在捕获还是冒泡环节触发，boolean 值，默认为 false，即不再捕获阶段触发，而是冒泡
@@ -622,7 +622,7 @@ ES6 提供的一个将常见 js 对象内部方法（Object.xxx(obj) or Object.p
 
 - 移除事件
   只有使用标准 dom 绑定的事件函数可以移除，且必须移除同一个回调函数(地址)
-  element.removeEventListener(event,callback,isCapture)
+  element.removeEventListener(event，callback，isCapture)
   参数 1 event 必选，表示需移除的事件
   参数 2 callback 必选，表示事件
   参数 3 表示要移除的事件的触发阶段，即 addEventListener 的参数 3
@@ -678,7 +678,7 @@ Object.getPrototypeOf(arr) == Array.prototype // true
 
 let obj1 = {name:'lyf'} // 原型对象，包含属性 name
 let obj = {age:111}
-Object.setPrototypeOf(obj,obj1)
+Object.setPrototypeOf(obj，obj1)
 obj.__proto__ == obj1 // true
 obj.hasOwnProperty('name') // false
 'name' in obj // true
@@ -696,7 +696,7 @@ obj.__proto__ == obj1 // true
 
 通过 Vue 发送的事件，而不是 dom 事件，一般使用 emit 发送，on 接收，off 去除，和标准 dom 事件监听 addEventListener、removeEventListener 相对应
 
-- vue.$emit(event,attributes)
+- vue.$emit(event，attributes)
   参数 1 event 为表示事件的字符串，类似于 dom 事件的 'click'、'mousedown'，但是这个没有固定的限制
   参数 2 attributes 表示传给监听事件回调函数的参数
   本质上是给本组件监听，可以在本组件使用 vue.$on 和 vue.$once 监听，在父组件则是使用 v-on 监听子组件传出的事件，并调用回调函数，调用互不影响
@@ -726,10 +726,10 @@ obj.__proto__ == obj1 // true
   }
   ```
 
-- vue.$on(event,callback)
-  在本组件上直接使用 this.$on() 调用。可以监听组件使用 emit 所发出的事件，可以多次监听同一个事件回调不同的函数。此外还有 this.$once,表示只监听一次，监听完销毁。
+- vue.$on(event，callback)
+  在本组件上直接使用 this.$on() 调用。可以监听组件使用 emit 所发出的事件，可以多次监听同一个事件回调不同的函数。此外还有 this.$once，表示只监听一次，监听完销毁。
 
-- vue.$off(event,callback)
+- vue.$off(event，callback)
   移除事件监听器，可以移除所有事件的所有监听器，移除某个事件的所有监听器，移除某个事件的某个监听器
   - 当没有传 event 和 callback 时，移除所有监听器
   - 当只传 event 时，移除 event 的所有监听事件
@@ -769,7 +769,7 @@ obj.__proto__ == obj1 // true
   - arg
     为指令传入的参数，使用 ':' 符号绑定，例如 v-xxx:name，即传给指令一个参数 'name'
   - modifiers
-    一个对象，使用 '.' 绑定，不限个数，例如 v-xxx.a.b，显示 {a:true, b:true}
+    一个对象，使用 '.' 绑定，不限个数，例如 v-xxx.a.b，显示 {a:true， b:true}
 - vnode
 - oldValue
 
@@ -798,7 +798,7 @@ directives:{
   class FullName{
       static name = "lyf";
       anthorName = "anthor";
-      constructor(firstName,lastName){
+      constructor(firstName，lastName){
           this.firstName = firstName
           this.lastName = lastName
       }
@@ -817,7 +817,7 @@ directives:{
       firstName: 'l', // 传入的实例属性
       lastName: 'yf', // 传入的实例属性
       Prototype:{ // 原型上挂载类的公有方法和 constructor
-          constructor: class FullName,
+          constructor: class FullName，
           reserveFullName: ƒ reserveFullName(),
           Prototype:Object// 原型的原型才是 Object 的原型对象
       }
@@ -834,7 +834,7 @@ directives:{
     #b;// 私有属性
     #sum() { return this.#a + this.#b; }// 私有属性表示私有方法，故在第一层
     printSum() { console.log(this.#sum()); }
-    constructor(a, b) { this.#a = +a; this.#b = +b; }
+    constructor(a， b) { this.#a = +a; this.#b = +b; }
   }
   let foo = new Foo(12,2)
   foo  === {
@@ -854,14 +854,14 @@ directives:{
 
   ```js
   class Farther {
-      constructor(x,y){
+      constructor(x，y){
           this.x = x;
           this.y = y
       }
   }
   class Son extends Farther{} // 没有构造函数，可以不使用 super
   class Son extends Farther{
-      constructor(x,y){
+      constructor(x，y){
           // 有构造函数，必须使用 super
           this.x = 111 // 报错，因为没有经过父类
           super(x) // 将传入实例的参数赋值给父类，this.x = x
@@ -887,7 +887,7 @@ directives:{
 - 2、使用 open 设置请求
 
   ```js
-  xhr.open(method,url,isAsycn)
+  xhr.open(method，url，isAsycn)
   /*
   * @params GET or POST
   * @params  请求地址
@@ -968,7 +968,7 @@ import axios from 'axios';
     headers: {'X-Requested-With':'XMLHttpRequest'},
     // 让参数（params）序列化
     paramsSerializer: function(params){
-    return Qs.stringify(params,{arrayFormat:'brackets'})
+    return Qs.stringify(params，{arrayFormat:'brackets'})
     },
     // 请求参数，类型为一个纯对象，或 URLSearchParams 对象
     params: {
@@ -980,7 +980,7 @@ import axios from 'axios';
     // 表示请求发出的延迟毫秒数，如果请求花费的时间超过延迟的时间，那么请求会被终止
     timeout:1000,
     // 表明是否是跨域请求，默认为 false，表示不是跨域请求
-    withCredentials:false,
+    withCredentials:false，
     // 表示返回数据的格式，可选值为：arraybuffer、blob、document、json、text、stream，默认为 json
     responseType:'json',
     // 响应内容的最大值
@@ -1003,7 +1003,7 @@ import axios from 'axios';
     xsrfCookieName: 'XSRF-TOKEN',// default
     xsrfHeaderName:'X-XSRF-TOKEN',// default
     // validateStatus 定义了是否根据 http 相应状态码，来 resolve 或者 reject promise
-    // 如果 validateStatus 返回 true(或者设置为`null`或者`undefined`),那么 promise 的状态将会是 resolved,否则其状态就是 rejected
+    // 如果 validateStatus 返回 true(或者设置为`null`或者`undefined`),那么 promise 的状态将会是 resolved，否则其状态就是 rejected
     validateStatus:function(status){
     return status >= 200 && status <300;// default
     },
@@ -1015,7 +1015,7 @@ import axios from 'axios';
     httpsAgent: new https.Agent({keeyAlive:true}),
     // proxy 定义了主机名字和端口号，
     // `auth`表明 http 基本认证应该与 proxy 代理链接，并提供证书
-    // 这将会设置一个`Proxy-Authorization` header,并且会覆盖掉已经存在的`Proxy-Authorization`  header
+    // 这将会设置一个`Proxy-Authorization` header，并且会覆盖掉已经存在的`Proxy-Authorization`  header
     proxy: {
     host:'127.0.0.1',
     port: 9000,
@@ -1066,7 +1066,7 @@ import axios from 'axios';
   // index.js
   import store from './store.js'
   new Vue({
-      store,
+      store，
       render:h => h(App)
   }).$mount('#app')
   ```
@@ -1075,7 +1075,7 @@ import axios from 'axios';
 
 #### state
 
-类似于 Vue 实例中的 data，但是在vuex中响应式，故需要实时监听,常常在 computed 中监听,若单纯在data中引入,原始值不响应,引用值的属性修改时响应(因为指向一个地址)
+类似于 Vue 实例中的 data，但是在 vuex 中响应式，故需要实时监听，常常在 computed 中监听，若单纯在 data 中引入，原始值不响应，引用值的属性修改时响应(因为指向一个地址)
 
 ```js
 state:{
@@ -1085,7 +1085,7 @@ state:{
 
 #### getters
 
-类似于Vuex的计算属性,也是监听一个函数的返回值;默认参数 1 为 state，操作后返回符合结果，无法获取到模块化的 getters
+类似于 Vuex 的计算属性，也是监听一个函数的返回值;默认参数 1 为 state，操作后返回符合结果，无法获取到模块化的 getters
 
 ```js
 getters:{
@@ -1102,7 +1102,7 @@ computed:{
 
 #### mutations
 
-类似于 Vue 实例中的 methods,但不能和 methods 一样方法间相互调用，且只能实现同步操作，无法异步.事件参数默认为(state.payload),故在提交事件时,只能提交一个参数,如需提交多个参数,使用对象.
+类似于 Vue 实例中的 methods，但不能和 methods 一样方法间相互调用，且只能实现同步操作，无法异步。事件参数默认为(state.payload),故在提交事件时，只能提交一个参数，如需提交多个参数，使用对象。
 
 ```js
 this.$store.commit("moduleA/increment", 10, "10"); // '10' 无效
@@ -1111,9 +1111,9 @@ this.$store.commit("moduleA/increment", {num:10,str:"10"});
 
 #### actions
 
-解决 mutations 无法异步，用于异步完将 commit 到 mutations,虽然此处可以修改 state 的值，但是一般只在 mutations 修改
+解决 mutations 无法异步，用于异步完将 commit 到 mutations，虽然此处可以修改 state 的值，但是一般只在 mutations 修改
 modules
-为一个对象,因为是vuex单一树，故 store 只有一个，但是可以进行分割,在定义了命名空间时,各个模块之间数据是不共通的。在有模块化的 vuex 实例中，获取模块内的状态操作需加模块名前缀
+为一个对象，因为是 vuex 单一树，故 store 只有一个，但是可以进行分割，在定义了命名空间时，各个模块之间数据是不共通的。在有模块化的 vuex 实例中，获取模块内的状态操作需加模块名前缀
 
 ```js
 let moduleA = {
@@ -1136,7 +1136,7 @@ let store = new Vuex.Store({
 ```
 
 - 在 Vue 实例中使用仓库
-因为 vuex 在 Vue 中挂载了，故使用 this.$store 可以访问。且 vuex 内部有 mapXxxx 方法帮助state和getters快速生成计算属性,帮助mapMutations和mapActions快速生成函数
+因为 vuex 在 Vue 中挂载了，故使用 this.$store 可以访问。且 vuex 内部有 mapXxxx 方法帮助 state 和 getters 快速生成计算属性，帮助 mapMutations 和 mapActions 快速生成函数
 
 ```js
 // App.vue
@@ -1157,7 +1157,7 @@ computed:{
 // getters
 computed:{
     count(){
-        return this.$store.getters.countCreamt // 单模块，modules下
+        return this.$store.getters.countCreamt // 单模块，modules 下
         }
 }
 
@@ -1172,7 +1172,7 @@ commonGetter(){
     this.$store.getters['moduleA/moduleAGetter']
 },
 //2.
-...mapGetters('moduleA',['moduleAGetter']),此处的moduleA，不是以前缀的形式出现！！！
+...mapGetters('moduleA',['moduleAGetter']),此处的 moduleA，不是以前缀的形式出现！！！
 //3.别名状态下
 ...mapGetters({
     paramGetter:'moduleA/moduleAGetter'
@@ -1214,7 +1214,7 @@ methods:{ ...mapActions(['addCount'])}
 ```
 
 - 命名空间
-  当模块没有添加 namespaced 属性时,action 和mutation 仍是全局的.添加 namespaced:true 表示该模块是命名空间,该模块的 getter、action 及 mutation 都会根据模块注册路径调整命名
+  当模块没有添加 namespaced 属性时，action 和 mutation 仍是全局的。添加 namespaced:true 表示该模块是命名空间，该模块的 getter、action 及 mutation 都会根据模块注册路径调整命名
 
 # 零碎
 
@@ -1235,7 +1235,7 @@ Promise(4)
 
 #### IIFE
 
-全称 Immediately Invoked Function Expression,即为立即调用的函数表达式。({})()
+全称 Immediately Invoked Function Expression，即为立即调用的函数表达式。({})()
 
 #### markdown 语法
 
@@ -1253,7 +1253,7 @@ Promise(4)
 
 #### JSON 的方法
 
-- JSON.stringify(obj, Array|callback, Number|String)
+- JSON.stringify(obj， Array|callback， Number|String)
   表示将 对象 变成 JSON 数据格式。
    参数 1：表示需要 JSON 化的对象，是必须的。
    参数 2：可选，函数 or 数组，用于过滤和自定义。当为过滤函数时，函数参数为参数 1 的 key 和值，必须拥有 return 值，常常 return val。若对象的属性为一个对象，即函数 return 一个对象，则下一次先遍历该对象内部，因为对象不能简单加 ""，类似于入栈，完了再出栈按照顺序遍历，直到所有遍历完退出；若为数组，表示需遍历的属性，不在列表的不被序列化。
@@ -1271,12 +1271,12 @@ Promise(4)
            return this.name
        }
    }
-   JSON.stringify(obj,function(key,val){// 3，hobby 对象入栈 --- 5，hooby 对象出栈，继续遍历 sayName
+   JSON.stringify(obj，function(key，val){// 3，hobby 对象入栈 --- 5，hooby 对象出栈，继续遍历 sayName
        console.log("key is %s",key)// 0,初次遍历时 key 和 value 为 '' 和 object
        console.log("val is %s",val)// 1，遍历 name 和 age --- 4，遍历 hobby 对象的属性 sports 和 foods
        return val // 2，遇到 hooby 对象
    })
-   JSON.stringify(obj, ["name", "info", "sex"]);
+   JSON.stringify(obj， ["name", "info", "sex"]);
    ```
 
 #### 代码规范
@@ -1297,7 +1297,32 @@ Promise(4)
     test() // error，因为 null 不可做修饰符 
   ```
   
-#### Vue.use(plugins,...args)
+#### Vue.use(plugins，...args)
 
-这是Vue用于注册插件的方法.参数 1 plugins 为对象或函数,表示要注册的插件.判断是否注册过该插件,有则返回避免重复注册.参数2~n表示传入插件的数据,将其封装至数组中,且将Vue的this推入该数组头部.
-若该插件是对象,且有install函数属性,使用apply调用,且将数组作为参数数组传入;若该插件是函数,使用applay调用,并将参数数组传入.
+这是 Vue 用于注册插件的方法。参数 1 plugins 为**对象**或**函数**，表示要注册的插件。
+判断是否注册过该插件，有则返回避免重复注册。
+参数 2~n 表示传入插件的数据，将其封装至数组中，且将 Vue 的 this 推入该数组头部。
+若该插件是对象，且有 install 函数属性，使用 apply 调用该属性，且将数组作为参数数组传入;
+若该插件是函数，使用 applay 调用，并将参数数组传入。
+
+```js
+// Vue.use 源码
+Vue.use = function (plugin: Function | Object) {
+const installedPlugins = (this._installedPlugins || (this._installedPlugins = []))
+// 判断是否注册过该插件，有则返回避免重复注册
+if (installedPlugins.indexOf(plugin) > -1) {
+    return this
+}
+
+// 将参数 2~n 封装至数组中
+const args = toArray(arguments, 1)
+args.unshift(this) // this作为数组的第一项
+if (typeof plugin.install === 'function') {
+    plugin.install.apply(plugin, args)
+} else if (typeof plugin === 'function') {
+    plugin.apply(null, args)
+}
+installedPlugins.push(plugin)
+return this
+}
+```
