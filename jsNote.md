@@ -2320,3 +2320,29 @@ childs[0].parentNode == divNode
 #### 常见属性
 
 ### Element 类型
+
+元素节点
+
+### Text 类型
+
+文本节点
+
+### Comment 类型
+
+注释节点, <!--  -->
+
+```js
+let comment = document.createComment("A comment"); // 创建注释节点
+```
+
+### DocumentFragment 类型
+
+虚拟仓库,可用于暂时放置节点,避免多次渲染页面
+
+```js
+let fragment = document.createDocumentFragment(); // 创建DocumentFragment节点
+```
+
+### DocumentType
+
+和 doctype 有关,<!DOCTYPE html>

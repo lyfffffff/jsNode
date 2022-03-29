@@ -1247,9 +1247,35 @@ Promise(4)
 
 也叫热更新，不需要刷新页面就更新
 
-#### 文档模式
+#### HTML文档模式
 
-标准模式和混杂模式，一般是对 css 初始化的不同，例如标准盒子、是否有 3px 差异
+在html文档的第一行通过<!DOCTYPE>声明文档模式,不是HTML标签,而是指示浏览器编写的HTML版本、解析器使用的文档类型的指令。文档模式分为标准模式和混杂模式，一般是对 css 初始化的不同，例如标准盒子、是否有 3px 差异.文档类型定义 (DTD) 根据 DOCTYPE 标签决定,浏览器解析DOCTYPE,在内部决定文档模式.
+
+```html
+<!-- HTML5 -->
+<!DOCTYPE html>
+
+<!-- HTML 4.01 严格型 -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<!-- HTML 4.01 过渡型 -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- HTML 4.01 框架集型-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+
+<!-- XHTML 1.0严格型 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<!-- XHTML 1.0 过渡型 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- XHTML 1.0 框架集型 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+```
+
+- 盒子模型
+  标准盒子(W3C)和怪异盒子(IE),标准盒子 = content+padding+border+margin ,怪异盒子 = (content+padding+border) +margin,即怪异盒子将宽度视为 内容+内边距+边框
 
 #### JSON 的方法
 

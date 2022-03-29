@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // 添加localStorage
+        window.onload = function() {
+            function create() {
+                localStorage.setItem('bgcolor', 'red');
+                localStorage.setItem('key', '6666')
+                console.log('xxxx');
+            }
+            document.getElementById('create').addEventListener("click", create)
+        }
+        window.onload = function() {
+            var arr = [];
+            var tree = document.getElementById('tree')
+            let child_1 = document.createElement('div')
+            child_1.innerHTML = 'child_1'
+            child_1.id = 'child_1'
+            let child_2 = document.createElement('div')
+            child_2.innerHTML = 'child_2'
+            child_2.id = 'child_2'
+
+            function add() {
+                // let child_1 = document.createElement('div')
+                // child_1.innerHTML = 'child_1'
+                // child_1.id = 'child_1'
+                // let child_2 = document.createElement('div')
+                // child_2.innerHTML = 'child_2'
+                // child_2.id = 'child_2'
+                tree.appendChild(child_1)
+                tree.appendChild(child_2)
+            }
+
+            function splice() {
+                var child_1 = document.getElementById('child_1')
+                var child_2 = document.getElementById('child_2')
+                tree.removeChild(child_1)
+                tree.removeChild(child_2)
+            }
+            document.getElementById('increment').addEventListener('click', add);
+            document.getElementById('decrement').addEventListener('click', splice);
+        }
+                // 使用缓存对象进行cache缓存
+        //     window.onload = function(){
+        //     let increment = document.getElementById('increment')
+        //     increment.onclick = function(){
+        //         caches.delete('c2');
+        //         Promise.all([
+        //         caches.open('c1').then(function(cache) {
+        //         return cache.put('http://182.254.171.126:9001/user_menu_list', new Response('aaa', { status: 200,statusText: "SuperSmashingGreat!" }));
+        //         }),
+        //         caches.open('c2').then(function(cache) {
+        //         return cache.put('http://182.254.171.126:9001/user_menu_list', new Response('bbb', { status: 200 }));
+        //         })
+        //         ]).then(function() {
+        //         return caches.match('http://182.254.171.126:9001/user_menu_list');
+        //         }).then(function(response) {
+        //         return response.text();
+        //         }).then(function(body) {
+        //         console.log(body);
+        //         });
+        //                 }
+        // }
+    </script>
+</head>
+
+<body>
+    <button id="increment">增加</button>
+    <button id="decrement">减少</button>
+    <div id="child_1">child_1</div>
+    <div id="child_2">child_2</div>
+    <div id="tree">s</div>
+</body>
+
+</html>

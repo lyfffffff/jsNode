@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style></style>
+    <script type="text/javascript" src="https://cn.vuejs.org/js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <template>
+            <div ref="list">{{name}}</div>
+        </template>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                name: 'kongzhi111'
+            },
+            mounted() {
+                this.updateData();
+            },
+            methods: {
+                updateData() {
+                    this.name = 'kongzhi222';
+                    // 此时data数据变了,但是还没有更新dom节点
+                    console.log(this.$refs.list.textContent); // 打印 kongzhi111
+                    this.$nextTick(() => {
+                        // 数据改变,dom节点更新后,才会触发
+                        console.log(this.$refs.list.textContent); // 打印 kongzhi222
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
