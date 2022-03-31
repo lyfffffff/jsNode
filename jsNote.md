@@ -5,34 +5,38 @@
 #### js 标签的属性
 
 - defer
-在外部文件中使用，推迟执行 js 脚本，虽然立即下载脚本，但是在页面加载完才执行，不影响页面加载，有顺序影响，若多个推迟执行脚本，会按照**顺序**执行
+推迟执行脚本，从上至下按顺序执行和下载，若多个推迟执行脚本，会按照**顺序**执行
 - async
-在外部文件中使用，异步执行脚本，虽然立即下载脚本，但是在页面加载完才执行，不影响页面加载，没有顺序影响，若有多个异步执行，不能确保执行顺序
+异步执行脚本，没有顺序影响，若有多个异步脚本引入，不能确保执行顺序
 - type
-默认为 'text/javascript' ，当使用 export 和 import 时。可能会修改，变成 'module'
+默认为 'text/javascript' ，当使用导入导出 export 和 import 时，可能会修改，变成 'module'
 - src
-设置外部文件的源，脚本没有跨域限制
+设置外部文件的源地址，脚本没有跨域限制
 - integrity
-因为没有跨域限制，所以为了防止同一个源的 js 文件被恶意修改，integrity 可以设置一个签名，对比 js 文件返回的签名，若不同则报错
+因为没有跨域限制，所以为了防止同一个源地址的 js 文件被恶意修改，integrity 可以设置一个签名，对比 js 文件返回的签名，若不同则报错
 
-#### defer 和 async 的区别
+#### defer 和 async 的异同
 
-异步没有顺序可言。延迟还受顺序影响
+同：都在**引入**外部脚本时有效，在页面加载完才执行，不影响页面加载,
+异：异步没有顺序可言，延迟还受顺序影响
 
 #### 动态加载脚本
 
 - 浏览器预加载器
-  浏览器在加载资源时分为五个优先级:Highest、High、Medium、Low、Lowest。其中 css 和 html 优先级最高；font 字体资源，优先级分别为 Highest/High；图片资源，如果出现在**视口**中，则优先级为 High，否则为 Low；而 script 脚本优先级不一：
-  - 网络在**第一个图片资源**之前阻塞的脚本在网络优先级中是 High
-  - 网络在第一个图片资源之后阻塞的脚本在网络优先级中是 Medium
+  浏览器对所有资源进行划分优先级，并按优先级加载资源，包含：Highest、High、Medium、Low、Lowest。
+  css、html 优先级最高；font 资源优先级为 Highest/High；图片资源，如果出现在**视口**中，则优先级为 High，否则为 Low；
+  而 script 脚本优先级不一：
+  - 在**第一个图片资源**之前阻塞的脚本在网络优先级中是 High
+  - 在第一个图片资源之后阻塞的脚本在网络优先级中是 Medium
   - 异步/延迟/插入的脚本（无论在什么位置）在网络优先级中是 Low
-  因为浏览器有严格的加载优先级，使用动态脚本时，会影响加载优先级，需设置浏览器预加载器，即 preload，提前加载所需要的资源。link 标签有一个 rel 属性，赋值为 preload 时表示为预加载器，可以加载任意资源，此外还有 as 属性，表示此类资源是什么类型，以便分优先级。此外还有一个 prefetch
+  当动态加载资源时，浏览器无法确认该资源优先级，需设置浏览器预加载器。预加载器通过 link 标签设置 rel 属性为 preload/prefetch ，此外还有 as 属性，表示该资源是什么类型，以便浏览器按优先级加载。
+  - preload 主要用于预加载**当前页面**需要的资源；而 prefetch 主要用于加载**将来页面**可能需要的资源；在vue项目中进行打包上线之后，index.html 中对一些 css 和 js 资源进行预加载。
 
   ```js
   <link rel='preload' href='index.js' as="script"> // 预加载 index.js，且此资源是 script 脚本
   ```
 
-动态加载脚本即需要时才加载此脚本，但是**浏览器预加载器**不知道，需要设置 '<link rel='pereload' href='index.js'>',表示将来会加载该地址(href)的资源，让浏览器有所准备，提前下载
+动态加载脚本即需要时才加载此脚本，但是**浏览器预加载器**不知道，需要设置 link 标签让浏览器有所准备，提前下载，动态加载脚本步骤如下：
 1，创建一个 script 节点
 2，给该节点添加属性
 3，将节点加入到 dom 结构中
@@ -45,73 +49,86 @@ document.head.appendChild(script)
 
 #### js 补充
 
-- 行内脚本（即在本文件内使用 script 标签）的缺点
-1，不能使用'</script>'字符串，当做脚本结束标签，需要使用转义字符变成'<\/script>'
-2，在 XTML 标签中，将 < (小于号)当做标签
-3，多个页面使用同一段代码时，造成资源浪费
-4，在 head 标签中使用脚本，脚本代码没有加载完，页面也不会执行，但是设置了 defer/async 的外部脚本文件不会影响页面加载
+- 行内脚本（即在 script 标签中写逻辑）的缺点
+1，不能使用`</script>`字符串，当做脚本结束标签，需要使用转义字符变成`<\/script>`
+2，在 XTML 标签中，将 < （小于号）当做标签
+3，页面间脚本代码不互通，即多个页面使用同一段代码时，造成资源浪费
+4，在 head 标签中使用脚本，脚本代码没有加载完，页面也不会执行
 - 外部文件脚本的优点
 1，多个页面使用，文件只下载一次
-2，没有以上限制
+2，设置了 defer/async 的外部脚本文件不会影响页面加载
 - noscript 标签
-在不支持脚本的页面才显示，支持脚本的浏览器永远不显示标签的内容
+在不支持脚本的页面中显示标签内容，支持脚本的浏览器**永远不**显示
 
 ## 三、语言语法
 
-#### 七种数据类型
+### 七种数据类型
 
-| Number | String | Boolean | Symbol | Null | undefined | Object |
+| Number | String | Boolean | Symbol | Null | undefined | Object（衍生出Fuction 和 Array） |
 |  ----  | ----  | ---- | ---- | ---- | --- | --- |
 | 原始 | 原始 | 原始 | 原始 | 原始 | 原始| 引用 |
 | typeof 检查: 'number' | 'string' | 'boolean' | 'symbol' | 'object' | 'undefined'  | 'object' |
+| instanceof 检查： 无 | 无 | 无 | 无（因为 Symbol 也是非 new 构造的） | 无 | 无 | Object |
 
 - typeof 缺点
-对于 Array、Null 数据，都会检测为 Object，原理：typeof 实际上检测的是数据类型指向的**地址**，其中 000 表示对象，而 null 恰好是空指针对象，所以判为对象
+typeof有七种取值：number、string、function、object、boolean、symbol、undefined。而Array、Null 数据都会检测为 Object，原理：typeof 实际上检测的是数据指向的**地址**，null 为空指针对象指向 000 ，所以判为对象
 
 | 000->对象 | 1->整数 | 010->浮点数 | 100->字符串 | 110->布尔
 
-- 构造函数与对象
-对于七种数据类型，使用构造函数创建实例和直接调用函数返回实例的区别，虽然 log 打印相同，但是一个是 Number 型，一个是 Object 型，二者本质不相同。Number、Boolean、String 皆是，但是 Symbol 没有 new 构造函数
+- 构造函数与调用函数
+数据可以使用构造函数创建实例（new F()）和直接调用函数（F()）返回，表现相同，但类型不同，一个是原始型，一个是 Object 型。Number、Boolean、String 皆是，但是 Symbol 没有 new 构造函数
 
 ```js
-// Number 
+// Number 为例
 let num = Number(1) // num = 1
 typeof num // 'number'
 let num_1 = new Number(1) // num = 1
 typeof num // 'object'
 ```
 
-##### Number 数据类型
+#### Number 数据类型
 
-支持十进制、十六进制（0x 开头 0-9 | a-f ）、八进制（0 开头，后面数字不大于 7）、浮点值。拥有最大值（Number.MAX_VALUE）和最小值（Number.MIN_VALUE），超过则为+-infinity，对于本该是数字但不是数字的表示为 NaN，例如：分母为+-0，式子包含 NaN 等，但是每个 NaN 都互不相等
+支持十进制、十六进制（0x 开头 0-9 | a-f ）、八进制（0 开头，后面数字不大于 7）、浮点值。拥有最大值（Number.MAX_VALUE）和最小值（Number.MIN_VALUE），超过则为 +-infinity，对于本该是数字但不是数字的表示为 NaN，例如：分母为 +-0，式子包含 NaN 等，注意每个 NaN 都互不相等
 
 ```js
 NaN == NaN // false
 ```
 
-- 非数值转为数值的方法
+- 非数值转为数值
   - Number(param)
-  - parseInt(param，scale)
-  常用。参数二表示进制，可以选择二、八、十六进制。若不定义，则按照字符串命名显示，即长得像什么（x0、07），就当做什么。自动忽略空字符串，从第一个非空开始检测，若其为非数字，返回 NAN（纯空字符串也为 NaN），若为数字，截取到非数值字符串之前，并作为结果返回，自然‘.’也当做非数值字符串，遇到也返回。
+  缺点：空字符串返回 0 ，前数字后非数字（'10b'）返回NaN
+  - *parseInt(param，scale)
+  常用。scale表示param进制，选值为 2，8，16（输入其他值也可以，但是比个位数小返回 1 ，输入1 返回NaN），并将其转为十进制。若不定义，长得像什么（0x0、07开头），就当做什么。从第一个非空开始检测，若为非数字，返回 NAN（纯空字符串也为 NaN），若为数字，截取到**非数值字符串**之前，并作为结果返回，自然 `.` 也当做非数值字符串，遇到也返回。
   - parseFloat(param)
-- Null 和 undefined
-Null 表示空指针对象，undefined 则是声明但未定义，但是 null == undefined，例如数组 Array(4)，若定义为 Array(4).fill(undefined)，遍历时还是会返回 undefined 的
+  弥补 parseInt 遇到 `.` 返回
 
-##### String 数据类型
+```js
+Number('') // 0
+Number('10b') // NaN
+parseInt('') // NaN
+parseInt('10b') // 10
+```
 
-使用 单、双 引号包裹的都是字符串，可以解析类似于 \n \t 的转义字符，若不想解析，使用 String.row(string).$，但是反引号 ` $，$，在模板字面量中还可以使用 ${} 进行在字符串中进行插值
+#### null 和 undefined
+
+null 表示空指针对象，undefined 则是声明但未定义，但是 null == undefined，例如数组 Array(4)，若定义为 Array(4).fill(undefined)，遍历时还是会返回 undefined 的
+
+#### String 数据类型
+
+使用 单、双引号包裹的都是字符串，不能换行，但可以解析类似于 \n \t 的转义字符进行换行，若不想解析，使用 String.row(str)。反引号 ` 也可以表示字符串，还可以使用 ${} 在字符串中进行插值
 
 - 非字符串转为字符串
-  - xxx.toString()
-  但是 null 和 undefined 没有此方法，对于数值，toString 还有参数，Number.toString(log)，表示将数值先转为几进制，再转为字符串
+  - num/boolean/symbol/obj.toString()
+  null 和 undefined 没有此方法，数值型的toString方法还有参数，num.toString(log)，log 表示将数值先转为几进制，再转为字符串
   - String(param)
-  null 和 undefined 时，使用此函数，返回'null'和'undefined'
+  null 和 undefined 时，使用此函数，返回 'null' 和 'undefined'
 
 ```js
 // 模板字面量
 let html_code = `
 <a>我是链接</a>
 `
+// 模板字面量插值
 var variable = '我是链接'
 let html_code_1 = `
 <a>${variable}</a>
@@ -119,9 +136,9 @@ let html_code_1 = `
 // html_code == html_code_1
 ```
 
-##### Symbol
+#### Symbol
 
-符号类型。使用 Symbol(param) 创建，每一次创建都是唯一的，主要用来确保**对象属性**唯一性，即虽然长得像，但不是一个东西，不会覆盖，因为参数只起到一个描述的功能，并不做区别标识符，本质都是唯一的。
+符号类型。使用 Symbol(param) 创建，虽然不是引用值但每个Symbol实例都是唯一的，参数param只起到描述功能，并不做区别标识符，本质都是唯一的。
 
 ```js
 let symbol = Symbol() 
@@ -133,43 +150,50 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的 Ob
 ```
 
 - Symbol.for(param) 全局注册
-  即没有就全局注册，有就直接全局拿过来，改善了长相相同却永不相同的缺点，但二者必须接皆使用 for，否则不是全局注册。param 必须传一个字符串给 for 方法，没传就当做传入 'undefined'，传入非字符串则报错。对于 for 全局注册的符号，可以使用 keyFor 查询符号的字符串，若查询的不是全局注册的符号，返回 undefined，若传入非符号，报错。
+  按需存取，没有就全局注册，有就直接从全局拿取，改善了长相相同却永不相同的缺点。param 必须传一个字符串，没传就当做传入 'undefined'，传入非字符串则报错。
+  对于 Symbol.for 全局注册的符号，Symbol.keyFor(symbol) 可以返回符号的字符串参数，若参数不是全局注册的符号，返回 undefined，若传入非符号则报错。
 
   ```js
+  // 全局注册
   let symbol = new Symbol.for('symbol') // 此时没有，全局注册
-  let symbol_1 = new Symbol.for('symbol') // 此时全局有，直接拿过来，也就是上面的
+  let symbol_1 = new Symbol.for('symbol') // 此时全局有，直接拿取，也就是上面的
   symbol == symbol_1 // true
 
-  let symbol_f = new Symbol('symbol') // 与全局不同，只是新创建一个符号实例
+  let symbol_f = new Symbol('symbol') // 非全局，只是新创建一个符号实例
   symbol_f == symbol_1 // false
   
   Symbol.keyFor(symbol) // 'symbol'
   Symbol.keyFor(symbol) // 'undefined' 不是全局注册
+  Symbol.keyFor(1) // error
   ```
 
-- 作为对象属性
-  出现一个对象，两个键值长得一毛一样的，但是别担心冲突，访问也只能使用那个 symbol 实例作为键。获取属性集也是只能通过 Object.getOwnPropertySymbols()。Object.getOwnPropertyNames 获取的属性值不包括符号属性，for-in 也不遍历符号属性，但是 Object.getOwnPropertyDescriptors() 和 Reflect.ownKeys()，是返回普通属性和符号属性的。
+- 符号作为对象属性
+  因为符号的唯一性，可以作为对象的键值，不会覆盖，就连访问也只能使用该符号作为唯一访问标识。
+  Object.getOwnPropertyNames、for/in无法访问符号属性。
+  Object.getOwnPropertySymbols(obj)返回符号属性集；Reflect.ownKeys() 返回普通属性和符号属性集；Object.getOwnPropertyDescriptors()返回所有属性的描述符对象。
 
   ```js
   symbol = Symbol('xxx')
-  symbol_1 = Symbol('xxx')
+  symbol_1 = Symbol('xxx') // symbol_1 != symbol
   obj[symbol] = 1 // 直接赋值
   Object.defineProperty(obj，symbol_1,{value:1}) // 使用 defineProperty 定义
   obj === {
     Symbol(xxx): 1
     Symbol(xxx): 1
   }
+
   obj[symbol] // 唯一访问标识
   obj[Symbol('xxx')] // 报错
+
   Object.getOwnPropertyNames(obj) // [] 获取所有属性值，但是不包括 Symbol 属性
   Object.getOwnPropertySymbols(obj) // [Symbol(xxx)， Symbol(xxx)]
   ```
 
 - Symbol 属性
-  内置在某些对象（string、Array）中，且在这些对象的某些方法（instanceof、match、concat）被调用时，才被使用
+  有些Symbol属性内置在某些对象（string、Array）中，当且仅当这些对象的某些方法（instanceof、match、concat）被调用时，才被使用
 
-  - description
-  读取传入的**描述参数**，若无则返回一个 undefined
+  - symbol.description
+  读取调用Symbol生成实例时传入的**描述参数**，若无则返回一个 undefined
 
   ```js
   Symbol('desc').toString();   // "Symbol(desc)"  
@@ -178,11 +202,13 @@ symbol_1 == symbol_s // false，宛如长相相同，指向地址不相同的 Ob
   Symbol().description;        // undefined
   ```
 
-  - hasInstance
-  xxx instanceof XXX 实际调用的是 XXX 内部的 Symbol.hasInstance(xxx)，判断是否是某**构造器对象**（new）的实例，手动自定义就是修改 instanceof 的结果。直接修改函数（B[Symbol.hasInstance] == function(){}）不起作用，自定义类时修改（class A{static [Symbol.hasInstance](item){}}}）起作用。
+  - Symbol.hasInstance
+  x instanceof X 本质是调用 X[Symbol.hasInstance](x)，直接修改对象/函数的 Symbol.hasInstance 属性**不起作用**，自定义类内部修改（class A{ static [Symbol.hasInstance](item){}} }）起作用。
 
   ```js
   a instanceof B === B[Symbol.hasInstance](a)
+  
+  // 在类内部修改 Symbol.hasInstance
   class Array1 {
   static [Symbol.hasInstance](item) {
     return Array.isArray(item);
@@ -1841,7 +1867,7 @@ my.showFarther() // false 原型模式 虽然可以访问函数内部的私有�
 
 ## 十一、期约（Promise）和异步函数
 
-同步(sync)和异步(async)，最常见的异步为 setTimeout，但异步有许多缺点，其中最为显著的是**回调地狱**。期约表示 Promise，介于直接同步和异步之间，使用 new 调用，且需传一个作为**执行器**的函数参数。期约有三种状态，分别是待定（pending）、成功（fulfilled）、拒绝（rejected），最初是待定状态，一旦从待定状态脱离，便是不可逆的，且不一定能脱离待定状态。new Promise((resolve，reject)=>{}) 期约状态转换通过调用**参数函数**的两个参数(resolve/reject)实现，惯例命名为 resolve 和 reject，**调用**前者期约状态自动变为成功，调用后者为失败。
+同步(sync)和异步(async)，最常见的异步为 setTimeout，但异步有许多缺点，其中最为显著的是**回调地狱**。期约表示 Promise，介于直接同步和异步之间，使用 new 调用，且需传一个作为**执行器**的函数参数。期约有三种状态，分别是待定（pending）、成功（fulfilled）、拒绝（rejected），最初是待定状态，一旦从待定状态脱离，便是不可逆的，且不一定能脱离待定状态。new Promise((resolve，reject)=>{}) 期约状态转换通过调用**参数函数**的两个参数(resolve/reject)实现，惯例命名为 resolve 和 reject，**调用**前者期约状态自动变为成功，**调用**后者为失败。
 
 ```js
 // setTimeout 的参数
@@ -2327,9 +2353,13 @@ childs[0].parentNode == divNode
 
 文本节点
 
+```js
+let comment = document.createTextNode("A comment"); // 创建注释节点
+```
+
 ### Comment 类型
 
-注释节点, <!--  -->
+注释节点， <!--  -->
 
 ```js
 let comment = document.createComment("A comment"); // 创建注释节点
@@ -2337,12 +2367,130 @@ let comment = document.createComment("A comment"); // 创建注释节点
 
 ### DocumentFragment 类型
 
-虚拟仓库,可用于暂时放置节点,避免多次渲染页面
+虚拟仓库，可用于暂时放置节点，避免多次渲染页面
 
 ```js
-let fragment = document.createDocumentFragment(); // 创建DocumentFragment节点
+let fragment = document.createDocumentFragment(); // 创建 DocumentFragment 节点
 ```
 
 ### DocumentType
 
-和 doctype 有关,<!DOCTYPE html>
+和 doctype 有关，<!DOCTYPE html>
+
+### 动态创建
+
+### MutationObserver 接口
+
+变化观察者，即 DOM 变化时，进行回调
+
+#### Mutation events
+
+即 MutationsObserver 的前身，为每个节点的一些公共事件，事件列表包括 DOMAttrModified、DOMAttributeNameChanged、DOMCharacterDataModified、DOMElementNameChanged、DOMNodeInserted、DOMNodeRemoved、DOMNodeInsertedIntoDocument、DOMSubtreeModified，常用的事件为 DOMNodeRemoved，DOMNodeInserted 和 DOMSubtreeModified。分别用于 监听元素子项的删除，新增，修改(包括删除和新增。但由于 IE 兼容，部分属性在浏览器上不兼容，且有性能问题
+
+- 1.Mutation Events 是同步执行的，它的每次调用，都需要从事件队列中取出事件，执行，然后事件队列中移除，期间需要移动队列元素。如果事件触发的较为频繁的话，每一次都需要执行上面的这些步骤，那么浏览器会被拖慢。
+- 2.Mutation Events 本身是事件，所以捕获是采用的是事件冒泡的形式，如果冒泡捕获期间又触发了其他的 MutationEvents 的话，很有可能就会导致阻塞 Javascript 线程，甚至导致浏览器崩溃。
+
+```js
+document.getElementById('list').addEventListener("DOMSubtreeModified", function(){
+  console.log('列表中子元素被修改');
+}, false);
+```
+
+#### MutationObserver 使用
+
+- 构造 mutation observer 实例
+  使用new构造观察者实例，参数为回调函数，回调函数有两个参数，参数 1 表示变化记录数组,数组中的每一项都是MutationRecord 实例，参数 2 为观察者本身
+- 调用实例的 observer.observe(node,config)
+  初始化的观察者没有监听功能,需调用observe方法挂载元素,一个实例可以观察多个元素,指向一个地址但变量名不同的元素发生变化时也会触发观察者,对同一个元素进行多次监听会进行覆盖,若节点被操作后没有变化也会触发观察者事件,即多次实行同样操作,也都会记录在变化记录数组中。
+  参数 1 为元素节点，参数 2 为观察者属性对象，即表明哪些情况需要监听,参数都是必需的。
+  *childLIst 新增和删除子节点，是否观察
+  *attributes 新增或删除了某属性，是否观察
+  characterData 如果目标节点为 characterData 节点(一种抽象接口，具体可以为文本节点，注释节点，以及处理指令节点)时，是否观察
+  *subtree 子树上所有变化，是否变化观察
+  attributeOldValue 在 attributes 属性已经设为 true 的前提下， 监听时是否记录旧属性值(记录到MutationRecord的 oldValue 属性中)
+  characterDataOldValue 在 characterData 属性已经设为 true 的前提下，监听时是否记录旧属性值(记录到MutationRecord的 oldValue 属性中)
+  attributeFilter 属性名数组,只有该数组中包含的属性名发生变化时才会被观察到
+- 停止观察
+  调用观察者的 disconnect() 方法取消观察元素,再次开启调用 observe方法
+
+```js
+let div = document.getElementById('test')
+let testDiv = document.getElementById('test') // 指向同一个元素
+let callback = function(mutations,itself){
+    console.log(mutations)
+    // mutations.forEach(item=>{ 
+    //     console.log(item.type)
+    // })
+}
+var config = { attributes: true, childList: true, characterData: true } // 这三者必须有一个为 true,否则报错
+let observer = new MutationObserver(callback) // 回调函数
+observer.observe(div,config) // 监听 div
+testDiv.setAttributes('foo','bar') // 虽没有监听`testDiv`但是指向同一元素的变量`div`被监听,故会触发观察者事件
+observer.observe(div,{ attributes: true, childList: true }) // 新的监听覆盖旧的监听
+testDiv.setAttributes('foo','bar') // 此时没有触发回调
+observer.disconnrct() // 停止监听 div
+```
+
+#### 观察者观察范围
+
+若设置观察属性对象的所有属性为true,观察可观察的事件有
+
+- 节点属性
+  attributes 属性设置为 true，
+- 观察字符数据
+  characterData 属性设置为 true,即节点的字符增删改,例如Text,Comment字符。
+- 观察子节点
+  childList 属性设置为 true,即子节点的增删
+- 观察子树
+  subtree 属性设置为 true,即所有后代节点及上面的增删改查
+
+#### 异步回调和执行队列
+
+执行顺序是:同步代码 > 观察者前的微任务 > 观察者 > 观察者后的微任务 > 宏任务
+
+```js
+setTimeOut(()=>{console.log(3)},0)
+Promise.resolve(1).then(res=>{console.log(res)})
+testDiv.setAttribute('foo','1')
+Promise.resolve(2).then(res=>{console.log(2)})
+console.log(0)
+// 0 1 [MutationRecord] 2 3
+```
+
+- takeRecords()
+  用于清空变化者记录队列,若该方法是同步的,会在作为微任务的callback事件之前,调用时返回变化者记录数组
+
+  ```js
+  testDiv.setAttribute('foo','1')
+  testDiv.setAttribute('foo','1')
+  testDiv.setAttribute('foo','1')
+  observer.takeRecords() // 返回 [MutationRecord,MutationRecord,MutationRecord] 并且清空,则上面的监听无效
+  observer.takeRecords() // []
+  ```
+
+## DOM扩展
+
+### Selectors API
+
+通过CSS进行查询,常见的方法是querySelector() 和 querySelectorAll(),前者获取首个匹配,后者获取所有匹配,若没有匹配就返回null,可以传类选择器、id选择器、标签选择器
+
+### getElementBy和querySelector的区别
+
+getElementBy拿到的是HTMLCollection数组,是进行浅拷贝，querySelector拿到的NodeList数组,且是进行深拷贝，但是数组中的元素都是dom对象。当动态的添加元素时，querySelector仍然只能拿到n个，但getElementBy能拿到n+1个，但就已获取的元素中，修改元素的属性两者都能体现，因为操作的都是dom对象
+
+```js
+let g_div = $('.div') != document.getElementsByClassName('div')
+let q_div = $('.div').[0] == document.getElementsByClassName['div'](0)
+// 再添加一个选择器为 `.div` 的元素
+let test = document.createElement('div')
+test.setAttribute('class','.div')
+document.appendChild(test)
+q_div.length // 不变
+g_div.length // +1
+```
+
+- 效率问题
+  因为querySelector进行的是深拷贝,故效率没有getElementBy好,但是方便,因为不论传何种选择器都可以找到相应匹配项。
+
+- div.matches(css selector)
+  传入一个 css选择器，判断该节点是否有该选择器，有返回true，无返回false

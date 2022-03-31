@@ -1247,9 +1247,9 @@ Promise(4)
 
 也叫热更新，不需要刷新页面就更新
 
-#### HTML文档模式
+#### HTML 文档模式
 
-在html文档的第一行通过<!DOCTYPE>声明文档模式,不是HTML标签,而是指示浏览器编写的HTML版本、解析器使用的文档类型的指令。文档模式分为标准模式和混杂模式，一般是对 css 初始化的不同，例如标准盒子、是否有 3px 差异.文档类型定义 (DTD) 根据 DOCTYPE 标签决定,浏览器解析DOCTYPE,在内部决定文档模式.
+在 html 文档的第一行通过 <!DOCTYPE> 声明文档模式，不是 HTML 标签，而是指示 浏览器编写的 HTML 版本、解析器使用的文档类型的指令。文档模式分为标准模式和混杂模式，一般是对 css 初始化的不同，例如标准盒子、图片是否有 3px 差异。文档类型定义 (DTD) 根据 DOCTYPE 标签决定，浏览器解析 DOCTYPE，在内部决定文档模式。
 
 ```html
 <!-- HTML5 -->
@@ -1264,7 +1264,7 @@ Promise(4)
 <!-- HTML 4.01 框架集型-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 
-<!-- XHTML 1.0严格型 -->
+<!-- XHTML 1.0 严格型 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
 <!-- XHTML 1.0 过渡型 -->
@@ -1275,7 +1275,7 @@ Promise(4)
 ```
 
 - 盒子模型
-  标准盒子(W3C)和怪异盒子(IE),标准盒子 = content+padding+border+margin ,怪异盒子 = (content+padding+border) +margin,即怪异盒子将宽度视为 内容+内边距+边框
+  标准盒子(W3C)和怪异盒子(IE)，标准盒子 = content + padding + border + margin ,怪异盒子 = (content + padding + border) +margin，即怪异盒子将宽度视为 内容 + 内边距 + 边框
 
 #### JSON 的方法
 
@@ -1342,7 +1342,7 @@ if (installedPlugins.indexOf(plugin) > -1) {
 
 // 将参数 2~n 封装至数组中
 const args = toArray(arguments, 1)
-args.unshift(this) // this作为数组的第一项
+args.unshift(this) // this 作为数组的第一项
 if (typeof plugin.install === 'function') {
     plugin.install.apply(plugin, args)
 } else if (typeof plugin === 'function') {
@@ -1352,3 +1352,22 @@ installedPlugins.push(plugin)
 return this
 }
 ```
+
+#### iview 和 Vue
+
+iview 本就是为 Vue 所操作的组件库，故在 iview 的源码中，已经在 install 中注册了快捷组件使用，例如在 Vue 中可以直接使用 this.$Spin
+
+```js
+// index.js
+Vue.prototype.$Loading = LoadingBar;
+Vue.prototype.$Message = Message;
+Vue.prototype.$Modal = Modal;
+Vue.prototype.$Notice = Notice;
+Vue.prototype.$Spin = Spin;
+```
+
+#### 如何在node_modules中进行查找文件
+
+  安装 Search node_modules 插件
+  按 F1 时输入 node
+  进入到 search node_modules 中，输入关键字 + 选中 + enter 进入文件夹
