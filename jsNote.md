@@ -2494,3 +2494,97 @@ g_div.length // +1
 
 - div.matches(css selector)
   传入一个 css选择器，判断该节点是否有该选择器，有返回true，无返回false
+
+### 元素遍历
+
+因为firstChild等方法将空白文本节点当做子节点，故DOM推出获取元素节点的方法
+
+- firstElementChild
+- lastElementChild
+- childElementCount
+- previousElementSibling
+- nextElementSibling
+
+### HTML5
+
+#### CSS 拓展
+
+添加了 getElementsByClassName 方法。添加了 classList 属性替代 className 属性，包含add、remove、toggle、contains方法操作选择器。
+
+#### 焦点管理
+
+document.activeElement 获取当前处于焦点的元素，加载好的页面默认焦点元素是 body。当点击输入框、a链接时，切换焦点元素。document.hasFocus() 返回当前文档是否是焦点，切换焦点通过点击当前文档和点击其他地方
+
+```js
+setTimeout(()=>{
+    if(document.hasFocus()){
+        console.log(true) // 操作页面时
+    }else{
+        console.log(false) // 不在页面时
+    }
+},3000)
+```
+
+#### HTMLDocument
+
+即额外的document属性
+
+- readyState 属性
+  获取浏览器状态，有四个值 uninitialized 表示还未开始载入、loading 表示载入中、interactive 表示已加载文档与用户可以开始交互、complete 表示载入完成
+
+- compatMode 属性
+  获取当前的文档模式（标准模式和混杂模式），标准模式下 document.compatMode 的值是"CSS1Compat"，而在混杂模式下，document.compatMode 的值是"BackCompat"：
+
+- head 属性
+  之前只有document.body，现在新增 document.head获取head标签
+
+- characterSet
+  字符集属性，可以修改，一般常为 `UTF-8`
+
+- dataset
+  dataset属性返回一个DOMStringMap实例，包含所有使用data-作为前缀的属性
+
+- 插入标记
+  - innerHTML
+    节点的所有子节点，包含字符串和标签和空白
+  - outerHTML
+    相当于 innerHTML + 自身
+  - insertAdjacentHTML(where,div) 和 insertAdjacentText(where,div)
+    插入元素节点或文本节点，参数where表示插入节点的位置，`beforebegin`表示当前节点前、`afterbegin`表示第一个子节点前，`beforeend`表示最后一个子节点前，`afterend`表示当前节点后。div表示一个节点字符串，不能传一个DOM节点，因为是修改节点的innerHTML，即字符串，会将DOM节点解析为字符串，形如`[object HTMLDivElement]`
+  
+- 内存与性能
+  移除节点并不会将节点相关的事件移除，造成内存泄漏，需手动移除。
+
+- scrollIntoView(config)
+    滚动浏览器窗口至 调用此方法的元素 进入视口。config为空时，默认将元素顶端与视口最顶端对齐；config为Boolean值时，true表示元素顶端与视口最顶端对齐，false表示元素底端与视口最底端对齐。config为一个对象时，有三个属性：behavior定义过渡动画，可取值为"smooth"和"auto"，默认为"auto"，即直接跳转，'smooth'则是平缓的移动窗口；
+    block定义垂直方向的对齐，可选值为"start"（顶对顶）、"center"（中对中）、"end"（底对底）和"nearest"（没出现就出现，故底对底，因为底对底刚出现），默认为 "start"；
+    inline定义水平方向的对齐，可取值为"start"、"center"、"end"和"nearest"，默认为 "nearest"，但是水平滚动条较少，故常常没有效果；
+
+#### 专有扩展
+
+- children 属性
+  获取节点的所有元素节点，返回 HTMLCollection实例，
+  - children 与 childNodes 差别
+    childNodes 属性返回所有的节点，包括文本节点、注释节点；children 属性只返回元素节点；
+    childNodes 返回 HTMLCollection 实例，children 返回 NodeList 实例；
+
+    ```js
+    $0.childNodes // NodeList(3) [li, text, li]
+    $0.children // HTMLCollection(2) [li, li]
+    ```
+
+- contains(div) 属性
+  传入一个节点，若调用节点的后代包含 div，返回true，否则返回false。
+
+- innerText 和 outerText属性
+  innerText返回所有文本，包括后代中所有文本，赋值时替换节点所有内容变成一个text节点。outerText取值类似，但是赋值会将节点本身也覆盖。
+
+  ```js
+  div>
+    i am farther
+    p> i am son 
+  $0.innerText // 'i am farther\ni am son'    
+  $0.innerText = 'new' // div>new
+  $0.innerText == $0.outerText // true
+  $0.outerText = 'new' // new // div不见了
+  ```
