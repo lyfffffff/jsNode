@@ -2673,3 +2673,7 @@ setTimeout(() => {
   $0.innerText == $0.outerText // true
   $0.outerText = 'new' // new // div不见了
   ```
+
+## 十六、DOM2和DOM3
+
+DOM1 定义html结构，DOM2和DOM3提升交互能力
