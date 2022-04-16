@@ -2677,3 +2677,43 @@ setTimeout(() => {
 ## 十六、DOM2和DOM3
 
 DOM1 定义html结构，DOM2和DOM3提升交互能力
+### DOM的演进
+#### XML命名空间
+用于混入不同XML语言。引入规则是 :xmlns:name="url"，其中name表示命名空间，url表示语言地址，使用命名空间的段落，标签名都需要name作为前缀。
+```html
+<xhtml:html xmlns:xhtml=""> //命名空间为 `xhtml`
+  <xhtml:head>
+    <xhtml:body>
+<xhtml:html>
+```
+#### 其他演变
+- documentType
+增加三个属性，publiId systemId internalSubset，分别对应doctype的三个信息。
+- document
+新增document.importNode(node,boolean)用于导入其他文档的节点，参数2表示是否引入该节点的后代
+新增document.implementation.creatHtmlDocument(title)创建一个完整的HTML文档，title表示文档的标题。
+新增node.isSameNode(node)node.isEqualNode(node)方法，用于比较两节点，但是前者表示相同，后者表示相等，有元素虽相等但不相同，相等表示外表，相同表示本质。
+
+### 样式
+节点新增style属性，为一个对象，包含元素的所有css属性，对于横杠链接的属性，改用大驼峰，例如background-color 变成backgroundColor。
+#### 元素尺寸
+- 偏移尺寸
+包含 offsetHeight、offsetTop、offsetLeft、offsetWidth，表示元素距页面视口的左顶点的距离。
+- 客户端尺寸
+包含 clientWidth、clientHeight，不包含border。
+- 滚动尺寸
+包含scrollHeight、scrollWidth表示页面真实宽高，scrollLeft和scrollTop表示页面隐藏的宽高，即滚动距离，若页面小于浏览器视口，则scrollHeight == clientHeight
+### 遍历
+遍历一颗节点树。
+### 范围
+
+## 十七、事件
+### 事件流
+事件分为三个阶段，分别是捕获阶段，即从document一步步深入到目标元素、事件处理，即在目标元素上进行事件处理、冒泡阶段，即目标元素向上到最外层的document。
+### 事件处理程序
+- html属性处理
+响应程序有两个特殊属性，函数中this表示触发事件的元素（但是我打印出来是window），参数event表示事件本身。
+```js
+<div onclick="console.log(true)">// 行内
+<div onclick="clickHandle(event)">// 调用脚本，event不可使用其他名称
+```
