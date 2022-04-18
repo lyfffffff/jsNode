@@ -2731,6 +2731,6 @@ DOM1 定义html结构，DOM2和DOM3提升交互能力
 响应程序有两个特殊属性，函数中this表示触发事件的元素（但是我打印出来是window），参数event表示事件本身。
 
 ```js
-<div onclick="console.log(true)">// 行内
-<div onclick="clickHandle(event)">// 调用脚本，event不可使用其他名称
+<div onclick="console.log(true)"> // 行内
+<div onclick="clickHandle(event)"> // 调用脚本，event不可使用其他名称
 ```
