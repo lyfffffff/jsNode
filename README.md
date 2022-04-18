@@ -67,11 +67,11 @@ document.head.appendChild(script);
 
 ### 七种数据类型
 
-| Number                | String   | Boolean   | Symbol                              | Null     | undefined   | Object（衍生出 Fuction 和 Array） |
-| --------------------- | -------- | --------- | ----------------------------------- | -------- | ----------- | --------------------------------- |
-| 原始                  | 原始     | 原始      | 原始                                | 原始     | 原始        | 引用                              |
-| typeof 检查: 'number' | 'string' | 'boolean' | 'symbol'                            | 'object' | 'undefined' | 'object'                          |
-| instanceof 检查： 无  | 无       | 无        | 无（因为 Symbol 也是非 new 构造的） | 无       | 无          | Object                            |
+| 数据 | Number                | String   | Boolean   | Symbol                              | Null     | undefined   | Object（衍生出 Fuction 和 Array） |
+| ---------- | --------------------- | -------- | --------- | ----------------------------------- | -------- | ----------- | --------------------------------- |
+| 类型 | 原始                  | 原始     | 原始      | 原始                                | 原始     | 原始        | 引用                              |
+| typeof 检查 | 'number' | 'string' | 'boolean' | 'symbol'                            | 'object' | 'undefined' | 'object'                          |
+| instanceof 检查 |  无  | 无       | 无        | 无（因为 Symbol 也是非 new 构造的） | 无       | 无          | Object                            |
 
 - typeof 缺点
   typeof 有七种取值：number、string、function、object、boolean、symbol、undefined。而 Array、Null 数据都会检测为 Object，原理：typeof 实际上检测的是数据指向的**地址**，null 为空指针对象指向 000 ，所以判为对象
