@@ -1,6 +1,6 @@
 # Blod
 
-[TOC]
+[toc]
 
 ## 二、javaScript
 
