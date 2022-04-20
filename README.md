@@ -2895,3 +2895,28 @@ DOM1 定义 html 结构，DOM2 和 DOM3 提升交互能力
 <div onclick="console.log(true)"> // 行内
 <div onclick="clickHandle(event)"> // 调用脚本，event不可使用其他名称
 ```
+
+- DOM0 
+在js中将函数赋值给dom属性，
+```js
+div.onclick = ()=>{}
+```
+
+- Dom2 
+dom元素包含绑定事件方法，参数3表示在冒泡还是捕获阶段触发，默认为false
+```js
+div.addEventListener('click',()=>{},false)
+div.removeEventListener('click',()=>{})
+```
+
+- IE
+只有两个参数，因为默认就在冒泡阶段触发
+```js
+div.attackEvent('onclick',()=>{})
+```
+
+- event
+即出现的事件，event.targt = div，在Ie里，使用 window.event 获取。
+
+- 兼容浏览器
+阻止冒泡，在其他浏览器，使用，IE使用stopPropagation

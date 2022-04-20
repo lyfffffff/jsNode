@@ -10,11 +10,22 @@
     <style>
     </style>
     <script>
+        function clickHan(event) {
+            console.log(event)
+            console.log(this)
+        }
+        window.onload = function () {
+            let div = document.getElementsByName('test')[0]
+            console.log(div);
+            div.onclick = function () {
+                console.log('xx', this)
+            }
+        }
     </script>
 </head>
 
 <body id="body">
-    <div ng-app="myApp" ng-controller="myCtrl">
+    <!-- <div ng-app="myApp" ng-controller="myCtrl">
         <p>名字 : <input type="text" ng-model="name"></p>
         <h1>Hello {{name}}</h1>
     </div>
@@ -23,8 +34,11 @@
         app.controller('myCtrl', function($scope) {
             $scope.name = 'sssss'
         })
-    </script>
+    </script> -->
+    <div onclick="clickHan(event)" value='click'>1111111111</div>
+    <div onclick="console.log(event)" value='click'>1111111111</div>
 
+    <div name='test' value='click'>1111111111</div>
 </body>
 
 </html>
