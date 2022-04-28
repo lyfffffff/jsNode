@@ -153,6 +153,8 @@
   - [十七、事件](#十七事件)
     - [事件流](#事件流)
     - [事件处理程序](#事件处理程序)
+  - [二十五、客户端储存](#二十五客户端储存)
+    - [cookies](#cookies)
 
 ## 二、javaScript
 
@@ -2896,14 +2898,16 @@ DOM1 定义 html 结构，DOM2 和 DOM3 提升交互能力
 <div onclick="clickHandle(event)"> // 调用脚本，event不可使用其他名称
 ```
 
-- DOM0 
+- DOM0
 在js中将函数赋值给dom属性，
+
 ```js
 div.onclick = ()=>{}
 ```
 
-- Dom2 
+- Dom2
 dom元素包含绑定事件方法，参数3表示在冒泡还是捕获阶段触发，默认为false
+
 ```js
 div.addEventListener('click',()=>{},false)
 div.removeEventListener('click',()=>{})
@@ -2911,6 +2915,7 @@ div.removeEventListener('click',()=>{})
 
 - IE
 只有两个参数，因为默认就在冒泡阶段触发
+
 ```js
 div.attackEvent('onclick',()=>{})
 ```
@@ -2920,3 +2925,9 @@ div.attackEvent('onclick',()=>{})
 
 - 兼容浏览器
 阻止冒泡，在其他浏览器，使用，IE使用stopPropagation
+
+## 二十五、客户端储存
+
+### cookies
+
+服务器在响应头 Response headers 中在 Set-Cookie 传输 cookie 信息，浏览器自动将其存储，cookie 会在每次进行请求时携带在 Request headers 中的 Cookie 属性中。
