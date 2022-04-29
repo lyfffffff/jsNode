@@ -153,14 +153,21 @@
   - [十七、事件](#十七事件)
     - [事件流](#事件流)
     - [事件处理程序](#事件处理程序)
+      - [事件类型](#事件类型)
+      - [事件委托](#事件委托)
+      - [模拟事件](#模拟事件)
+  - [二十五、客户端储存](#二十五客户端储存)
+    - [cookies](#cookies)
 <<<<<<< HEAD
       - [事件类型](#事件类型)
       - [事件委托](#事件委托)
       - [模拟事件](#模拟事件)
 =======
+
 >>>>>>> 42cabfe873ba286608befb938d312969e5fe03d2
-  - [二十五、客户端储存](#二十五客户端储存)
-    - [cookies](#cookies)
+
+- [二十五、客户端储存](#二十五客户端储存)
+  - [cookies](#cookies)
 
 ## 二、javaScript
 
@@ -2904,35 +2911,15 @@ DOM1 定义 html 结构，DOM2 和 DOM3 提升交互能力
 <div onclick="clickHandle(event)"> // 调用脚本，event不可使用其他名称
 ```
 
-<<<<<<< HEAD
 - DOM0
   在 js 中将函数赋值给 dom 属性，this 指代触发事件的元素。
 
-=======
-<<<<<<< HEAD
-- DOM0
-在js中将函数赋值给dom属性，
-
-=======
-- DOM0 
-在js中将函数赋值给dom属性，this指代触发事件的元素。
->>>>>>> e0ba55f34e9b0465cac6484506f7a5d9f4c5ef3d
->>>>>>> 42cabfe873ba286608befb938d312969e5fe03d2
 ```js
 div.onclick = () => {};
 ```
 
-<<<<<<< HEAD
 - DOM2
   dom 元素包含绑定事件方法，参数 3 表示在冒泡还是捕获阶段触发，默认为 false
-=======
-<<<<<<< HEAD
-- Dom2
-=======
-- DOM2 
->>>>>>> e0ba55f34e9b0465cac6484506f7a5d9f4c5ef3d
-dom元素包含绑定事件方法，参数3表示在冒泡还是捕获阶段触发，默认为false
->>>>>>> 42cabfe873ba286608befb938d312969e5fe03d2
 
 ```js
 div.addEventListener("click", () => {}, false);
@@ -2940,17 +2927,8 @@ div.removeEventListener("click", () => {});
 ```
 
 - IE
-<<<<<<< HEAD
   只有两个参数，因为默认就在冒泡阶段触发，this 也指代 window。
 
-=======
-<<<<<<< HEAD
-只有两个参数，因为默认就在冒泡阶段触发
-
-=======
-只有两个参数，因为默认就在冒泡阶段触发，this也指代window。
->>>>>>> e0ba55f34e9b0465cac6484506f7a5d9f4c5ef3d
->>>>>>> 42cabfe873ba286608befb938d312969e5fe03d2
 ```js
 div.attachEvent("onclick", () => {});
 div.detachEvent("onclick", () => {});
@@ -2960,20 +2938,7 @@ div.detachEvent("onclick", () => {});
   即触发出现的事件，作为唯一参数传给事件处理程序，event.target = event.currentTarget = div，在 Ie 里，使用 window.event 获取。
 
 - 兼容浏览器
-<<<<<<< HEAD
   阻止冒泡，在其他浏览器使用 stopPropagation，IE 使用 cancelBubble。阻止默认事件，例如链接跳转，在其他浏览器使用 preventDefault，在 IE 使用 returnValue。
-=======
-<<<<<<< HEAD
-阻止冒泡，在其他浏览器，使用，IE使用stopPropagation
-
-## 二十五、客户端储存
-
-### cookies
-
-服务器在响应头 Response headers 中在 Set-Cookie 传输 cookie 信息，浏览器自动将其存储，cookie 会在每次进行请求时携带在 Request headers 中的 Cookie 属性中。
-=======
-阻止冒泡，在其他浏览器使用stopPropagation，IE使用cancelBubble。阻止默认事件，例如链接跳转，在其他浏览器使用preventDefault，在IE使用returnValue。
->>>>>>> 42cabfe873ba286608befb938d312969e5fe03d2
 
 #### 事件类型
 
@@ -3007,12 +2972,8 @@ div.detachEvent("onclick", () => {});
 
 #### 模拟事件
 
-<<<<<<< HEAD
 ## 二十五、客户端储存
 
 ### cookies
 
 服务器在响应头 Response headers 中在 Set-Cookie 传输 cookie 信息，浏览器自动将其存储，cookie 会在每次进行请求时携带在 Request headers 中的 Cookie 属性中。
-=======
->>>>>>> e0ba55f34e9b0465cac6484506f7a5d9f4c5ef3d
->>>>>>> 42cabfe873ba286608befb938d312969e5fe03d2
