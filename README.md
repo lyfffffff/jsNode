@@ -2967,7 +2967,7 @@ div.detachEvent("onclick", () => {});
 
 ### cookie
 
-服务器在响应头 Response headers 中在 Set-Cookie 传输 cookie 信息，浏览器自动将其存储，cookie 会在每次进行请求（合法域）时携带在 Request headers 中的 Cookie 属性中。
+服务器在响应头 Response headers 中在 Set-Cookie 传输 cookie 信息，浏览器自动将其存储，cookie 会在每次进行请求（合法域）时携带在 Request headers 中的 Cookie 属性中。对于没设置 httponly 属性的 cookie 来说
 
 #### cookie 的结构
 
