@@ -157,7 +157,8 @@
       - [事件委托](#事件委托)
       - [模拟事件](#模拟事件)
   - [二十五、客户端储存](#二十五客户端储存)
-    - [cookies](#cookies)
+    - [cookie](#cookie)
+      - [cookie 的结构](#cookie-的结构)
 
 ## 二、javaScript
 
@@ -2958,12 +2959,27 @@ div.detachEvent("onclick", () => {});
 
 #### 事件委托
 
-表示一个处理程序处理一类事件。
+表示一个处理程序处理一类事件，一般是 DOM0 和 DOM2 不同绑定皆使用一个函数。
 
 #### 模拟事件
 
 ## 二十五、客户端储存
 
-### cookies
+### cookie
 
-服务器在响应头 Response headers 中在 Set-Cookie 传输 cookie 信息，浏览器自动将其存储，cookie 会在每次进行请求时携带在 Request headers 中的 Cookie 属性中。
+服务器在响应头 Response headers 中在 Set-Cookie 传输 cookie 信息，浏览器自动将其存储，cookie 会在每次进行请求（合法域）时携带在 Request headers 中的 Cookie 属性中。
+
+#### cookie 的结构
+
+| 字段 | name | 作用 |
+| - | — | - |
+| 名称 | name | 单个 cookie 的名称，不区分大小写，不可修改 |
+| 值 | value | 字符串，cookie 的值 |
+| 域 | domain | cookie 有效的域，只有在该域下发送 cookie |
+| 路径 | path | 在合法域中，只有在此路径下，cookie 才发送，一般默认为所有 `/` |
+| 过期时间 | Max-Age/expires | 为一个时间戳，默认为 `Seccion`，即和 SeccionStorage 一样，在浏览器关闭后删除 cookie |
+| 大小 | size | cookie 是一个文件，固有大小 |
+| http | httpOnly | 一个布尔值，若为 true，表示 cookie 只是请求的属性，而不能通过 document.cookie 来访问 |
+| 安全标志 | secure | 布尔值，当为true时，表示请求需配置SSL证书 |
+| 相同站点 | samesite | 是否向第三方站点发送cookie，`Strict` 表示从不向第三方站点发送cookies，`Lax` 为默认值，表示不向第三方站点发送post请求，`None`表示只向有SSL证书的第三方站点发送cookie|
+| 相同站点2.0 | sameparty |  First-Party Sets 策略允许表示设置此属性的cookie将由不同域名都视为第一方 |
