@@ -43,14 +43,14 @@
       - [迭代器](#迭代器)
     - [WeakMap](#weakmap)
     - [Set](#set)
-  - [第七章、迭代器与生成器](#第七章迭代器与生成器)
+  - [七、迭代器与生成器](#七迭代器与生成器)
     - [迭代器 Iterator](#迭代器-iterator)
     - [生成器 Generator](#生成器-generator)
       - [yield](#yield)
       - [Generator.prototype.throw()、Generator.prototype.return()](#generatorprototypethrowgeneratorprototypereturn)
       - [yield\*](#yield-1)
       - [对象属性](#对象属性)
-  - [第八章、类和对象以及面向对象编程](#第八章类和对象以及面向对象编程)
+  - [八、类和对象以及面向对象编程](#八类和对象以及面向对象编程)
     - [对象属性](#对象属性-1)
       - [数据属性](#数据属性)
       - [访问器属性](#访问器属性)
@@ -1071,7 +1071,7 @@ let set = new Set();
 set.add("111");
 ```
 
-## 第七章、迭代器与生成器
+## 七、迭代器与生成器
 
 ### 迭代器 Iterator
 
@@ -1258,7 +1258,7 @@ let obj = {
 };
 ```
 
-## 第八章、类和对象以及面向对象编程
+## 八、类和对象以及面向对象编程
 
 对象拥有属性，属性也有属性，包括**数据属性**和**访问器属性**，
 
