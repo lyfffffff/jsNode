@@ -2983,3 +2983,4 @@ div.detachEvent("onclick", () => {});
 | 安全标志 | secure | 布尔值，当为true时，表示请求需配置SSL证书 |
 | 相同站点 | samesite | 是否向第三方站点发送cookie，`Strict` 表示从不向第三方站点发送cookies，`Lax` 为默认值，表示不向第三方站点发送post请求，`None`表示只向有SSL证书的第三方站点发送cookie|
 | 相同站点2.0 | sameparty |  First-Party Sets 策略允许表示设置此属性的cookie将由不同域名都视为第一方 |
+| 优先级 | priority | 当 cookies 超过内存时，会将优先级低的 cookies 删除，若都是同一等级，年纪越大，删除优先级也高|
