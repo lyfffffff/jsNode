@@ -153,6 +153,11 @@
   - [十七、事件](#十七事件)
     - [事件流](#事件流)
     - [事件处理程序](#事件处理程序)
+      - [事件类型](#事件类型)
+      - [事件委托](#事件委托)
+      - [模拟事件](#模拟事件)
+  - [二十五、客户端储存](#二十五客户端储存)
+    - [cookies](#cookies)
 
 ## 二、javaScript
 
@@ -2896,59 +2901,69 @@ DOM1 定义 html 结构，DOM2 和 DOM3 提升交互能力
 <div onclick="clickHandle(event)"> // 调用脚本，event不可使用其他名称
 ```
 
-- DOM0 
-在js中将函数赋值给dom属性，this指代触发事件的元素。
+- DOM0
+  在 js 中将函数赋值给 dom 属性，this 指代触发事件的元素。
+
 ```js
-div.onclick = ()=>{}
+div.onclick = () => {};
 ```
 
-- DOM2 
-dom元素包含绑定事件方法，参数3表示在冒泡还是捕获阶段触发，默认为false
+- DOM2
+  dom 元素包含绑定事件方法，参数 3 表示在冒泡还是捕获阶段触发，默认为 false
+
 ```js
-div.addEventListener('click',()=>{},false)
-div.removeEventListener('click',()=>{})
+div.addEventListener("click", () => {}, false);
+div.removeEventListener("click", () => {});
 ```
 
 - IE
-只有两个参数，因为默认就在冒泡阶段触发，this也指代window。
+  只有两个参数，因为默认就在冒泡阶段触发，this 也指代 window。
+
 ```js
-div.attachEvent('onclick',()=>{})
-div.detachEvent('onclick',()=>{})
+div.attachEvent("onclick", () => {});
+div.detachEvent("onclick", () => {});
 ```
 
 - event
-即触发出现的事件，作为唯一参数传给事件处理程序，event.target = event.currentTarget = div，在Ie里，使用 window.event 获取。
+  即触发出现的事件，作为唯一参数传给事件处理程序，event.target = event.currentTarget = div，在 Ie 里，使用 window.event 获取。
 
 - 兼容浏览器
-阻止冒泡，在其他浏览器使用stopPropagation，IE使用cancelBubble。阻止默认事件，例如链接跳转，在其他浏览器使用preventDefault，在IE使用returnValue。
+  阻止冒泡，在其他浏览器使用 stopPropagation，IE 使用 cancelBubble。阻止默认事件，例如链接跳转，在其他浏览器使用 preventDefault，在 IE 使用 returnValue。
 
 #### 事件类型
+
 - 用户界面事件
-一般在window上监听
-load - 页面加载完毕
-resize  - 页面窗口重置
-scroll - 页面滚动时触发
+  一般在 window 上监听
+  load - 页面加载完毕
+  resize - 页面窗口重置
+  scroll - 页面滚动时触发
 - 焦点事件
-blur和focus事件，表示失去焦点和触发焦点。
+  blur 和 focus 事件，表示失去焦点和触发焦点。
 - 鼠标和滚轮事件
-click - 单击鼠标或按下enter键
-dblclick - 双击鼠标
-mousedown - 单击鼠标
-mouseenter - 鼠标在元素上，在后代元素上不触发
-mouseleave - 鼠标在元素上移开
-mousemove - 鼠标在元素上移动
-mouseout - 移开，包含鼠标移动在自身子元素上
-mouseover - 移到内部，
-mouseup - 松开按下的鼠标键时触发
-mousewheel - 滚轮事件，此外还有wheelDelta属性，向前滚+120，向后滚-120。
-click先触发mousedown和mouseup，在发生鼠标事件时，event在clientX和clientY中存储鼠标的坐标，event的pageX和pageY存储鼠标的页面坐标，当页面没有滚动时，pageY == clientY，当页面发生滚动时，pageY = clientY + scrollY，event的screenY和screenX存储鼠标的屏幕坐标。event的offsetX和offsetY表示鼠标距目标元素左顶点的坐标。
+  click - 单击鼠标或按下 enter 键
+  dblclick - 双击鼠标
+  mousedown - 单击鼠标
+  mouseenter - 鼠标在元素上，在后代元素上不触发
+  mouseleave - 鼠标在元素上移开
+  mousemove - 鼠标在元素上移动
+  mouseout - 移开，包含鼠标移动在自身子元素上
+  mouseover - 移到内部，
+  mouseup - 松开按下的鼠标键时触发
+  mousewheel - 滚轮事件，此外还有 wheelDelta 属性，向前滚+120，向后滚-120。
+  click 先触发 mousedown 和 mouseup，在发生鼠标事件时，event 在 clientX 和 clientY 中存储鼠标的坐标，event 的 pageX 和 pageY 存储鼠标的页面坐标，当页面没有滚动时，pageY == clientY，当页面发生滚动时，pageY = clientY + scrollY，event 的 screenY 和 screenX 存储鼠标的屏幕坐标。event 的 offsetX 和 offsetY 表示鼠标距目标元素左顶点的坐标。
 - 键盘与输入事件
-keydown - 按下，如果一直不松开就一直触发
-keyup - 起开
-textInput - 输入事件
+  keydown - 按下，如果一直不松开就一直触发
+  keyup - 起开
+  textInput - 输入事件
 
 #### 事件委托
+
 表示一个处理程序处理一类事件。
 
 #### 模拟事件
 
+## 二十五、客户端储存
+
+### cookies
+
+服务器在响应头 Response headers 中在 Set-Cookie 传输 cookie 信息，浏览器自动将其存储，cookie 会在每次进行请求时携带在 Request headers 中的 Cookie 属性中。
