@@ -164,6 +164,10 @@
 
 #### js 标签的属性
 
+```html
+<script src="" defer async integrity type="text/javascript"></script>
+```
+
 - defer
   **推迟**执行脚本，从上至下按顺序执行和下载，若多个推迟执行脚本，会按照**顺序**执行
 - async
@@ -211,7 +215,7 @@ document.head.appendChild(script);
 #### js 补充
 
 - 行内脚本（即在 script 标签中写逻辑）的缺点
-  1，不能使用`</script>`字符串，当做脚本结束标签，需要使用转义字符变成`<\/script>`
+  1，不能使用`</>`字符串，当做脚本结束标签，需要使用转义字符变成`<\/script>`
   2，在 XTML 标签中，将 < （小于号）当做标签
   3，页面间脚本代码不互通，即多个页面使用同一段代码时，造成资源浪费
   4，在 head 标签中使用脚本，脚本代码没有加载完，页面也不会执行
@@ -258,7 +262,7 @@ NaN == NaN; // false
 - 非数值转为数值
   - Number(param)
     缺点：空字符串返回 0 ，前数字后非数字（'10b'）返回 NaN
-  - \*parseInt(param，scale)
+  - *parseInt(param，scale)
     常用。scale 表示 param 进制，选值为 2，8，16（输入其他值也可以，但是比个位数小返回 1 ，输入 1 返回 NaN），并将其转为十进制。若不定义，长得像什么（0x0、07 开头），就当做什么。从第一个非空开始检测，若为非数字，返回 NAN（纯空字符串也为 NaN），若为数字，截取到**非数值字符串**之前，并作为结果返回，自然 `.` 也当做非数值字符串，遇到也返回。
   - parseFloat(param)
     弥补 parseInt 遇到 `.` 返回
@@ -299,7 +303,7 @@ let html_code_1 = `
 
 #### Symbol
 
-符号类型。使用 Symbol(param) 创建，虽然不是引用值但每个 Symbol 实例都是唯一的，参数 param 只起到描述功能，并不做区别标识符，本质都是唯一的。
+符号类型。使用 Symbol(describe?:string) 创建，虽然不是引用值但每个 Symbol 实例都是唯一的，参数 param 只起到描述功能，并不做区别标识符，本质都是唯一的，若参数不是字符串，将参数转为字符串再传入。
 
 ```js
 let symbol = Symbol();
@@ -310,9 +314,9 @@ let symbol_1 = Symbol("symbol_ 1"); // 传一样的参数
 symbol_1 == symbol_s; // false，宛如长相相同，指向地址不相同的 Object
 ```
 
-- Symbol.for(param) 全局注册
-  按需存取，没有就全局注册，有就直接从全局拿取，改善了长相相同却永不相同的缺点。param 必须传一个字符串，没传就当做传入 'undefined'，传入非字符串则报错。
-  对于 Symbol.for 全局注册的符号，Symbol.keyFor(symbol) 可以返回符号的字符串参数，若参数不是全局注册的符号，返回 undefined，若传入非符号则报错。
+- Symbol.for(param?:string) 全局注册
+  按需存取，没有就全局注册，有就直接从全局拿取，改善了长相相同却永不相同的缺点。若参数不是字符串，将参数转为字符串再传入。
+  对于 Symbol.for 全局注册的符号，Symbol.keyFor(symbol?:Symbol) 可以返回符号的字符串参数，若参数不是全局注册的符号，返回 undefined，若传入非符号实例则报错。
 
   ```js
   // 全局注册
@@ -330,8 +334,8 @@ symbol_1 == symbol_s; // false，宛如长相相同，指向地址不相同的 O
 
 - 符号作为对象属性
   因为符号的唯一性，可以作为对象的键值，不会覆盖，就连访问也只能使用该符号作为唯一访问标识。
-  Object.getOwnPropertyNames、for/in 无法访问符号属性。
-  Object.getOwnPropertySymbols(obj)返回符号属性集；Reflect.ownKeys() 返回普通属性和符号属性集；Object.getOwnPropertyDescriptors()返回所有属性的描述符对象。
+  Object.getOwnPropertyNames(obj:Object)、for/in 无法访问符号属性。
+  Object.getOwnPropertySymbols(obj:Object) 返回符号属性集；Reflect.ownKeys(obj:Object) 返回普通属性和符号属性集；Object.getOwnPropertyDescriptors(obj:Object) 返回所有属性的描述符对象。
 
   ```js
   symbol = Symbol('xxx')
@@ -353,7 +357,7 @@ symbol_1 == symbol_s; // false，宛如长相相同，指向地址不相同的 O
 - Symbol 属性
   有些 Symbol 属性内置在某些对象（string、Array）中，当且仅当这些对象的某些方法（instanceof、match、concat）被调用时，才被使用
 
-  - symbol.description
+  - symbol.description :String
     读取调用 Symbol 生成实例时传入的**描述参数**，若无则返回一个 undefined
 
   ```js
@@ -388,7 +392,7 @@ symbol_1 == symbol_s; // false，宛如长相相同，指向地址不相同的 O
   test.match(str); // error，因为禁止作为表达式
   ```
 
-  - isConcatSpreadable
+  - Symbol.isConcatSpreadable
     内置为**数组**的属性，判断数组是否可展开，默认数组为 true，类数组为 false，影响 Array.concat 合并数组的方式，若不可展开则整个数组作为某数组项 a[xx]
 
   ```js
@@ -405,7 +409,7 @@ symbol_1 == symbol_s; // false，宛如长相相同，指向地址不相同的 O
   arr.concat(fakeArray); // 展开，为[...arr，'hello']
   ```
 
-  - toPrimitive
+  - Symbol.toPrimitive
     内置为**对象**的属性，即操作对象时，将对象当做什么类型，参数 hint 表示当前对象被当做 xx 类型，例如 +- 运算操作将对象当做'number'，console 当做字符串'string'
 
   ```js
@@ -661,7 +665,7 @@ let result = year + '-' + obj.month + '-' + obj.date + ' ' + obj.hour + ':' + ob
 
 #### RegExp 函数
 
-RegExp(regular expression)，正则表达式对象，通常模式为 /xxx/xx ，其中 xxx 表示需要匹配的模式，xx 表示属性，例如是否全局，是否区分大小写，正则 A 常常用来检查一个字符串 B 是否符合预期，即 B 至少要满足 A。
+RegExp（regular expression），正则表达式对象，通常模式为 /xxx/xx ，其中 xxx 表示需要匹配的模式，xx 表示属性，例如是否全局，是否区分大小写，正则 A 常常用来检查一个字符串 B 是否符合预期，即 B 至少要满足 A。
 
 ```js
 let pattern = new RegExp(".at", "g"); // 全局匹配所有以 at 结尾的字符串
@@ -721,12 +725,11 @@ console.log(s.hello); // 为空，因为被销毁了
   ```
 
 - Number 函数
-  下列方法都会将数值转为字符串，注意直接使用数值调用不起作用。例如 10.toFixed(2) // 报错。
-  Number.isInteger() 传入一个数值，判断是否是整数，小数位为 0 也认为是整数
-  num.toString(num) 参数 num 表示将数值先转为**n 进制**后才转为字符串
-  num.toFixed(num) 参数 num 表示数值保留几位小数后转为字符串，没有小数也要制造小数
-  num.toExponential(num) 参数 num 表示**小数位数**,使用科学计数法将数值转为字符串
-  num.toPrecision(num)，参数 num 表示**总保留位数**,表示将数值转为科学计数法并转为字符串
+  Number.isInteger(num?:Number):Boolean 小数位为 0 也认为是整数，若是非数值，返回 false
+  num.toString(base?:Number):String 参数表示将数值转为**n 进制**后才转为字符串
+  num.toFixed(xiaoshu?:Number):String 参数表示数值保留几位小数后转为字符串，没有小数也要制造小数
+  num.toExponential(xiaoshu?:Number):String 参数表示**小数位数**，使用科学计数法将数值转为字符串
+  num.toPrecision(weishu?:Number):String 参数表示**总保留位数**，表示将数值转为科学计数法并转为字符串
 
   ```js
   let num = 1233;
@@ -738,13 +741,16 @@ console.log(s.hello); // 为空，因为被销毁了
 
 - String 函数
   同样改写了 valueOf、toString、和 toLocaleString 方法。还有一个 length 属性，表示字符串长度。
-  String.fromCharCode(unicode)，表示将 Unicode 转为字符串，可以传多个 Unicode，该方法会将其拼接并返回。
-  str.charAt(num)，表示字符串指定索引的字符，传入一个数值，表示索引，从 0 开始计算。
-  str.charCodeAt(num)，表示字符串指定索引的字符的 Unicode 值，返回值为一个十进制的数值，可将其转为 16 进制的，就可以对照 Unicode 表。
+  String.fromCharCode(unicode*:Unicode):String，将参数自 Unicode 转为字符串，并拼接返回，传空返回 ''。
+  str.charAt(index?:Number):String，将字符串索引为参数的单个字符返回，传空返回索引为 0 的字符，索引超过则返回 ''。
+  str.charCodeAt(index?:Number):String，表示字符串指定索引的字符的 Unicode 值，返回一个十进制的数值，可将其转为 16 进制的，就可以对照 Unicode 表，传空返回索引为 0 的字符，若索引超过返回 NaN。
 
   ```js
   let str = "abcde";
+  str.chatAt(0); // 'a'
   str.chatAt(2); // 'c'
+  str.chatAt(5); // ''
+  
   str.chatCodeAt(2); // 99 == 0x63
   String.fromCharCode(0x61, 0x62, 0x63); // 'abc'
   ```
@@ -774,8 +780,9 @@ str.substr(-1, -2); // 等价于 str.subsr(4,0) == ''
 str.substring(-1, -2); // 等价于 str.substring(0,0) == ''
 ```
 
-- str.indexOf(str，index) 和 str.lastIndexOf(str，index)
-  返回字符串匹配的索引，indexOf 返回首次匹配的索引，lastIndx 返回最后一次匹配的索引。参数 1 表示需匹配的字符串，从 0 开始。参数 2 表示开始搜索位置
+- str.indexOf(str:String，starIndex:Number):Number|-1 和 str.lastIndexOf(str:String，starIndex:Number):Number|-1
+  返回字符串匹配的索引，indexOf 返回首次匹配的索引，lastIndx 返回最后一次匹配的索引。参数 2 表示开始搜索索引，若不存在则返回 -1
+  
 - 判断是否包含字符串
   常使用 str.indexOf 判断是否包含某字符串，但其主要功能是返回匹配索引值，该使用的是 str.includes。
   现有 str.startsWith、str.endsWith、str.includes 判断是否包含，但前两种有缺点，str.startsWith 必须从索引 0 开始匹配(即匹配头部)，str.endsWith 必须从索引 str.length - sub.length 开始匹配(即匹配尾巴)，而 str.includes 直接检查整个字符串，str.includes 和 str.startsWith 可以传第二个参数，表示开始匹配的索引，str.endsWith 的第二个参数代替 str.length。
@@ -789,8 +796,8 @@ str.substring(-1, -2); // 等价于 str.substring(0,0) == ''
   test.endsWith("m"); // false
   ```
 
-- str.trim()、str.repeat(num)
-  trim 删除字符串前后所有空格，repeat 的参数 num 表示重复次数，将重复的字符串拼接，并返回。
+- str.trim()、str.repeat(times:Number)
+  trim 删除字符串前后所有空格，repeat 的参数表示重复次数，将重复的字符串拼接，并返回。
 
 - str.padStart(length，concatStr) 和 str.padEnd(length，concatStr)
   即将参数 2 拼接在字符串前/后，使其扩展至参数 1 长度，参数 1 表示最终字符串长度，若小于原本长度，则返回原字符串，若大于原本长度，padStart/padEnd 决定在字符串前后填充，参数 2 默认为空格，可以传一个字符串，循环填充。
