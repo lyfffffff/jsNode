@@ -156,7 +156,9 @@
       - [事件类型](#事件类型)
       - [事件委托](#事件委托)
       - [模拟事件](#模拟事件)
-  - [图形与Canvas](#图形与canvas)
+  - [十八、图形与Canvas](#十八图形与canvas)
+    - [requestAnimationFrame](#requestanimationframe)
+    - [画布](#画布)
   - [二十五、客户端储存](#二十五客户端储存)
     - [cookie](#cookie)
       - [cookie 的结构](#cookie-的结构)
@@ -3034,7 +3036,18 @@ div.detachEvent("onclick", () => {});
   自定义事件
   initCustomEvent(type, bubbles, cancel, detail)
 
-## 图形与Canvas
+## 十八、图形与Canvas
+
+### requestAnimationFrame
+
+即阶段性的进行动画，window.requestAnimationFrame(fn?:Function):Long 在浏览器进行重绘时回调参数函数，若在参数函数中继续进行动画，则可以减少浏览器进行重绘，请求返回一个请求 id。
+
+- cancelAnimationFarme
+  用于取消 requestAnimationFrame。
+
+### 画布
+
+使用 html5 的新标签 <canvas> 进行绘画，设置画布宽高，并取得绘图上下文。
 
 ## 二十五、客户端储存
 
